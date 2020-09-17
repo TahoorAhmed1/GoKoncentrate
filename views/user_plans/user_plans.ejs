@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold">Magazines Brand Listing</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="/admin/add_magazine_brand" class="btn btn-primary">Add</a>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Magazine Brands</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="panel panel-flat">
+
+                            <table class="table datatable-basic table-bordered" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <!-- <th class="b"><input type="checkbox" id="select_all"></th> -->
+                                        <th class="b">S.No.</th>
+                                        <th class="b">Image</th>
+                                        <th class="b">Name</th>
+                                        <th class="b">Plans</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for( var i = 0; i < response.length; i++ ){%>
+                                        <tr>
+                                        <td><%= i+1 %></td>
+                                        <td><img src="<%= response[i].image == '' || response[i].image == null || response[i].image == '/images/users/' ? '/white_user.jpg' : response[i].image%>" width="80" height="80" class="img-circle"></td>
+                                        <td><%= response[i].name %></td>
+                                        <td>
+                                            <% 
+                                                if(response[i].status == 1) { %>
+                                                    <a class="label label-success change_status" id="<%= response[i].id %>" table="magazines_brand">Active</a> 
+                                
+                                                <%} else { %>
+                                                    <a class="label label-danger change_status" id="<%= response[i].id %>" table="magazines_brand">In-Active</a> <%
+                                                }
+                                            %>
+                                        </td>
+                                        <td class="text-center">
+                                            <ul class="icons-list">
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="icon-menu9"></i>
+                                                    </a>
+                
+                                                    <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li>
+                                                            <a href="/admin/edit_magazine_brand/<%=response[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/admin/view_magazine_brand/<%=response[i].id%>"><i class="fas fa-eye"></i>View</a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="delete" table="magazines_brand" rel="<%= response[i].id %>"><i class="fas fa-trash-alt"></i>Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <%}%>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12">
+                            <!-- <h4><b><span id="selected_user_count">0</span> Users selected</b></h4> -->
+
+                            <!-- <button class="btn btn-primary" id="send_advertisement">Send an advertisement</button>
+                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button>
+                            <button class="btn btn-warning" id="send_email">Send an email</button> -->
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                var selected_user_ids = [];
+
+                $("#select_all").click(function() {
+                    $('input:checkbox').not(this).prop('checked', this.checked);
+
+                    if($("#select_all").is(":checked")) {
+                        $(".sub_check").each(function() {
+                            let user_id = $(this).attr("value");
+                            if(selected_user_ids.includes(user_id) == false) {
+                                selected_user_ids.push(user_id);
+                            }
+                        });
+                    } else {
+                        $(".sub_check").each(function() {
+                            let user_id = $(this).attr("value");
+                            // selected_user_ids.push(user_id);
+                            selected_user_ids = jQuery.grep(selected_user_ids, function(value) {
+                                return value != user_id;
+                            });
+                        });
+                    }
+
+                    // console.log(selected_user_ids)
+                });
+
+                // $("input[type='checkbox']").click(function() {
+                //     let length = $('input:checkbox:checked').length;
+                //     // console.log(length);
+                //     $("#selected_user_count").html(length);
+                // });
+
+                $(".dataTables_paginate  ").click(function() {
+                    if($("#select_all").is(":checked")) {
+                        var length = $('.sub_check:input:checkbox:checked').length - 1;
+                    } else {
+                        var length = $('.sub_check:input:checkbox:checked').length;
+                    }
+                    var rowCount = $('#myTable tr').length - 1;
+                    // alert(rowCount)
+                    // alert(length)
+                    if(length == rowCount) {
+                        $("#select_all").prop('checked',true);
+                    } else {
+                        $("#select_all").prop('checked',false);
+                    }
+                });
+
+                $("#myTable").on("click", ".sub_check", function() {
+                    var rowCount = $('#myTable tr').length - 1;
+                    if($("#select_all").is(":checked")) {
+                        var length = $('.sub_check:input:checkbox:checked').length - 1;
+                    } else {
+                        var length = $('.sub_check:input:checkbox:checked').length;
+                    }
+
+                    if(rowCount == length) {
+                        $("#select_all").prop('checked',true);
+                    } else {
+                        $("#select_all").prop('checked',false);
+                    }
+                })
+
+                $(".sub_check").click(function() {
+                    let user_id = $(this).attr("value");
+
+                    if($(this).is(":checked")) {
+                        selected_user_ids.push(user_id);
+                    } else {
+                        selected_user_ids = jQuery.grep(selected_user_ids, function(value) {
+                            return value != user_id;
+                        });
+                    }
+
+                    // console.log(selected_user_ids);
+                });
+
+                $("#send_advertisement").click(function() {
+                    if(selected_user_ids.length > 0) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "You want to send advertisement to selected users!",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                          if (willDelete) {
+                            selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                            window.location.replace("/admin/select_advertisement/"+selected_user_ids);
+                          } else {
+                            swal("Cancelled", {
+                              icon: "error",
+                            }).then(function() {
+                                location.reload();
+                            });
+                          }
+                        });
+                    } else {
+                        swal("Please select users", {
+                          icon: "warning",
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+                });
+
+                $("#send_notification").click(function() {
+                    if(selected_user_ids.length > 0) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "You want to send notification to selected users!",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                          if (willDelete) {
+                            selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                            // window.location.replace("/admin/send_notification/from_users/0/"+selected_user_ids);
+                            window.location.replace("/admin/select_notification/"+selected_user_ids);
+                          } else {
+                            swal("Cancelled", {
+                              icon: "error",
+                            }).then(function() {
+                                location.reload();
+                            });
+                          }
+                        });
+                    } else {
+                        swal("Please select users", {
+                          icon: "warning",
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+                });
+
+                $("#send_email").click(function() {
+                    if(selected_user_ids.length > 0) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "You want to send email to selected users!",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                          if (willDelete) {
+                            selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                            // window.location.replace("/admin/send_email/from_users/0/"+selected_user_ids);
+                            window.location.replace("/admin/select_email/"+selected_user_ids);
+                          } else {
+                            swal("Cancelled", {
+                              icon: "error",
+                            }).then(function() {
+                                location.reload();
+                            });
+                          }
+                        });
+                    } else {
+                        swal("Please select users", {
+                          icon: "warning",
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+                });
+
+                $("#myTable").on("click", ".mobile_notification", function() {
+                    let user_id = $(this).attr("user_id");
+                    // alert(user_id);
+
+                    if($(this).prop("checked") == true) {
+                        var checkbox = "on";
+                    } else if($(this).prop("checked") == false) {
+                        var checkbox = "off";
+                    } else {
+                        swal({
+                            title: "ERROR"
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/update_mobile_notification_settings",
+                        data: {
+                            user_id: user_id,
+                            checkbox: checkbox
+                        },
+                        success: function(response) {
+                            console.log(response);
+
+                            if(response.type == 1) {
+                                if(response.onoff == 1) {
+                                    $(this).prop("checked",true);
+                                    // $(this).text("ON");
+                                } else {
+                                    $(this).prop("checked",false);
+                                    // $(this).text("OFF");
+                                }
+                            } else if(response.type == 0) {
+                                swal({
+                                    title: "ERROR"
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            } else {
+                                swal({
+                                    title: "CHECKBOX ERROR"
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    })
+                })
+            });
+        </script>
+
+        <style>
+            .badge{
+                padding: 2px 8px 2px 8px;
+                font-size: 14px;
+            }
+            img{
+                object-fit: cover;
+            }
+            .postCount, .crowdCount, .engageCount {
+                font-size: 14px;
+                padding: 0px 6px 0px 6px;
+            }
+            .fa-arrow-circle-right {
+                padding-left: 4px;
+            }
+            .dataTable thead .sorting_asc:after {
+                content: none;
+            }
+        </style>
+
+    </body>
+
+</html>
