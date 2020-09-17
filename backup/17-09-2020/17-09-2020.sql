@@ -3,3 +3,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SpSaveMagazineBrand`(brandName VARC
 BEGIN
 	INSERT INTO magazines_brand(`name`, image) VALUES (brandName, brandImage);
 END
+
+-------------------------------------------------------
+
