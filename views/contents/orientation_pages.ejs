@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+    
+    <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>Three orientation pages</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <!-- <a href="/admin/add_category" class="btn btn-primary">Add</a> -->
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Pages</li>
+                                <li class="active">Three Orientation Pages</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <form action = "/admin/update_orientation" method = "POST" id="orientation_form" enctype="multipart/form-data">
+                        <div class="panel panel-flat">
+
+                            <div class="panel-heading">
+                                <h5 class="panel-title">First Orientation Page</h5>
+                            </div>
+
+                            <div class="panel-body">
+                                
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Title:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <input type="text" name="orientation1_title" class="form-control" placeholder="Enter title" value="<%= orientation1.title %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="orientation1_title-error" class="error" for="orientation1_title"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Description:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter description" name="orientation1_description"><%= orientation1.description %></textarea>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="orientation1_description-error" class="error" for="orientation1_description"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Image:</label>
+                                        <div class="col-lg-2">
+                                            <%
+                                                if(orientation1.image == '')
+                                                { %>
+                                                    <img src="/default.jpg" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                                else
+                                                { %>
+                                                    <img src="/images/users/<%= orientation1.content %>" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                            %>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <input type="file" name="orientation1_image" class="file-styled" id="files" accept="image/*">
+                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Second Orientation Page</h5>
+                            </div>
+
+                            <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Title:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <input type="text" name="orientation2_title" class="form-control" placeholder="Enter title" value="<%= orientation2.title %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="orientation2_title-error" class="error" for="orientation2_title"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Description:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter description" name="orientation2_description"><%= orientation2.description %></textarea>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="orientation2_description-error" class="error" for="orientation2_description"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Image:</label>
+                                        <div class="col-lg-2">
+                                            <%
+                                                if(orientation2.image == '')
+                                                { %>
+                                                    <img src="/default.jpg" width="100" height="100" id="image2" class="img-circle"> <%
+                                                }
+                                                else
+                                                { %>
+                                                    <img src="/images/users/<%= orientation2.content %>" width="100" height="100" id="image2" class="img-circle"> <%
+                                                }
+                                            %>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <input type="file" name="orientation2_image" class="file-styled" id="files2" accept="image/*">
+                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Third Orientation Page</h5>
+                            </div>
+
+                            <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Title:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <input type="text" name="orientation3_title" class="form-control" placeholder="Enter title" value="<%= orientation3.title %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="orientation3_title-error" class="error" for="orientation3_title"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Description:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter description" name="orientation3_description"><%= orientation3.description %></textarea>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="orientation3_description-error" class="error" for="orientation3_description"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Image:</label>
+                                        <div class="col-lg-2">
+                                            <%
+                                                if(orientation3.image == '')
+                                                { %>
+                                                    <img src="/default.jpg" width="100" height="100" id="image3" class="img-circle"> <%
+                                                }
+                                                else
+                                                { %>
+                                                    <img src="/images/users/<%= orientation3.content %>" width="100" height="100" id="image3" class="img-circle"> <%
+                                                }
+                                            %>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <input type="file" name="orientation3_image" class="file-styled" id="files3" accept="image/*">
+                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                            
+                        </div>
+
+                        <div class="text-right">
+                            <button type="submit" class="btn bg-teal-400">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                        </div>
+
+                        </form>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("files").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("image").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script>
+            document.getElementById("files2").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("image2").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script>
+            document.getElementById("files3").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("image3").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#orientation_form").validate({
+                    rules: {
+                        orientation1_title: {
+                            required: true,
+                            maxlength: 255,
+                        },
+                        orientation2_title: {
+                            required: true,
+                            maxlength: 255,
+                        },
+                        orientation3_title: {
+                            required: true,
+                            maxlength: 255,
+                        },
+                        orientation1_description: {
+                            required: true,
+                            // maxlength: 255,
+                        },
+                        orientation2_description: {
+                            required: true,
+                            // maxlength: 255,
+                        },
+                        orientation3_description: {
+                            required: true,
+                            // maxlength: 255,
+                        }
+                    },
+                    messages: {
+                        orientation1_title: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        orientation2_title: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        orientation3_title: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        orientation1_description: {
+                            required: "This field is required",
+                            // maxlength: "Maximum length 255 characters",
+                        },
+                        orientation2_description: {
+                            required: "This field is required",
+                            // maxlength: "Maximum length 255 characters",
+                        },
+                        orientation3_description: {
+                            required: "This field is required",
+                            // maxlength: "Maximum length 255 characters",
+                        }
+                    }
+                });
+            })
+        </script>
+
+        <style>
+            .control-label{
+                font-weight: 600;
+            }
+            .error{
+                color: red;
+                padding-bottom: 10px;
+                font-size: 14px;
+            }
+            hr {
+                margin-top: 0px;
+                margin-bottom: 0px;
+            }
+        </style>
+
+    </body>
+
+</html>

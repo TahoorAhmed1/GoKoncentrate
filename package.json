@@ -1,0 +1,37 @@
+{
+  "name": "skyapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "atob": "^2.1.2",
+    "base64-img": "^1.0.4",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "ejs": "~2.6.1",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "express-session": "^1.17.0",
+    "fcm-node": "^1.5.2",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.27.0",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "nodemailer": "^6.4.6",
+    "nodemon": "^2.0.4",
+    "path": "^0.12.7",
+    "sequelize": "^5.21.6",
+    "sequelize-cli": "^5.5.1",
+    "socket.io": "^2.3.0"
+  }
+}

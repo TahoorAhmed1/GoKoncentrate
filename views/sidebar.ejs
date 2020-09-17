@@ -1,0 +1,69 @@
+<div class="sidebar sidebar-main sidebar-fixed" style="height: 40pc;">
+	<div class="sidebar-content">
+
+		<!-- User menu -->
+		<div class="sidebar-user">
+			<div class="category-content">
+				<div class="media">
+					<a href="/admin/profile/<%= session.admin_id %>" class="media-left"><img src="<%= session.image != '' ? session.image : '/white_user.jpg' %>" class="img-circle img-sm" alt=""></a>
+					<div class="media-body" style="padding-top: 8px;">
+						<span class="media-heading text-semibold"><%= session.name %></span>
+						<div class="text-size-mini text-muted">
+							<!-- <i class="icon-pin text-size-small"></i> -->
+						</div>
+					</div>
+
+					<div class="media-right media-middle">
+						<ul class="icons-list">
+							<li>
+								<a href=""><i class="icon-cog3"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /user menu -->
+
+		
+
+
+		<!-- Main navigation -->
+		<div class="sidebar-category sidebar-category-visible">
+			<div class="category-content no-padding">
+				<ul class="navigation navigation-main navigation-accordion">
+
+					<!-- Main -->
+					<!-- <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li> -->
+					<li class="<% if(title == 'dashboard') { %> active <% } %>"><a href="/admin/dashboard"><i class="icon-home4"></i> <span class="b">Dashboard</span></a></li>
+					<li class="<% if(title == 'users') { %> active <% } %>"><a href="javascript:void(0)"><i class="fas fa-user"></i> <span class="b">Users</span></a></li>
+					<li class="<% if(title == 'users_plan') { %> active <% } %>"><a href="javascript:void(0)"><i class="fa fa-credit-card"></i> <span class="b">User Plans</span></a></li>
+					<li class="<% if(title == 'magazines_brand') { %> active <% } %>"><a href="/admin/magazines_brand"><i class="fa fa-address-book"></i> <span class="b">Magazine Brands</span></a></li>
+					<li class="<% if(title == 'magazines') { %> active <% } %>"><a href="javascript:void(0)"><i class="fa fa-address-card"></i> <span class="b">Magazine Management</span></a></li>
+					<li class="<% if(title == 'pages') { %> active <% } %>">
+						<a href="#"><i class="fas fa-file-alt"></i> <span class="b">Pages</span></a>
+						<ul>
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Terms and Conditions</a></li>
+							<li><a href="#">FAQ</a></li>
+						</ul>
+					</li>
+					<!-- /page kits -->
+
+				</ul>
+			</div>
+		</div>
+		<!-- /main navigation -->
+
+	</div>
+</div>
+
+<style>
+	.b{
+		font-weight: 600;
+	}
+	.sidebar-content {
+		background-color: #173d4e;
+	}
+</style>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ./admin_header.ejs %>
+
+<style>
+    .login-container{
+        background: url('/skyappwallpaper.png');
+        background-size: cover;
+    }
+    .login-form {
+        background: #ffffff6e;
+    }
+    h5{
+        color: white;
+    }
+    .footer a{
+        color: white;
+    }
+    .content-group {
+        color: #624f5b;
+    }
+    .btn {
+        background-color: #00d5ff;
+        border-color: #00d5ff;
+        color: white;
+    }
+    .btn:hover {
+        color: white;
+    }
+</style>
+
+<body class="login-container">
+    <% if(typeof(msg) == 'undefined'){%>
+        <%} else if(msg){%>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div>
+        <%}%>
+    <% if(typeof(flashMessages) == 'undefined'){%>
+        <%} else if( flashMessages.invalidUser ){%>
+            <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= flashMessages.invalidUser %></span></div>
+            <%} else if( flashMessages.invalidPassword ){%>
+                <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= flashMessages.invalidPassword %></span></div>
+            <%} else if(flashMessages.sessionExp){%>
+                <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= flashMessages.sessionExp %></span></div>
+            <%}%>
+    
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Content area -->
+                <div class="content">
+
+                    <!-- Simple login form -->
+                    <form  method="POST" role="form" action="/admin/authenticate" id="loginform">
+                        <div class="panel panel-body login-form">
+                            <div class="text-center">
+                                <!-- <div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div> -->
+                                <!-- <img src="/logo.png" style="width: 50%;"> -->
+                                <h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
+                            </div>
+
+                            <div class="form-group has-feedback has-feedback-left">
+                                <input type="text" class="form-control" placeholder="Email" name="email" id="email" value="<%= typeof(emailVal) === 'undefined' ? '' : emailVal%>">
+                                <!-- <div class="form-control-feedback">
+                                    <i class="icon-user text-muted"></i>
+                                </div> -->
+                                
+                            </div>
+
+                            <div class="form-group has-feedback has-feedback-left">
+                                <input type="password" class="form-control" placeholder="Password" name="password" id="password" value="<%= typeof(passwordVal) === 'undefined' ? '' : emailVal%>">
+                                <!-- <div class="form-control-feedback">
+                                    <i class="icon-lock2 text-muted"></i>
+                                </div> -->
+                                
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-block">Sign in <i class="icon-circle-right2 position-right"></i></button>
+                            </div>
+                            <!-- <% if(typeof(flashMessages) == 'undefined'){%>
+                                <%} else if( flashMessages.invalidUser ){%>
+                                   <p style="color: #ff726f; text-align: center;font-size: 15px;" id="invalidUser"><%= flashMessages.invalidUser%></p>
+                                   <%}%> -->
+                            <!-- <div class="text-center">
+                                <a href="/forgot_password">Forgot password?</a>
+                            </div> -->
+                        </div>
+                    </form>
+                    <!-- /simple login form -->
+
+
+                    <!-- Footer -->
+                    <div class="footer text-muted text-center">
+                        &copy; 2020. <a href="javascript:void(0)">GoKoncentrate</a> by <a href="https://www.cqlsys.com/" target="_blank">Cqlsys Technologies</a>
+                    </div>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+
+    </div>
+    <!-- /page container -->
+
+    <script>
+        $(document).ready(function(){
+            setTimeout(function(){
+            $("div.msg"). fadeOut();
+            },3000);
+        });
+    </script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script>
+        
+        $(document).ready(function(){
+            $('#loginform').validate({ // initialize the plugin
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+                messages: {
+                    password: {
+                        required: "Password is required !",
+                        minlength: "Enter password of atleast 6 characters"
+                    },
+                    email: {
+                        required: "Email is required !",
+                        email: "PLease enter valid email !"
+                    }
+                }
+            });
+        })
+    </script>
+    <script>
+        $(document).ready(function(){
+            
+        })
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            window.history.pushState('', '', '/admin');
+              });
+     </script> 
+
+</body>
+</html>

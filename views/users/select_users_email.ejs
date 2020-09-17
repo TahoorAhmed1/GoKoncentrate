@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold">Select users to send email <%= (userIdArr.length > 0)?"- Previously sent users are already selected.":"" %></h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a class="btn btn-warning" id="send_notification"><%= (notification_id == 0)?"Send email":"Edit email" %></a>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Select Users</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="panel panel-flat">
+
+                            <table class="table datatable-basic table-bordered" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th class="b info"><input type="checkbox" id="select_all"></th>
+                                        <th class="b">S.No.</th>
+                                        <th class="b">User Profile pic</th>
+                                        <th class="b">Name</th>
+                                        <th class="b">Username</th>
+                                        <th class="b">Date of birth</th>
+                                        <th class="b">Email</th>
+                                        <th class="b">No. of posts</th>
+                                        <th class="b">Crowd</th>
+                                        <th class="b">Engagements</th>
+                                        <th class="b">Last Login</th>
+                                        <th class="b">Last place searched</th>
+                                        <th class="b">Status</th>
+                                        <th class="b">Mobile notification</th>
+                                        <th class="b">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        for (var i in response) { %>
+                                            <tr>
+                                                <td class="<%= (userIdArr.includes(response[i].id) == true)?"danger":"info" %>"><input type="checkbox" class="sub_check" value="<%= response[i].id %>" <%= (userIdArr.includes(response[i].id) == true)?"checked":"" %>></td>
+                                                <td><%= parseInt(i)+1 %></td>
+                                                <td><img src="<%= response[i].profilePic == '' ? '/white_user.jpg' : '/images/users/'+response[i].profilePic %>" width="80" height="80" class="img-circle"></td>
+                                                <td><%= response[i].name %></td>
+                                                <td><%= response[i].username %></td>
+                                                <td><%= response[i].dob %></td>
+                                                <td><%= response[i].email %></td>
+                                                <td><a href="/admin/view_posts/<%= response[i].id %>"><span class="label label-primary postCount"><%= response[i].postCount %></span></a></td>
+                                                <td><a href="/admin/view_crowds/<%= response[i].id %>"><span class="label label-primary crowdCount"><%= response[i].crowdCount %></span></a><i class="fas fa-arrow-circle-right"></i></td>
+                                                <td><a href="/admin/view_engagements/<%= response[i].id %>"><span class="label label-primary engageCount"><%= response[i].engageCount %></span></a><i class="fas fa-arrow-circle-right"></i></td>
+                                                <td>
+                                                    <%
+                                                        let fullDate = new Date(response[i].lastLogin);
+                                                        let date = fullDate.getDate();
+                                                        let month = fullDate.getMonth() + 1;
+                                                        let year = fullDate.getFullYear();
+                                                        let hour = fullDate.getHours();
+                                                        let minute = fullDate.getMinutes();
+
+                                                        let ampm = hour >= 12 ? 'PM' : 'AM';
+                                                        hour = hour % 12;
+                                                        hour = hour ? hour : 12;
+
+                                                        if(date < 10) { date = '0'+date }
+                                                        if(month < 10) { month = '0'+month }
+                                                        if(hour < 10) { hour = '0'+hour }
+                                                        if(minute < 10) { minute = '0'+minute }
+                                                    %>
+                                                    <%= date+'/'+month+'/'+year %>
+                                                    <%= hour+':'+minute+' '+ampm %>
+                                                </td>
+                                                <td>
+                                                    <%= response[i].lastPlaceSearched %>
+                                                </td>
+                                                <td>
+                                                    <% 
+                                                        if(response[i].status == 1) { %>
+                                                            <a class="label label-success change_status" id="<%= response[i].id %>" table="users">Active</a> <%
+                                                        } else { %>
+                                                            <a class="label label-danger change_status" id="<%= response[i].id %>" table="users">In-Active</a> <%
+                                                        }
+                                                    %>
+                                                </td>
+                                                <td>
+                                                    <%
+                                                        if(response[i].mobileNotification == 1)
+                                                        { %>
+                                                            <div class="checkbox">
+                                                            <label>
+                                                            <input type="checkbox" class="styled mobile_notification" user_id="<%= response[i].id %>" checked>
+                                                            <!-- <span>ON</span> -->
+                                                            </label>
+                                                            </div> <%
+                                                        }
+                                                        else
+                                                        { %>
+                                                            <div class="checkbox">
+                                                            <label>
+                                                            <input type="checkbox" class="styled mobile_notification" user_id="<%= response[i].id %>">
+                                                            <!-- <span>OFF</span> -->
+                                                            </label>
+                                                            </div> <%
+                                                        }
+                                                    %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                                <i class="icon-menu9"></i>
+                                                            </a>
+                        
+                                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                                <li>
+                                                                    <a href="/admin/edit_user/<%=response[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="/admin/view_user/<%=response[i].id%>"><i class="fas fa-eye"></i>View</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="delete" table="users" rel="<%= response[i].id %>"><i class="fas fa-trash-alt"></i>Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr> <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- <div class="col-md-12">
+                            <button class="btn btn-primary" id="send_advertisement">Send an advertisement</button>
+                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button>
+                            <button class="btn btn-warning">Send an email</button>
+                        </div>
+                        <br>
+                        <br>
+                        <br> -->
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                let userIdArr = "<%= userIdArr %>";
+                var selected_user_ids = [];
+
+                if(userIdArr.length > 0) {
+                    selected_user_ids = userIdArr.split(",");
+                }
+
+                $("#select_all").click(function() {
+                    $('input:checkbox').not(this).prop('checked', this.checked);
+
+                    if($("#select_all").is(":checked")) {
+                        $(".sub_check").each(function() {
+                            let user_id = $(this).attr("value");
+                            if(selected_user_ids.includes(user_id) == false) {
+                                selected_user_ids.push(user_id);
+                            }
+                        });
+                    } else {
+                        $(".sub_check").each(function() {
+                            let user_id = $(this).attr("value");
+                            // selected_user_ids.push(user_id);
+                            selected_user_ids = jQuery.grep(selected_user_ids, function(value) {
+                                return value != user_id;
+                            });
+                        });
+                    }
+
+                    // console.log(selected_user_ids)
+                });
+
+                // $("input[type='checkbox']").click(function() {
+                //     let length = $('input:checkbox:checked').length;
+                //     // console.log(length);
+                //     $("#selected_user_count").html(length);
+                // });
+
+                $(".dataTables_paginate  ").click(function() {
+                    if($("#select_all").is(":checked")) {
+                        var length = $('.sub_check:input:checkbox:checked').length - 1;
+                    } else {
+                        var length = $('.sub_check:input:checkbox:checked').length;
+                    }
+                    var rowCount = $('#myTable tr').length - 1;
+                    // alert(rowCount)
+                    // alert(length)
+                    if(length == rowCount) {
+                        $("#select_all").prop('checked',true);
+                    } else {
+                        $("#select_all").prop('checked',false);
+                    }
+                });
+
+                $("#myTable").on("click", ".sub_check", function() {
+                    var rowCount = $('#myTable tr').length - 1;
+                    if($("#select_all").is(":checked")) {
+                        var length = $('.sub_check:input:checkbox:checked').length - 1;
+                    } else {
+                        var length = $('.sub_check:input:checkbox:checked').length;
+                    }
+
+                    if(rowCount == length) {
+                        $("#select_all").prop('checked',true);
+                    } else {
+                        $("#select_all").prop('checked',false);
+                    }
+                })
+
+                $(".sub_check").click(function() {
+                    let user_id = $(this).attr("value");
+
+                    if($(this).is(":checked")) {
+                        selected_user_ids.push(user_id);
+                    } else {
+                        selected_user_ids = jQuery.grep(selected_user_ids, function(value) {
+                            return value != user_id;
+                        });
+                    }
+
+                    // console.log(selected_user_ids);
+                });
+
+                $("#send_advertisement").click(function() {
+                    if(selected_user_ids.length > 0) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "You want to send advertisement to selected users!",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                          if (willDelete) {
+                            selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                            window.location.replace("/admin/select_advertisement/"+selected_user_ids);
+                          } else {
+                            swal("Cancelled", {
+                              icon: "error",
+                            }).then(function() {
+                                location.reload();
+                            });
+                          }
+                        });
+                    } else {
+                        swal("Please select users", {
+                          icon: "warning",
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+                });
+
+                $("#send_notification").click(function() {
+                    let notification_id = "<%= notification_id %>";
+
+                    if(selected_user_ids.length > 0) {
+                        swal({
+                          title: "Are you sure?",
+                          text: "You want to send email to selected users!",
+                          icon: "warning",
+                          buttons: true,
+                          dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                          if (willDelete) {
+                            selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                            window.location.replace("/admin/send_email/from_email/"+notification_id+"/"+selected_user_ids);
+                          } else {
+                            swal("Cancelled", {
+                              icon: "error",
+                            }).then(function() {
+                                location.reload();
+                            });
+                          }
+                        });
+                    } else {
+                        swal("Please select users", {
+                          icon: "warning",
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+                });
+
+                $("#myTable").on("click", ".mobile_notification", function() {
+                    let user_id = $(this).attr("user_id");
+                    // alert(user_id);
+
+                    if($(this).prop("checked") == true) {
+                        var checkbox = "on";
+                    } else if($(this).prop("checked") == false) {
+                        var checkbox = "off";
+                    } else {
+                        swal({
+                            title: "ERROR"
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/update_mobile_notification_settings",
+                        data: {
+                            user_id: user_id,
+                            checkbox: checkbox
+                        },
+                        success: function(response) {
+                            console.log(response);
+
+                            if(response.type == 1) {
+                                if(response.onoff == 1) {
+                                    $(this).prop("checked",true);
+                                    // $(this).text("ON");
+                                } else {
+                                    $(this).prop("checked",false);
+                                    // $(this).text("OFF");
+                                }
+                            } else if(response.type == 0) {
+                                swal({
+                                    title: "ERROR"
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            } else {
+                                swal({
+                                    title: "CHECKBOX ERROR"
+                                }).then(function() {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    })
+                })
+            });
+        </script>
+
+        <style>
+            .badge{
+                padding: 2px 8px 2px 8px;
+                font-size: 14px;
+            }
+            img{
+                object-fit: cover;
+            }
+            .postCount, .crowdCount, .engageCount {
+                font-size: 14px;
+                padding: 0px 6px 0px 6px;
+            }
+            .fa-arrow-circle-right {
+                padding-left: 4px;
+            }
+            .dataTable thead .sorting_asc:after {
+                content: none;
+            }
+        </style>
+
+    </body>
+
+</html>

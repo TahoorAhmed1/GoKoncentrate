@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <style>
+        .error{
+            color: red;
+            padding-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
+
+    <body>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>Edit Post</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <!-- <a href="/admin/view_posts/<%= postData.id %>" class="btn btn-primary">Manage posts and comments</a> -->
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li><a href="/admin/users">Users</a></li>
+                                <li class="active">Edit</li>
+                                <li class="active">Posts</li>
+                                <li class="active">Edit Post</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <form action = '/admin/update_post'  enctype="multipart/form-data"  method="POST" role="form" id="edit_post_form">
+                            <div class="panel panel-flat">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Category/Activity:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                            <select class="form-control" name="activityType" required>
+                                                <option value="">Select Category</option>
+                                                <%
+                                                    for(let i in categries)
+                                                    { %>
+                                                        <option value="<%= categries[i].id %>" <%= (postData.activityType == categries[i].id)?'selected':'' %>><%= categries[i].name %></option> <%
+                                                    }
+                                                %>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="activityType-error" class="error" for="activityType"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Caption:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter caption" name="caption"><%= postData.caption %></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="caption-error" class="error" for="caption"></label></div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Rating:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-star"></i></span>
+                                        <input type="text" name="rating" class="form-control" placeholder="Enter rating" value="<%= postData.rating %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="rating-error" class="error" for="rating"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Location:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-map-marker-alt"></i></span>
+                                        <input type="text" name="location" class="form-control" placeholder="Enter location" value="<%= postData.location %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="location-error" class="error" for="location"></label></div>
+                                    </div>
+
+									<div class="form-group">
+                                        <label class="col-lg-3 control-label">Photo/Video:</label>
+                                        <%
+                                        	if(postData.type == 0) { %>
+                                        		<div class="col-lg-2">
+		                                            <%
+		                                                if(postData.media == '')
+		                                                { %>
+		                                                    <img src="/default.jpg" width="100" height="100" id="image" class="img-circle"> <%
+		                                                }
+		                                                else
+		                                                { %>
+		                                                    <img src="/images/posts/<%= postData.media %>" width="100" height="100" id="image" class="img-circle"> <%
+		                                                }
+		                                            %>
+		                                        </div>
+		                                        <div class="col-lg-7">
+		                                            <input type="file" name="media" class="file-styled" id="files" accept="image/*,video/*">
+		                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+		                                        </div> <%
+                                        	} else { %>
+                                        		<div class="col-lg-9">
+		                                            <input type="file" name="media" class="file-styled" id="files" accept="image/*,video/*">
+		                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+		                                        </div>
+		                                        <div class="col-lg-3"></div>
+		                                        <div class="col-lg-7">
+		                                            <%
+		                                                if(postData.media == '')
+		                                                { %>
+		                                                    <img src="/default.jpg" width="100" height="100" id="image" class="img-circle"> <%
+		                                                }
+		                                                else
+		                                                { %>
+		                                                	<video width="320" height="240" controls>
+															  	<source src="/images/posts/<%= postData.media %>" type="video/mp4">
+															</video> <%
+		                                                }
+		                                            %>
+		                                        </div> <%
+                                        	}
+                                        %>
+                                    </div>
+
+                                    <input type="hidden" name="post_id" value="<%= postData.id %>">
+                                    <input type="hidden" name="user_id" value="<%= user_id %>">
+    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </form>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .control-label{
+                font-weight: 600;
+            }
+            .text-right .btn.btn-primary{
+                margin-top: 70px;
+            }
+            .img-circle {
+                object-fit: cover;
+            }
+        </style>
+
+        <script>
+            document.getElementById("files").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    if(e.target.result.includes("image") == true) {
+                    	document.getElementById("image").src = e.target.result;
+                    }
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#edit_post_form").validate({
+                    rules: {
+                        activityType: {
+                            required: true
+                        },
+                        caption: {
+                            required: true,
+                            maxlength: 200
+                        },
+                        rating: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        location: {
+                            required: true,
+                            maxlength: 200
+                        }
+                    },
+                    messages: {
+                        activityType: {
+                            required: "This field is required"
+                        },
+                        caption: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 200 characters",
+                        },
+                        rating: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters"
+                        },
+                        location: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 200 characters"
+                        }
+                    }
+                });
+            })
+        </script>
+
+    </body>
+
+</html>

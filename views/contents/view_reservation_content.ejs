@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <body>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>
+                                    <%
+                                        let resArr = {
+                                            '1': 'Hotel',
+                                            '2': 'Flight',
+                                            '3': 'Rent Car',
+                                            '4': 'Transfer',
+                                            '5': 'Train & Passes',
+                                            '6': 'Rent Bike & Scooter',
+                                            '7': 'Cruises',
+                                            '8': 'Tours & Activities',
+                                            '9': 'Museums, Shows & Attractions',
+                                            '10': 'Sports, Concerts & Theatre',
+                                            '11': 'Travel Insurance',
+                                            '12': 'Visa'
+                                        };
+                                    %>
+
+                                    <!-- <%= 'View '+resArr[content_id]; %> -->
+                                    <%= heading %>
+                                </h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <!-- <li class="active"><%= resArr[content_id]; %></li> -->
+                                <li class="active"><%= heading %></li>
+                                <li class="active">View</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <div class="panel panel-flat">
+                            <%
+                                if(response.reservationData.length == 1) { %>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="b">Photo</td>
+                                                    <td><img src="<%= response.reservationData[0].photo == '' ? '/default.jpg' : '/images/users/'+response.reservationData[0].photo %>" width="100" height="100" class="img-circle"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Title</td>
+                                                    <td><%= response.reservationData[0].title %></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Subtitle</td>
+                                                    <td class="w"><%= response.reservationData[0].subtitle %></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Description</td>
+                                                    <td class="w"><%= response.reservationData[0].description %></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">URL</td>
+                                                    <td class="w"><a href="<%= response.reservationData[0].url %>" target="_blank"><%= response.reservationData[0].url %></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> <%
+                                } else { %>
+                                    <div class="panel-body">
+                                        <div class="tabbable">
+                                            <ul class="nav nav-tabs nav-tabs-solid nav-tabs-component" style="<%= (response.reservationData.length == 1)?"display:none;":"" %>">
+                                                <%
+                                                    for(let i in response.reservationData) { %>
+                                                        <li class="<%= (i == 0)?'active':'' %>"><a href="#content<%= i %>" data-toggle="tab">Content <%= parseInt(i) + 1 %></a></li> <%
+                                                    }
+                                                %>
+                                            </ul>
+
+                                            <div class="tab-content">
+                                                <%
+                                                    for(let i in response.reservationData) { %>
+                                                        <div class="tab-pane <%= (i == 0)?'active':'' %>" id="content<%= i %>">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="b">Photo</td>
+                                                                            <td><img src="<%= response.reservationData[i].photo == '' ? '/default.jpg' : '/images/users/'+response.reservationData[i].photo %>" width="100" height="100" class="img-circle"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="b">Title</td>
+                                                                            <td><%= response.reservationData[i].title %></span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="b">Subtitle</td>
+                                                                            <td class="w"><%= response.reservationData[i].subtitle %></span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="b">Description</td>
+                                                                            <td class="w"><%= response.reservationData[i].description %></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="b">URL</td>
+                                                                            <td class="w"><a href="<%= response.reservationData[i].url %>" target="_blank"><%= response.reservationData[i].url %></a></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div> <%
+                                                    }
+                                                %>
+                                            </div>
+                                        </div>
+                                    </div> <%
+                                }
+                            %>
+                        </div>
+
+                        <%
+                            if(wiWebsite.length == 0 && wiMobile.length == 0) {
+
+                            } else if(wiWebsite.length == 0 && wiMobile.length != 0) { %>
+                                <div class="panel panel-flat">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="b">Widget for mobile</td>
+                                                    <td class="w">
+                                                        <%
+                                                            for(let i in wiMobile) { %>
+                                                                <span><%= wiMobile[i].script %></span><br> <%
+                                                            }
+                                                        %>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> <%
+                            } else if(wiWebsite.length != 0 && wiMobile.length == 0) { %>
+                                <div class="panel panel-flat">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="b">Widget for website</td>
+                                                    <td class="w">
+                                                        <%
+                                                            for(let i in wiWebsite) { %>
+                                                                <span><%= wiWebsite[i].script %></span><br> <%
+                                                            }
+                                                        %>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> <%
+                            } else { %>
+                                <div class="panel panel-flat">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="b">Widget for website</td>
+                                                    <td class="w">
+                                                        <%
+                                                            for(let i in wiWebsite) { %>
+                                                                <span><%= wiWebsite[i].script %></span><br> <%
+                                                            }
+                                                        %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="b">Widget for mobile</td>
+                                                    <td class="w">
+                                                        <%
+                                                            for(let i in wiMobile) { %>
+                                                                <span><%= wiMobile[i].script %></span><br> <%
+                                                            }
+                                                        %>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> <%
+                            }
+                        %>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .w {
+                word-break: break-word;
+            }
+            .b {
+                width: 30%;
+            }
+        </style>
+
+    </body>
+
+</html>

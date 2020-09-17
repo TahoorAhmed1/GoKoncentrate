@@ -1,0 +1,66 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/admin/dashboard" style="padding: 6px 20px;">
+            <!-- <img src="/logo2.png" style="height: 100%; float: left;">
+            <img src="/logo3.png" style="height: 100%; float: left; padding-left: 10px;"> -->
+        </a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+
+            <li class="dropdown dropdown-user">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="<%= session.image != '' ? session.image : '/white_user.jpg' %>" alt="" style="width: 30px; height: 30px;">
+                    <span><%= session.name %></span>
+                    <i class="caret"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="/admin/profile/<%= session.admin_id %>"><i class="icon-user-plus"></i> My profile</a></li>
+                    <li><a href="/admin/change_password/<%= session.admin_id %>"><i class="fas fa-key"></i> Change Password</a></li>
+                    <li><a href="/admin/admin_logout"><i class="icon-switch2"></i> Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    /*.navbar-inverse {
+        background-color: #261a2f;
+        border-color: #261a2f;
+    }*/
+    img {
+        object-fit: cover;
+    }
+    h5 {
+        font-weight: 600;
+        letter-spacing: 0px;
+    }
+    .navbar-header {
+        background: whitesmoke;
+    }
+    .navbar-inverse {
+        background-color: #173d4e;
+        border-color: #173d4e;
+    }
+    .sidebar {
+        background-color: #173d4e;
+    }
+    .navigation > li.active > a, .navigation > li.active > a:hover, .navigation > li.active > a:focus {
+        background-color: #00c2ff;
+    }
+    .page-header {
+        margin-top: 4%;
+    }
+</style>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold">Help</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="/admin/send_help_email" class="btn btn-primary">Send email</a>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Help</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="panel panel-flat">
+
+                            <table class="table datatable-basic table-bordered" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th class="b">S.No.</th>
+                                        <th class="b">Email</th>
+                                        <th class="b">Subject</th>
+                                        <th class="b">Priority</th>
+                                        <th class="b">Message</th>
+                                        <th class="b">Date</th>
+                                        <th class="b">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        for (var i in response) { %>
+                                            <tr>
+                                                <td><%= parseInt(i)+1 %></td>
+                                                <td><%= response[i].email %></td>
+                                                <td><%= response[i].subject %></td>
+                                                <td>
+                                                    <%
+                                                        if(response[i].priority == "low") { %>
+                                                            <span class="label label-info">LOW</span> <%
+                                                        } else if (response[i].priority == "medium") { %>
+                                                            <span class="label label-success">MEDIUM</span> <%
+                                                        } else if(response[i].priority == "high") { %>
+                                                            <span class="label label-warning">HIGH</span> <%
+                                                        } else {
+
+                                                        }
+                                                    %>
+                                                </td>
+                                                <!-- <td><%- response[i].message %></td> -->
+                                                <td><a href="/admin/view_help/<%= response[i].id %>">View message</a></td>
+                                                <td>
+                                                    <%
+                                                        let fullDate = new Date(response[i].createdAt);
+                                                        let date = fullDate.getDate();
+                                                        let month = fullDate.getMonth() + 1;
+                                                        let year = fullDate.getFullYear();
+                                                        let hour = fullDate.getHours();
+                                                        let minute = fullDate.getMinutes();
+
+                                                        let ampm = hour >= 12 ? 'PM' : 'AM';
+                                                        hour = hour % 12;
+                                                        hour = hour ? hour : 12;
+
+                                                        if(date < 10) { date = '0'+date }
+                                                        if(month < 10) { month = '0'+month }
+                                                        if(hour < 10) { hour = '0'+hour }
+                                                        if(minute < 10) { minute = '0'+minute }
+                                                    %>
+                                                    <%= date+'/'+month+'/'+year %>
+                                                    <br>
+                                                    <%= hour+':'+minute+' '+ampm %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                                <i class="icon-menu9"></i>
+                                                            </a>
+                        
+                                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                                <!-- <li>
+                                                                    <a href="/admin/edit_category/<%=response[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                                                                </li> -->
+                                                                <li>
+                                                                    <a href="/admin/view_help/<%=response[i].id%>"><i class="fas fa-eye"></i>View</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="delete" table="helps" rel="<%= response[i].id %>"><i class="fas fa-trash-alt"></i>Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr> <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .badge{
+                padding: 2px 8px 2px 8px;
+                font-size: 14px;
+            }
+            img{
+                object-fit: cover;
+            }
+            .postCount, .crowdCount, .engageCount {
+                font-size: 14px;
+                padding: 0px 6px 0px 6px;
+            }
+            .fa-arrow-circle-right {
+                padding-left: 4px;
+            }
+        </style>
+
+    </body>
+
+</html>

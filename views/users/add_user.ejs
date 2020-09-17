@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <style>
+        .error{
+            color: red;
+            padding-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>Add User</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Users</li>
+                                <li class="active">Add</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <form action = '/admin/save_user'  enctype="multipart/form-data"  method="POST" role="form" id="add_user_form">
+                            <div class="panel panel-flat">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Name:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                        <input type="text" name="name" class="form-control" placeholder="Enter name" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="name-error" class="error" for="name"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Username:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                        <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="username-error" class="error" for="username"></label></div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Email:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+                                        <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="email-error" class="error" for="email"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Password:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                        <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="password-error" class="error" for="password"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Date Of Birth:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+                                        <input type="text" name="dob" class="form-control" placeholder="Enter date of birth" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="dob-error" class="error" for="dob"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Bio:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter Bio" name="bio"></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="bio-error" class="error" for="bio"></label></div>
+                                    </div>
+
+									<div class="form-group">
+                                        <label class="col-lg-3 control-label">Image:</label>
+                                        <div class="col-lg-2">
+                                            <img src="/user.png" width="100" height="100" id="image" class="img-circle">
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*" required>
+                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </form>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .control-label{
+                font-weight: 600;
+            }
+            .btn.btn-primary{
+                margin-top: 70px;
+            }
+            .img-circle {
+                object-fit: cover;
+            }
+        </style>
+
+        <script>
+            document.getElementById("files").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("image").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#add_user_form").validate({
+                    rules: {
+                        name: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        username: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        email: {
+                            required: true,
+                            email: true,
+                            maxlength: 50,
+                            remote: {
+                                url: '/add_user_check_email_exists',
+                                type: 'post'
+                            }
+                        },
+                        password: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        dob: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        bio: {
+                            required: true,
+                            maxlength: 1000
+                        },
+                    },
+                    messages: {
+                        name: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
+                        },
+                        username: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
+                        },
+                        email: {
+                            required: "This field is required",
+                            email: "Please enter a valid email address",
+                            maxlength: "Maximum length 50 characters",
+                            remote: "Email already exists"
+                        },
+                        password: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
+                        },
+                        dob: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
+                        },
+                        bio: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 1000 characters",
+                        },
+                    }
+                });
+            })
+        </script>
+
+    </body>
+
+</html>

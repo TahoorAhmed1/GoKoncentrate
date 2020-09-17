@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <style>
+        .error{
+            color: red;
+            padding-bottom: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        .remove {
+            cursor: pointer;
+        }
+        .control-label{
+            font-weight: 600;
+        }
+        /*.btn.btn-primary{
+            margin-top: 70px;
+        }*/
+        .img-circle {
+            object-fit: cover;
+        }
+        .btn.btn-info{
+            margin-top: 10px;
+            z-index: 9;
+            background-color: #173d4e;
+            border-color: #173d4e;
+        }
+        .append {
+            margin: 10px;
+        }
+        hr {
+            margin-top: 40px;
+            margin-bottom: 30px;
+            border-top: 1px solid gray;
+        }
+    </style>
+
+    <body>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>
+                                    <%
+                                        let resArr = {
+                                            '1': 'Hotel',
+                                            '2': 'Flight',
+                                            '3': 'Rent Car',
+                                            '4': 'Transfer',
+                                            '5': 'Train & Passes',
+                                            '6': 'Rent Bike & Scooter',
+                                            '7': 'Cruises',
+                                            '8': 'Tours & Activities',
+                                            '9': 'Museums, Shows & Attractions',
+                                            '10': 'Sports, Concerts & Theatre',
+                                            '11': 'Travel Insurance',
+                                            '12': 'Visa'
+                                        };
+                                    %>
+
+                                    <!-- <%= 'Edit '+resArr[content_id]; %> -->
+                                    <%= heading %>
+                                </h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <!-- <li class="active"><%= resArr[content_id]; %></li> -->
+                                <li class="active"><%= heading %></li>
+                                <li class="active">Edit</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <form action = '/admin/update_reservation_content'  enctype="multipart/form-data"  method="POST" role="form" id="add_user_form" onsubmit="document.getElementById('sb').disabled = true;">
+                            <div class="panel panel-flat">
+                                <div class="panel-body">
+
+                                    <%
+                                        for(let i in response.reservationData) { %>
+                                            <%
+                                                if(i > 0) { %>
+                                                    <hr> <%
+                                                }
+                                            %>
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Title:</label>
+                                                <div class="col-lg-9 input-group">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <input type="text" name="title" class="form-control" placeholder="Enter title" value="<%= response.reservationData[i].title %>">
+                                                </div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9"><label id="title-error" class="error" for="title"></label></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Subtitle:</label>
+                                                <div class="col-lg-9 input-group">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <textarea class="form-control" placeholder="Enter subtitle" name="subtitle"><%= response.reservationData[i].subtitle %></textarea>
+                                                </div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9"><label id="subtitle-error" class="error" for="subtitle"></label></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">Description:</label>
+                                                <div class="col-lg-9 input-group">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <textarea class="form-control" placeholder="Enter description" name="description" rows="3"><%= response.reservationData[i].description %></textarea>
+                                                </div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9"><label id="description-error" class="error" for="description"></label></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-lg-3 control-label">URL:</label>
+                                                <div class="col-lg-9 input-group">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <input type="url" name="url" class="form-control" placeholder="Enter url" value="<%= response.reservationData[i].url %>">
+                                                </div>
+                                                <div class="add_more_url"></div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9"><label id="url-error" class="error" for="url"></label></div>
+                                            </div>
+
+                                            <div class="form-group" style="padding-bottom: 9%;">
+                                                <label class="col-lg-3 control-label" style="margin-top: 3%;">Photo:</label>
+                                                <div class="col-md-9" style="padding-bottom: 0px; padding-left: 0px; padding-right: 0px;">
+                                                    <div class="col-lg-2" style="padding-left: 0px;">
+                                                        <%
+                                                            if(response.reservationData[i].photo == '')
+                                                            { %>
+                                                                <img src="/default.jpg" width="100" height="100" id="imagee<%= i %>" class="img-circle"> <%
+                                                            }
+                                                            else
+                                                            { %>
+                                                                <img src="/images/users/<%= response.reservationData[i].photo %>" width="100" height="100" id="imagee<%= i %>" class="img-circle"> <%
+                                                            }
+                                                        %>
+                                                    </div>
+                                                    <div class="col-lg-10" style="padding-right: 0px; margin-top: 3%;">
+                                                        <input type="file" name="image" class="file-styled" id="filess<%= i %>" accept="image/*">
+                                                        <!-- <%
+                                                            if(response.reservationData[i].photo == '') { %>
+                                                                <input type="text" name="check1" value="0"> <%
+                                                            } else { %>
+                                                                <input type="text" name="check1" value="1"> <%
+                                                            }
+                                                        %> -->
+                                                        <input type="hidden" name="check1" value="0">
+                                                        <input type="hidden" name="oldphoto" value="<%= response.reservationData[i].photo %>">
+                                                        <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                                                    </div>
+                                                </div>
+                                            </div> <%
+                                        }
+                                    %>
+
+                                    <div class="add_group"></div>
+
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 20px;"><button type="button" class="btn btn-info" id="add_group">Add more</button></div>
+
+                                    <hr style="margin-top: 10%;">
+
+                                    <div class="form-group">
+                                        <%
+                                            if(wiWebsite.length > 0) {
+                                                for(let i in wiWebsite) { %>
+                                                    <%
+                                                        if(i == 0) { %>
+                                                            <label class="col-lg-3 control-label">Widget for website:</label> <%
+                                                        } else { %>
+                                                            <label class="col-lg-3 control-label"></label> <%
+                                                        }
+                                                    %>
+                                                    <div class="col-lg-9 input-group append">
+                                                    <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                    <textarea class="form-control" placeholder="Widget for website" name="widgetWebsite" rows="3"><%= wiWebsite[i].script %></textarea>
+                                                    <%
+                                                        if(i > 0) { %>
+                                                            <span class="input-group-addon remove" style="background: #ffcfcf"><i class="fas fa-times-circle" style="color: red"></i></span> <%
+                                                        }
+                                                    %>
+                                                    </div>
+                                                    <%
+                                                        if(i == wiWebsite.length - 1) { %>
+                                                            <div class="add_more_widget_web"></div>
+                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 20px;"><button type="button" class="btn btn-info" id="add_more_widget_web">Add more</button></div> <%
+                                                        }
+                                                    %> <%
+                                                }
+                                            } else { %>
+                                                <label class="col-lg-3 control-label">Widget for website:</label>
+                                                <div class="col-lg-9 input-group append">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <textarea class="form-control" placeholder="Widget for website" name="widgetWebsite" rows="3"></textarea>
+                                                </div> 
+                                                <div class="add_more_widget_web"></div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 20px;"><button type="button" class="btn btn-info" id="add_more_widget_web">Add more</button></div><%
+                                            }
+                                        %>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="widgetWebsite-error" class="error" for="widgetWebsite"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <%
+                                            if(wiMobile.length > 0) {
+                                                for(let i in wiMobile) { %>
+                                                    <%
+                                                        if(i == 0) { %>
+                                                            <label class="col-lg-3 control-label">Widget for mobile:</label> <%
+                                                        } else { %>
+                                                            <label class="col-lg-3 control-label"></label> <%
+                                                        }
+                                                    %>
+                                                    <div class="col-lg-9 input-group append">
+                                                    <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                    <textarea class="form-control" placeholder="Widget for mobile" name="widgetMobile" rows="3"><%= wiMobile[i].script %></textarea>
+                                                    <%
+                                                        if(i > 0) { %>
+                                                            <span class="input-group-addon remove" style="background: #ffcfcf"><i class="fas fa-times-circle" style="color: red"></i></span> <%
+                                                        }
+                                                    %>
+                                                    </div>
+                                                    <%
+                                                        if(i == wiMobile.length - 1) { %>
+                                                            <div class="add_more_widget_mob"></div>
+                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 20px;"><button type="button" class="btn btn-info" id="add_more_widget_mob">Add more</button></div> <%
+                                                        }
+                                                    %> <%
+                                                }
+                                            } else { %>
+                                                <label class="col-lg-3 control-label">Widget for mobile:</label>
+                                                <div class="col-lg-9 input-group append">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <textarea class="form-control" placeholder="Widget for mobile" name="widgetMobile" rows="3"></textarea>
+                                                </div> 
+                                                <div class="add_more_widget_mob"></div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 20px;"><button type="button" class="btn btn-info" id="add_more_widget_mob">Add more</button></div><%
+                                            }
+                                        %>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="widgetMobile-error" class="error" for="widgetMobile"></label></div>
+                                    </div> 
+
+                                    <!-- <div class="form-group">
+                                        <%
+                                            if(adWebsite.length > 0) {
+                                                for(let i in adWebsite) { %>
+                                                    <%
+                                                        if(i == 0) { %>
+                                                            <label class="col-lg-3 control-label">Advertisement for website:</label> <%
+                                                        } else { %>
+                                                            <label class="col-lg-3 control-label"></label> <%
+                                                        }
+                                                    %>
+                                                    <div class="col-lg-9 input-group append">
+                                                    <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                    <textarea class="form-control" placeholder="Advertisement for website" name="adWebsite" rows="3"><%= adWebsite[i].script %></textarea>
+                                                    </div>
+                                                    <%
+                                                        if(i == adWebsite.length - 1) { %>
+                                                            <div class="add_more_adv_web"></div>
+                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 10px;"><button type="button" class="btn btn-info" id="add_more_adv_web">Add more</button></div> <%
+                                                        }
+                                                    %> <%
+                                                }
+                                            } else { %>
+                                                <label class="col-lg-3 control-label">Advertisement for website:</label>
+                                                <div class="col-lg-9 input-group append">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <textarea class="form-control" placeholder="Advertisement for website" name="adWebsite" rows="3"></textarea>
+                                                </div> 
+                                                <div class="add_more_adv_web"></div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 10px;"><button type="button" class="btn btn-info" id="add_more_adv_web">Add more</button></div><%
+                                            }
+                                        %>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="adWebsite-error" class="error" for="adWebsite"></label></div>
+                                    </div> -->
+
+                                    <!-- <div class="form-group">
+                                        <%
+                                            if(adMobile.length > 0) {
+                                                for(let i in adMobile) { %>
+                                                    <%
+                                                        if(i == 0) { %>
+                                                            <label class="col-lg-3 control-label">Advertisement for mobile:</label> <%
+                                                        } else { %>
+                                                            <label class="col-lg-3 control-label"></label> <%
+                                                        }
+                                                    %>
+                                                    <div class="col-lg-9 input-group append">
+                                                    <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                    <textarea class="form-control" placeholder="Advertisement for mobile" name="adMobile" rows="3"><%= adMobile[i].script %></textarea>
+                                                    </div>
+                                                    <%
+                                                        if(i == adMobile.length - 1) { %>
+                                                            <div class="add_more_adv_mob"></div>
+                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 10px;"><button type="button" class="btn btn-info" id="add_more_adv_mob">Add more</button></div> <%
+                                                        }
+                                                    %> <%
+                                                }
+                                            } else { %>
+                                                <label class="col-lg-3 control-label">Advertisement for mobile:</label>
+                                                <div class="col-lg-9 input-group append">
+                                                <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                                <textarea class="form-control" placeholder="Advertisement for mobile" name="adMobile" rows="3"></textarea>
+                                                </div> 
+                                                <div class="add_more_adv_mob"></div>
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9" style="padding-left: 0px; padding-bottom: 10px;"><button type="button" class="btn btn-info" id="add_more_adv_mob">Add more</button></div><%
+                                            }
+                                        %>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="adMobile-error" class="error" for="adMobile"></label></div>
+                                    </div> -->
+
+                                    <input type="hidden" name="id" value="<%= response.id %>">
+                                    <input type="hidden" name="type" value="<%= content_id %>">
+    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary" id="sb">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </form>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("filess0").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee0").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess1").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee1").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess2").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee2").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess3").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee3").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess4").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee4").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess5").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee5").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess6").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee6").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess7").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee7").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess8").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee8").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("filess9").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("imagee9").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script>
+            $(document).click(function(e) {
+                $("#sb").prop("disabled", false);
+            })
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $("#add_more_adv_web").click(function() {
+                    let html = '';
+
+                    html = '<label class="col-lg-3 control-label"></label>'+
+                           '<div class="col-lg-9 input-group append">'+
+                           '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                           '<textarea class="form-control" placeholder="Advertisement for website" name="adWebsite" rows="3"></textarea>'+
+                            '<span class="input-group-addon" style="background: #ffcfcf"><i class="fas fa-times-circle" style="color: red"></i></span>'+
+                           '</div>';
+
+                    $(".add_more_adv_web").append(html);
+                });
+
+                $("#add_more_adv_mob").click(function() {
+                    let html = '';
+
+                    html = '<label class="col-lg-3 control-label"></label>'+
+                           '<div class="col-lg-9 input-group append">'+
+                           '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                           '<textarea class="form-control" placeholder="Advertisement for mobile" name="adMobile" rows="3"></textarea>'+
+                            '<span class="input-group-addon" style="background: #ffcfcf"><i class="fas fa-times-circle" style="color: red"></i></span>'+
+                           '</div>';
+
+                    $(".add_more_adv_mob").append(html);
+                });
+
+                $("#add_more_widget_web").click(function() {
+                    let html = '';
+
+                    html = '<label class="col-lg-3 control-label"></label>'+
+                           '<div class="col-lg-9 input-group append">'+
+                           '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                           '<textarea class="form-control" placeholder="Widget for website" name="widgetWebsite" rows="3"></textarea>'+
+                            '<span class="input-group-addon remove" style="background: #ffcfcf"><i class="fas fa-times-circle" style="color: red"></i></span>'+
+                           '</div>';
+
+                    $(".add_more_widget_web").append(html);
+
+                    $(".remove").click(function() {
+                        $(this).prev().val('');
+                        $(this).parent().prev().remove();
+                        $(this).parent().remove();
+                    });
+                });
+
+                $("#add_more_widget_mob").click(function() {
+                    let html = '';
+
+                    html = '<label class="col-lg-3 control-label"></label>'+
+                           '<div class="col-lg-9 input-group append">'+
+                           '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                           '<textarea class="form-control" placeholder="Widget for mobile" name="widgetMobile" rows="3"></textarea>'+
+                            '<span class="input-group-addon remove" style="background: #ffcfcf"><i class="fas fa-times-circle" style="color: red"></i></span>'+
+                           '</div>';
+
+                    $(".add_more_widget_mob").append(html);
+
+                    $(".remove").click(function() {
+                        $(this).prev().val('');
+                        $(this).parent().prev().remove();
+                        $(this).parent().remove();
+                    });
+                });
+
+                $("#add_more_url").click(function() {
+                    let html = '';
+
+                    html = '<label class="col-lg-3 control-label"></label>'+
+                           '<div class="col-lg-9 input-group append">'+
+                           '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                            '<input type="url" name="url" class="form-control" placeholder="Enter url">'+
+                            '<span class="input-group-addon remove" style="background: #ffcfcf"><i class="fas fa-times-circle" style="color: red"></i></span>'+
+                           '</div>';
+
+                    $(".add_more_url").append(html);
+
+                    $(".remove").click(function() {
+                        $(this).prev().val('');
+                        $(this).parent().prev().remove();
+                        $(this).parent().remove();
+                    });
+                });
+
+                var imageId = 1;
+                var fileId = 1;
+
+                $("#add_group").click(function() {
+                    $.getScript('/assets/js/pages/form_layouts.js');
+
+                    let html = '';
+
+                    html = 
+
+                    '<hr>'+
+
+                    '<div class="form-group">'+
+                        '<label class="col-lg-3 control-label">Title:</label>'+
+                        '<div class="col-lg-9 input-group">'+
+                        '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                        '<input type="text" name="title" class="form-control" placeholder="Enter title">'+
+                        '</div>'+
+                        '<div class="col-lg-3"></div>'+
+                        '<div class="col-lg-9"><label id="title-error" class="error" for="title"></label></div>'+
+                    '</div>'+
+
+                    '<div class="form-group">'+
+                        '<label class="col-lg-3 control-label">Subtitle:</label>'+
+                        '<div class="col-lg-9 input-group">'+
+                        '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                        '<textarea class="form-control" placeholder="Enter subtitle" name="subtitle"></textarea>'+
+                        '</div>'+
+                        '<div class="col-lg-3"></div>'+
+                        '<div class="col-lg-9"><label id="subtitle-error" class="error" for="subtitle"></label></div>'+
+                    '</div>'+
+
+                    '<div class="form-group">'+
+                        '<label class="col-lg-3 control-label">Description:</label>'+
+                        '<div class="col-lg-9 input-group">'+
+                        '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                        '<textarea class="form-control" placeholder="Enter description" name="description" rows="3"></textarea>'+
+                        '</div>'+
+                        '<div class="col-lg-3"></div>'+
+                        '<div class="col-lg-9"><label id="description-error" class="error" for="description"></label></div>'+
+                    '</div>'+
+
+                    '<div class="form-group">'+
+                        '<label class="col-lg-3 control-label">URL:</label>'+
+                        '<div class="col-lg-9 input-group">'+
+                        '<span class="input-group-addon"><i class="fas fa-edit"></i></span>'+
+                        '<input type="url" name="url" class="form-control" placeholder="Enter url">'+
+                        '</div>'+
+                        '<div class="add_more_url"></div>'+
+                        '<div class="col-lg-3"></div>'+
+                        '<div class="col-lg-9"><label id="url-error" class="error" for="url"></label></div>'+
+                    '</div>'+
+
+                    '<div class="form-group" style="padding-bottom: 9%;">'+
+                        '<label class="col-lg-3 control-label" style="margin-top: 3%;">Photo:</label>'+
+                        '<div class="col-md-9" style="padding-bottom: 0px; padding-left: 0px; padding-right: 0px;">'+
+                            '<div class="col-lg-2" style="padding-left: 0px;">'+
+                                '<img src="/default.jpg" width="100" height="100" id="image'+imageId+'" class="img-circle">'+
+                            '</div>'+
+                            '<div class="col-lg-10" style="padding-right: 0px; margin-top: 3%;">'+
+                                '<input type="file" name="image" class="file-styled" id="files'+fileId+'" accept="image/*">'+
+                                '<input type="hidden" name="check1" value="0">'+
+                                '<div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>';
+
+                    $(".add_group").append(html);
+
+                    fileId = fileId + 1;
+                    imageId = imageId + 1;
+
+                    $(".file-styled").on("change", function() {
+                        $(this).parent().next('input').val('1');
+                    });
+
+                    document.getElementById("files1").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image1").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files2").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image2").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files3").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image3").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files4").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image4").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files5").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image5").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files6").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image6").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files7").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image7").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files8").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image8").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files9").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image9").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+
+                    document.getElementById("files10").onchange = function () {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            // get loaded data and render thumbnail.
+                            document.getElementById("image10").src = e.target.result;
+                        };
+
+                        // read the image file as a data URL.
+                        reader.readAsDataURL(this.files[0]);
+                    };
+                });
+
+                $(".remove").click(function() {
+                    $(this).prev().val('');
+                    $(this).parent().prev().remove();
+                    $(this).parent().remove();
+                });
+
+                $(".file-styled").on("change", function() {
+                    $(this).parent().next('input').val('1');
+                });
+            });
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#add_user_form").validate({
+                    rules: {
+                        title: {
+                            required: true,
+                            maxlength: 100
+                        },
+                        subtitle: {
+                            required: true,
+                            maxlength: 255
+                        },
+                        description: {
+                            required: true,
+                            // maxlength: 200
+                        },
+                        url: {
+                            required: true,
+                            maxlength: 255,
+                            url: true
+                        },
+                        widgetWebsite: {
+                            // required: true,
+                            maxlength: 255
+                        },
+                        widgetMobile: {
+                            // required: true,
+                            maxlength: 255
+                        },
+                        adWebsite: {
+                            // required: true,
+                            maxlength: 255
+                        },
+                        adMobile: {
+                            // required: true,
+                            maxlength: 255
+                        },
+                    },
+                    messages: {
+                        title: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 100 characters",
+                        },
+                        subtitle: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        description: {
+                            required: "This field is required",
+                            // maxlength: "Maximum length 200 characters",
+                        },
+                        url: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                            url: "Please enter a valid URL"
+                        },
+                        widgetWebsite: {
+                            // required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        widgetMobile: {
+                            // required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        adWebsite: {
+                            // required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        adMobile: {
+                            // required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                    }
+                });
+            })
+        </script>
+
+    </body>
+
+</html>

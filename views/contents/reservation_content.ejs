@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <% console.log(title) %>
+
+    <style>
+        .control-label{
+            font-weight: 600;
+        }
+        .error{
+            color: red;
+            padding-bottom: 10px;
+            font-size: 14px;
+        }
+        button {
+            margin-top: 50px;
+        }
+    </style>
+    
+    <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>
+                                    <%
+                                        let resArr = {
+                                            '1': 'Hotel',
+                                            '2': 'Flight',
+                                            '3': 'Rent Car',
+                                            '4': 'Transfer',
+                                            '5': 'Train & Passes',
+                                            '6': 'Rent Bike & Scooter',
+                                            '7': 'Cruises',
+                                            '8': 'Tours & Activities',
+                                            '9': 'Museums, Shows & Attractions',
+                                            '10': 'Sports, Concerts & Theatre',
+                                            '11': 'Travel Insurance',
+                                            '12': 'Visa'
+                                        };
+                                    %>
+
+                                    <!-- <%= resArr[content_id]+' Content Management'; %> -->
+                                    <%= heading %>
+                                </h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <!-- <a href="/admin/add_category" class="btn btn-primary">Add</a> -->
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active"><%= heading %></li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="panel panel-flat">
+
+                            <!-- <div class="panel-heading">
+                                <h5 class="panel-title">Edit Call Us Email</h5>
+                            </div> -->
+
+                            <div class="panel-body">
+                                <form action = "/admin/update_reservation/<%= content_id %>" method = "POST" id="reservation_content" enctype="multipart/form-data">
+                                    <!-- <div class="form-group">
+                                        <label class="col-lg-3 control-label">Select category:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                            <select class="form-control" name="category_id" required>
+                                                <option value="">Select Category</option>
+                                                <%
+                                                    for(let i in categries)
+                                                    { %>
+                                                        <option value="<%= categries[i].id %>" <%= (response.categoryId == categries[i].id)?'selected':'' %>><%= categries[i].name %></option> <%
+                                                    }
+                                                %>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="category_id-error" class="error" for="category_id"></label></div>
+                                    </div> -->
+
+                                    <!-- <div class="form-group">
+                                        <label class="col-lg-3 control-label">Title:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <input type="text" name="title" class="form-control" placeholder="Enter title" value="<%= response.title %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="title-error" class="error" for="title"></label></div>
+                                    </div> -->
+
+                                    <!-- <div class="form-group">
+                                        <label class="col-lg-3 control-label">Subtitle:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <input type="text" name="subtitle" class="form-control" placeholder="Enter subtitle" value="<%= response.subtitle %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="subtitle-error" class="error" for="subtitle"></label></div>
+                                    </div> -->
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Content for website:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Content for website" name="description" rows="4"><%= response.description %></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="description-error" class="error" for="description"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Content for mobile:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Content for mobile" name="description_mobile" rows="4"><%= response.descriptionMobile %></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="description_mobile-error" class="error" for="description_mobile"></label></div>
+                                    </div>
+
+                                    <!-- <div class="form-group">
+                                        <label class="col-lg-3 control-label">Image:</label>
+                                        <div class="col-lg-2">
+                                            <%
+                                                if(response.image == '')
+                                                { %>
+                                                    <img src="/default.jpg" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                                else
+                                                { %>
+                                                    <img src="/images/users/<%= response.image %>" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                            %>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <input type="file" name="image" class="file-styled" id="files" accept="image/*">
+                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                                        </div>
+                                    </div> -->
+                        
+                                    <div class="text-right">
+                                        <button type="submit" class="btn bg-teal-400">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById("files").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("image").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#reservation_content").validate({
+                    rules: {
+                        description: {
+                            // required: true,
+                            maxlength: 255
+                        },
+                        description_mobile: {
+                            // required: true,
+                            maxlength: 255
+                        }
+                    },
+                    messages: {
+                        description: {
+                            // required: "This field is required",
+                            maxlength: "Maximum length 255 characters"
+                        },
+                        description_mobile: {
+                            // required: "This field is required",
+                            maxlength: "Maximum length 255 characters"
+                        }
+                    }
+                });
+            })
+        </script>
+
+    </body>
+
+</html>

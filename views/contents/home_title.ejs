@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+    
+    <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>Home Title</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <!-- <a href="/admin/add_category" class="btn btn-primary">Add</a> -->
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">General Settings</li>
+                                <li class="active">Home Title</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <form action = '/admin/update_home_title'  enctype="multipart/form-data"  method="POST" role="form" id="add_user_form">
+                            <div class="panel panel-flat">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Home Title:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter offline message" name="offline_message" rows="4"><%= response.content %></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="offline_message-error" class="error" for="offline_message"></label></div>
+                                    </div>
+    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </form>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .control-label{
+                font-weight: 600;
+            }
+            .error{
+                color: red;
+                padding-bottom: 10px;
+                font-size: 14px;
+            }
+        </style>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#add_user_form").validate({
+                    rules: {
+                        offline_message: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        offline_message: {
+                            required: "This field is required"
+                        }
+                    }
+                });
+            })
+        </script>
+        
+        <!-- <script>
+            CKEDITOR.replace('editor');
+        </script> -->
+
+    </body>
+
+</html>

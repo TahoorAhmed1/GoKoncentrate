@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+    
+    <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>RSS and Social Media</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <!-- <a href="/admin/add_category" class="btn btn-primary">Add</a> -->
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">General Settings</li>
+                                <li class="active">RSS and Social Media</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="panel panel-flat">
+
+                            <!-- <div class="panel-heading">
+                                <h5 class="panel-title">Edit Call Us Email</h5>
+                            </div> -->
+
+                            <div class="panel-body">
+                                <form action = "/admin/update_social_media_links" method = "POST" id="mobile_setting_form">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">RSS Link:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-rss"></i></span>
+                                        <input type="text" name="rss" class="form-control" placeholder="Enter rss link" value="<%= rss.content %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="rss-error" class="error" for="rss"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Twitter Link:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fab fa-twitter"></i></span>
+                                        <input type="text" name="twitter" class="form-control" placeholder="Enter twitter link" value="<%= twitter.content %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="twitter-error" class="error" for="twitter"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Google Link:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fab fa-google-plus-g"></i></span>
+                                        <input type="text" name="google" class="form-control" placeholder="Enter google link" value="<%= google.content %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="google-error" class="error" for="google"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Facebook Link:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fab fa-facebook"></i></span>
+                                        <input type="text" name="facebook" class="form-control" placeholder="Enter facebook link" value="<%= fb.content %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="facebook-error" class="error" for="facebook"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Youtube Link:</label>
+                                        <div class="col-lg-10 input-group">
+                                        <span class="input-group-addon"><i class="fab fa-youtube"></i></span>
+                                        <input type="text" name="youtube" class="form-control" placeholder="Enter youtube link" value="<%= youtube.content %>" required>
+                                        </div>
+                                        <div class="col-lg-2"></div>
+                                        <div class="col-lg-10"><label id="youtube-error" class="error" for="youtube"></label></div>
+                                    </div>
+                        
+                                    <div class="text-right">
+                                        <button type="submit" class="btn bg-teal-400">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#mobile_setting_form").validate({
+                    rules: {
+                        rss: {
+                            required: true,
+                            maxlength: 255,
+                        },
+                        twitter: {
+                            required: true,
+                            maxlength: 255,
+                        },
+                        facebook: {
+                            required: true,
+                            maxlength: 255,
+                        },
+                        google: {
+                            required: true,
+                            maxlength: 255,
+                        },
+                        youtube: {
+                            required: true,
+                            maxlength: 255,
+                        }
+                    },
+                    messages: {
+                        rss: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        twitter: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        facebook: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        google: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        },
+                        youtube: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters",
+                        }
+                    }
+                });
+            })
+        </script>
+
+        <style>
+            .control-label{
+                font-weight: 600;
+            }
+            .error{
+                color: red;
+                padding-bottom: 10px;
+                font-size: 14px;
+            }
+        </style>
+
+    </body>
+
+</html>

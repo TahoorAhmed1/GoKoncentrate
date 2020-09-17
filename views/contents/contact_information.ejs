@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+    
+    <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>Contact information</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <!-- <a href="/admin/add_category" class="btn btn-primary">Add</a> -->
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Pages</li>
+                                <li class="active">Contact information</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <form action = '/admin/update_contact_information'  enctype="multipart/form-data"  method="POST" role="form" id="add_user_form">
+                            <div class="panel panel-flat">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Address:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter contact address" name="contact_address" rows="4"><%= response.contactAddress %></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="contact_address-error" class="error" for="contact_address"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Email:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+                                        <input type="email" name="contact_email" class="form-control" placeholder="Enter contact email" value="<%= response.contactEmail %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="contact_email-error" class="error" for="contact_email"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Telephone:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-phone"></i></span>
+                                        <input type="text" name="contact_phone" class="form-control" placeholder="Enter contact telephone number" value="<%= response.contactPhone %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="name-error" class="error" for="name"></label></div>
+                                    </div>
+    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </form>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .control-label{
+                font-weight: 600;
+            }
+            .error{
+                color: red;
+                padding-bottom: 10px;
+                font-size: 14px;
+            }
+        </style>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#add_user_form").validate({
+                    rules: {
+                        contact_address: {
+                            required: true,
+                            maxlength: 255
+                        },
+                        contact_email: {
+                            required: true,
+                            maxlength: 255,
+                            email: true
+                        },
+                        contact_phone: {
+                            required: true,
+                            maxlength: 255
+                        }
+                    },
+                    messages: {
+                        contact_address: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters"
+                        },
+                        contact_email: {
+                            required: "This field is required"
+                            maxlength: "Maximum length 255 characters",
+                            email: "Please enter a valid email address",
+                        },
+                        contact_phone: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 255 characters"
+                        }
+                    }
+                });
+            })
+        </script>
+        
+        <!-- <script>
+            CKEDITOR.replace('editor');
+        </script> -->
+
+    </body>
+
+</html>

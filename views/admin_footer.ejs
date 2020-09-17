@@ -1,0 +1,303 @@
+<div class="footer text-muted" style="bottom: 2px; margin-left: 500px">
+    &copy; 2020. <a href="#">GoKoncentrate</a> by <a href="https://www.cqlsys.com/" target="_blank">CQLsys Technologies</a>
+</div>
+
+<style>
+    .input-group-addon{
+        background: #dddddd;
+    }
+    .datatable-scroll{
+        overflow-x: scroll;
+    }
+    .page-title {
+        padding: 20px 36px 20px 0;
+    }
+    .modalHeading {
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .modal-content {
+        border: 2px solid black;
+        background: #fff1f1;
+    }
+</style>
+
+<script>
+    $(document).ready(function(){
+        $('.delete').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('rel'); 
+            var table = _this.attr('table'); 
+            //alert(_id);
+            //var username = _this.attr("username");
+
+            if(table == "magazines_brand") {
+                var text = "You want to delete this account";
+            } else if(table == "categories") {
+                var text = "You want to delete this category";
+            } else if(table == "ads") {
+                var text = "You want to delete this advertisement";
+            } else if(table == "notifications") {
+                var text = "You want to delete this notification";
+            } else if(table == "helps" || table == "emails") {
+                var text = "You want to delete this entry";
+            } else if(table == "posts") {
+                var text = "You want to delete this posts and its comments";
+            } else if(table == "admin") {
+                var text = "You want to delete this sub-admin";
+            } else if(table == "keywords") {
+                var text = "You want to delete this keyword";
+            } else if(table == "reservation_content") {
+                var text = "You want to delete this content";
+            } else {
+                var text = "You want to delete this "+table;
+            }
+            
+            swal({
+                title: "Are you sure?",
+                text: text,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((data) => {
+                if (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/delete_data",
+                        data: {
+                            "id":_id,
+                            "table":table,
+                        },
+    
+                        success: function(data) {
+                            if(data == 1) {
+                                _this.parents('tr').remove();
+                                swal("Your data has been deleted!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                swal("Error", "Please try again");
+                            }
+                            // setTimeout(function () { location.reload(1); }, 1000);
+
+                        },error(error){
+                        console.error(error);
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.change_status').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('id'); 
+            // let id = $(this).attr('rel');
+            let table = _this.attr('table'); 
+            
+            $.ajax({
+                type: "POST",
+                url: "/admin/update_status",
+                data: {
+                    "id":_id,
+                    "table":table
+                },
+                success: function(data) {
+                    // alert(data);
+                    if(data == 0) {
+                        _this.removeClass('label label-success');
+                        _this.addClass('label label-danger');
+                        _this.text('Inactive');
+                    } else if (data == 1) {
+                        _this.removeClass('label label-danger');
+                        _this.addClass('label label-success');
+                        _this.text('Active');
+                    } else {
+
+                    }
+
+                },error(error){
+                console.error(error);
+                }
+            });
+        });
+        
+        $('.verify_status').on('click', function () {
+            let _this = $(this);
+            let _id = _this.attr('id');
+            // let id = $(this).attr('rel');
+            let table = _this.attr('table');
+
+            $.ajax({
+                type: "POST",
+                url: "/update_verify_status",
+                data: {
+                    "id": _id,
+                    "table": table
+                },
+                success: function (data) {
+                    // alert(data);
+                    if (data == 0) {
+                        _this.removeClass('label label-success');
+                        _this.addClass('label label-danger');
+                        _this.text('Not-Verified');
+                    } else if (data == 1) {
+                        _this.removeClass('label label-danger');
+                        _this.addClass('label label-success');
+                        _this.text('Verified');
+                    } else {
+
+                    }
+
+                }, error(error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $('.change_block_status').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('id'); 
+            // let id = $(this).attr('rel');
+            let table = _this.attr('table'); 
+            let username = _this.attr('username');
+            let status = _this.attr('status');
+
+            if(status == 1) {
+                var text = "You want to unblock "+username+"! You can also block this user anytime!";
+            } else {
+                var text = "You want to block "+username+"! You can also unblock this user anytime!";
+            }
+
+            swal({
+              title: "Are you sure?",
+              text: text,
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: "/update_block_status",
+                    data: {
+                        "id":_id,
+                        "table":table
+                    },
+                    success: function(data) {
+                        // alert(data);
+                        // if(data == 0) {
+                        //     _this.removeClass('label label-success');
+                        //     _this.addClass('label label-danger');
+                        //     _this.text('Not-Blocked');
+                        // } else if (data == 1) {
+                        //     _this.removeClass('label label-danger');
+                        //     _this.addClass('label label-success');
+                        //     _this.text('Blocked');
+                        // } else {
+
+                        // }
+                        swal("Done!", {
+                          icon: "success",
+                        }).then(function() {
+                            location.reload();
+                        });
+
+                    },error(error){
+                    console.error(error);
+                    }
+                });
+              } else {
+                // swal("Your imaginary file is safe!");
+              }
+            });
+        });
+
+        setTimeout(function(){
+        $("div.msg"). fadeOut();
+        },3000);
+    });
+</script>
+
+<!-- <script type="text/javascript" src="../assets/js/core/libraries/jquery.min.js"></script> -->
+<script src="/assets/js/plugins/tables/datatables/datatables.min.js"></script>
+<script src="/assets/js/pages/datatables_basic.js"></script>
+<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="/assets/js/sweetalert.min.js"></script>
+
+<div id="totalNoOfClicks" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <!-- <h4 class="modal-title">Total number of clicks</h4> -->
+      </div>
+      <div class="modal-body">
+        <!-- <p>Some text in the modal.</p> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 modalHeading">Service</div>
+                <div class="col-md-6 modalHeading">Total clicks</div>
+            </div>
+            <br><br>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Hotel</div>
+                <div class="col-md-6">3</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Flight</div>
+                <div class="col-md-6">6</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Rent Car</div>
+                <div class="col-md-6">10</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Transfer</div>
+                <div class="col-md-6">12</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Train & Passes</div>
+                <div class="col-md-6">2</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Rent Bike & Scooter</div>
+                <div class="col-md-6">1</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Cruises</div>
+                <div class="col-md-6">5</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Tours & Activities</div>
+                <div class="col-md-6">8</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Museums, Shows & Attractions</div>
+                <div class="col-md-6">14</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Sports, Concerts & Theatre</div>
+                <div class="col-md-6">13</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Travel Insurance</div>
+                <div class="col-md-6">7</div>
+            </div>
+            <div class="col-md-12 service">
+                <div class="col-md-6">Visa</div>
+                <div class="col-md-6">14</div>
+            </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+
+  </div>

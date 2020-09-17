@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold">
+                                    <%
+                                        let resArr = {
+                                            '1': 'Hotel',
+                                            '2': 'Flight',
+                                            '3': 'Rent Car',
+                                            '4': 'Transfer',
+                                            '5': 'Train & Passes',
+                                            '6': 'Rent Bike & Scooter',
+                                            '7': 'Cruises',
+                                            '8': 'Tours & Activities',
+                                            '9': 'Museums, Shows & Attractions',
+                                            '10': 'Sports, Concerts & Theatre',
+                                            '11': 'Travel Insurance',
+                                            '12': 'Visa'
+                                        };
+                                    %>
+
+                                    <!-- <%= resArr[content_id]; %> -->
+                                    <%= heading %>
+                                </h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="/admin/add_reservation_content/<%= content_id %>" class="btn btn-primary">Add</a>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <!-- <li class="active"><%= resArr[content_id]; %></li> -->
+                                <li class="active"><%= heading; %></li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="panel panel-flat">
+
+                            <table class="table datatable-basic table-bordered" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th class="b">S.No.</th>
+                                        <!-- <th class="b">Number of added content</th> -->
+                                        <th class="b">Photo</th>
+                                        <th class="b">Title</th>
+                                        <th class="b">Subtitle</th>
+                                        <th class="b">Description</th>
+                                        <th class="b">URL</th>
+                                        <!-- <th class="b">Status</th> -->
+                                        <th class="b">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        for (var i in response) { %>
+                                            <tr>
+                                                <td><%= parseInt(i)+1 %></td>
+                                                <!-- <td><%= response[i].reservationData.length %></td> -->
+                                                <td><img src="<%= response[i].reservationData[0].photo == '' ? '/default.jpg' : '/images/users/'+response[i].reservationData[0].photo %>" width="80" height="80" class="img-circle"></td>
+                                                <td><%= response[i].reservationData[0].title %></td>
+                                                <td><%= response[i].reservationData[0].subtitle.substr(0,40) %><%= (response[i].reservationData[0].subtitle.length > 40)?"...":"" %></td>
+                                                <td><%= response[i].reservationData[0].description.substr(0,40) %><%= (response[i].reservationData[0].description.length > 40)?"...":"" %></td>
+                                                <td><a href="<%= response[i].reservationData[0].url %>" target="_blank"><%= response[i].reservationData[0].url.substr(0,20) %><%= (response[i].reservationData[0].url.length > 20)?"...":"" %></a></td>
+                                                <!-- <td>
+                                                    <% 
+                                                        if(response[i].status == 1) { %>
+                                                            <a class="label label-success change_status" id="<%= response[i].id %>" table="categories">Active</a> <%
+                                                        } else { %>
+                                                            <a class="label label-danger change_status" id="<%= response[i].id %>" table="categories">In-Active</a> <%
+                                                        }
+                                                    %>
+                                                </td> -->
+                                                <td class="text-center">
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                                <i class="icon-menu9"></i>
+                                                            </a>
+                        
+                                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                                <li>
+                                                                    <a href="/admin/edit_reservation_content/<%=response[i].id%>/<%= content_id %>"><i class="fas fa-edit"></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="/admin/view_reservation_content/<%=response[i].id%>/<%= content_id %>"><i class="fas fa-eye"></i>View</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="delete" table="reservation_content" rel="<%= response[i].id %>"><i class="fas fa-trash-alt"></i>Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr> <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .badge{
+                padding: 2px 8px 2px 8px;
+                font-size: 14px;
+            }
+            img{
+                object-fit: cover;
+            }
+            .postCount, .crowdCount, .engageCount {
+                font-size: 14px;
+                padding: 0px 6px 0px 6px;
+            }
+            .fa-arrow-circle-right {
+                padding-left: 4px;
+            }
+        </style>
+
+    </body>
+
+</html>

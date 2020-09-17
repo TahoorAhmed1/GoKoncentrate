@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>Admin Detail</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <a href="/admin/edit_profile/<%= session.admin_id %>" class="btn btn-primary">Edit</a>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Profile</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <div class="panel panel-flat">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="b">Name</td>
+                                            <td><%= name %></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="b">Email</td>
+                                            <td><%= email %></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="b">Image</td>
+                                            <td><img src="<%= image == '' ? '/user.png' : image%>" width="100" height="100" class="img-circle"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            .img-circle {
+                object-fit: cover;
+            }
+        </style>
+
+    </body>
+
+</html>
