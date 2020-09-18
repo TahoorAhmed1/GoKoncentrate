@@ -27,6 +27,13 @@ router.get('/view_magazine_brand/:id', [AuthMiddleware_obj.verifyUser(),AuthMidd
 router.get('/add_magazine_brand', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.addMagazineBrand()], function(req, res){})
 router.post('/save_magazine_brand', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.saveMagazineBrand()], function(req, res){})
 
+router.get('/user_plans', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewUserPlans()], function(req, res){})
+
+router.get('/users', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewUsers()], function(req, res){})
+router.get('/edit_user/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.editUser()], function(req, res){})
+router.post('/edit_user_check_email_exists', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.editUserCheckEmail()], function(req, res){})
+router.post('/update_user', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updateUser()], function(req, res){})
+router.get('/view_user/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewDetailedUser()], function(req, res){})
 
 router.post('/delete_data', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.deleteData()], function(req, res){})
 

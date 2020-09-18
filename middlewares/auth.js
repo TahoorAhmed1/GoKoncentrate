@@ -387,4 +387,127 @@ module.exports = class AuthMiddleware {
                 })
             }
         }
+
+        /**
+         * This middleware is used to view the user plans
+         */
+        viewUserPlans(){
+            return (req, res, next) => {
+                AdminModel_obj.viewUserPlansModel(req, res, function(err, details){
+                    res.render('user_plans/user_plans',{
+                        response: details,
+                        title: 'users_plan',
+                        session: req.session,
+                        msg: req.flash('msg')
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to view the users.
+         */
+        viewUsers(){
+            return (req, res, next) => {
+                AdminModel_obj.viewUserPlansModel(req, res, function(err, details){
+                    res.render('users/users',{
+                        response: details,
+                        title: 'users',
+                        session: req.session,
+                        msg: req.flash('msg')
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to edit the details of the user.
+         */
+        editUser(){
+            return (req, res, next) => {
+                AdminModel_obj.editUserModel(req, res, function(err, details){
+                    res.render('users/edit_user',{
+                        session: req.session,
+                        title: 'users',
+                        user: details[0],
+                        msg: req.flash('msg')  
+                    })
+                })
+            }
+        }
+
+        /**
+         * This model is used to check if email is exists or not.
+         */
+        editUserCheckEmail(){
+            return (req, res, next) => {
+                AdminModel_obj.viewUserPlansModel(req, res, function(err, details){
+                    var cnt = 0;
+                    for( var i = 0; i < details.length; i++ ){
+                        if( ( details[i].email == req.body.email ) && ( details[i].user_id != parseInt(req.body.id, 10) ) ){
+                            cnt  = 1;
+                            break;
+                        }
+                    }
+                    if( cnt == 1 ){
+                        res.send("false")
+                    } else{
+                        res.send("true")
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to update the user.
+         */
+        updateUser(){
+            return (req, res, next) => {
+                var id = parseInt(req.body.id,10);
+                var image = '';
+                AdminModel_obj.editUserModel(req, res, function(err, details){
+                    if( req.files == null ){
+                        const oldImage = details[0].image;
+                        if( oldImage ){
+                            image = oldImage;
+                        } else {
+                            image = '';
+                        }
+                    }else {
+                        image = helpers.imageUpload(req.files.profile_pic);
+                    }
+                    AdminModel_obj.updateUserModel(req, res, image, function(err, result){
+                        if( err == null ){
+                            req.flash('msg', 'Details of User updated successfully');
+                            res.redirect('/admin/users');
+                        }
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to view the user.
+         */
+        viewDetailedUser(){
+            return (req, res, next) => {
+                AdminModel_obj.editUserModel(req, res, function(err, user){
+                    AdminModel_obj.fetchSubscriptionsById(req, res, function(err, subs){
+                        if( subs.length > 0 ){
+                            for( var i = 0; i < subs.length; i++ ){
+                                subs[i].start_date = new Date(subs[i].start_date).toDateString();
+                                subs[i].end_date = new Date(subs[i].end_date).toDateString();
+                            }
+                        }
+                        res.render('users/view_user', {
+                            session: req.session,
+                            title: 'users',
+                            user: user[0],
+                            total_subs: subs.length,
+                            subs: subs
+                        })
+                    })
+                })
+            }
+        }
     }

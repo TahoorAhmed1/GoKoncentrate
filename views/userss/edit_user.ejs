@@ -30,6 +30,11 @@
                                 <h4> <span class="text-semibold"></span>Edit User</h4>
                             </div>
     
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="/admin/view_posts/<%= userData.id %>" class="btn btn-primary">Manage posts and comments</a>
+                                </div>
+                            </div>
                         </div>
     
                         <div class="breadcrumb-line">
@@ -54,41 +59,73 @@
                                         <label class="col-lg-3 control-label">Name:</label>
                                         <div class="col-lg-9 input-group">
                                         <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                                        <input type="text" name="name" class="form-control" placeholder="Enter name" value="<%= user.name %>" required>
+                                        <input type="text" name="name" class="form-control" placeholder="Enter name" value="<%= userData.name %>" required>
                                         </div>
                                         <div class="col-lg-3"></div>
                                         <div class="col-lg-9"><label id="name-error" class="error" for="name"></label></div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Username:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                        <input type="text" name="username" class="form-control" placeholder="Enter username" value="<%= userData.username %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="username-error" class="error" for="username"></label></div>
+                                    </div>
+                                    
                                     <div class="form-group">
                                         <label class="col-lg-3 control-label">Email:</label>
                                         <div class="col-lg-9 input-group">
                                         <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
-                                        <input type="email" name="email" class="form-control" placeholder="Enter email" value="<%= user.email %>" required>
+                                        <input type="email" name="email" class="form-control" placeholder="Enter email" value="<%= userData.email %>" required>
                                         </div>
                                         <div class="col-lg-3"></div>
                                         <div class="col-lg-9"><label id="email-error" class="error" for="email"></label></div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label">Address:</label>
+
+                                    <!-- <div class="form-group">
+                                        <label class="col-lg-3 control-label">Password:</label>
                                         <div class="col-lg-9 input-group">
-                                        <span class="input-group-addon"><i class="fas fa-user-edit"></i></span>
-                                        <textarea class="form-control" placeholder="Enter Bio" name="address"><%= user.address %></textarea>
+                                        <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                        <input type="password" name="password" class="form-control" placeholder="Enter password" required>
                                         </div>
                                         <div class="col-lg-3"></div>
-                                        <div class="col-lg-9"><label id="address-error" class="error" for="address"></label></div>
+                                        <div class="col-lg-9"><label id="password-error" class="error" for="password"></label></div>
+                                    </div> -->
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Date Of Birth:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+                                        <input type="text" name="dob" class="form-control" placeholder="Enter date of birth" value="<%= userData.dob %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="dob-error" class="error" for="dob"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Bio:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter Bio" name="bio"><%= userData.bio %></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="bio-error" class="error" for="bio"></label></div>
                                     </div>
 
 									<div class="form-group">
                                         <label class="col-lg-3 control-label">Image:</label>
                                         <div class="col-lg-2">
                                             <%
-                                                if(user.image == '' || user.image == null || user.image == '/images/users/')
+                                                if(userData.profilePic == '')
                                                 { %>
                                                     <img src="/user.png" width="100" height="100" id="image" class="img-circle"> <%
                                                 }
                                                 else
                                                 { %>
-                                                    <img src="<%= user.image %>" width="100" height="100" id="image" class="img-circle"> <%
+                                                    <img src="/images/users/<%= userData.profilePic %>" width="100" height="100" id="image" class="img-circle"> <%
                                                 }
                                             %>
                                         </div>
@@ -98,7 +135,7 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" name="id" value="<%= user.id %>">
+                                    <input type="hidden" name="user_id" value="<%= userData.id %>">
     
                                     <div class="text-right">
                                         <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
@@ -150,36 +187,64 @@
                     rules: {
                         name: {
                             required: true,
-                            minlength: 3,
+                            maxlength: 50
+                        },
+                        username: {
+                            required: true,
+                            maxlength: 50
                         },
                         email: {
                             required: true,
                             email: true,
+                            maxlength: 50,
                             remote: {
-                                url: '/admin/edit_user_check_email_exists',
+                                url: '/edit_user_check_email_exists',
                                 type: 'post',
                                 data: {
-                                    id: "<%= user.id %>"
+                                    id: "<%= userData.id %>"
                                 }
                             }
                         },
-                        address:{
+                        password: {
                             required: true,
-                        }
+                            maxlength: 50
+                        },
+                        dob: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        bio: {
+                            required: true,
+                            maxlength: 1000
+                        },
                     },
                     messages: {
                         name: {
                             required: "This field is required",
-                            minlength: "Minimum length 3 characters",
+                            maxlength: "Maximum length 50 characters",
+                        },
+                        username: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
                         },
                         email: {
                             required: "This field is required",
                             email: "Please enter a valid email address",
-                            remote: "Email already exists !"
+                            maxlength: "Maximum length 50 characters",
+                            remote: "Email already exists"
                         },
-                        address: {
-                            required: "This field is required"
-                        }
+                        password: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
+                        },
+                        dob: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
+                        },
+                        bio: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 1000 characters",
+                        },
                     }
                 });
             })

@@ -19,20 +19,20 @@
                     <div class="page-header page-header-default">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <h4> <span class="text-semibold">Magazines Brand Listing</h4>
+                                <h4> <span class="text-semibold">User Plans</h4>
                             </div>
     
-                            <div class="heading-elements">
+                            <!-- <div class="heading-elements">
                                 <div class="heading-btn-group">
                                     <a href="/admin/add_magazine_brand" class="btn btn-primary">Add</a>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
     
                         <div class="breadcrumb-line">
                             <ul class="breadcrumb">
                                 <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-                                <li class="active">Magazine Brands</li>
+                                <li class="active">User Plans</li>
                             </ul>
     
                             <ul class="breadcrumb-elements">
@@ -51,7 +51,8 @@
                                         <th class="b">S.No.</th>
                                         <th class="b">Image</th>
                                         <th class="b">Name</th>
-                                        <th class="b">Plans</th>
+                                        <th class="b">Email</th>
+                                        <th class="b">Plan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,36 +61,15 @@
                                         <td><%= i+1 %></td>
                                         <td><img src="<%= response[i].image == '' || response[i].image == null || response[i].image == '/images/users/' ? '/white_user.jpg' : response[i].image%>" width="80" height="80" class="img-circle"></td>
                                         <td><%= response[i].name %></td>
+                                        <td><%= response[i].email %></td>
                                         <td>
-                                            <% 
-                                                if(response[i].status == 1) { %>
-                                                    <a class="label label-success change_status" id="<%= response[i].id %>" table="magazines_brand">Active</a> 
-                                
-                                                <%} else { %>
-                                                    <a class="label label-danger change_status" id="<%= response[i].id %>" table="magazines_brand">In-Active</a> <%
-                                                }
-                                            %>
-                                        </td>
-                                        <td class="text-center">
-                                            <ul class="icons-list">
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                        <i class="icon-menu9"></i>
-                                                    </a>
-                
-                                                    <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li>
-                                                            <a href="/admin/edit_magazine_brand/<%=response[i].id%>"><i class="fas fa-edit"></i>Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="/admin/view_magazine_brand/<%=response[i].id%>"><i class="fas fa-eye"></i>View</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="delete" table="magazines_brand" rel="<%= response[i].id %>"><i class="fas fa-trash-alt"></i>Delete</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
+                                            <%if(response[i].plan_id == 1 ){%>
+                                                Free    
+                                            <%} else if(response[i].plan_id == 2 ) {%>
+                                                Silver
+                                                <%} else if(response[i].plan_id == 3 ){%>
+                                                    Premium    
+                                                <%}%>
                                         </td>
                                     </tr>
                                     <%}%>

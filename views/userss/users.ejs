@@ -19,14 +19,14 @@
                     <div class="page-header page-header-default">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <h4> <span class="text-semibold">Users</h4>
+                                <h4> <span class="text-semibold">All User Listing</h4>
                             </div>
     
-                            <!-- <div class="heading-elements">
+                            <div class="heading-elements">
                                 <div class="heading-btn-group">
-                                    <a href="/admin/add_magazine_brand" class="btn btn-primary">Add</a>
+                                    <a href="/admin/add_user" class="btn btn-primary">Add</a>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
     
                         <div class="breadcrumb-line">
@@ -47,65 +47,14 @@
                             <table class="table datatable-basic table-bordered" id="myTable">
                                 <thead>
                                     <tr>
-                                        <!-- <th class="b"><input type="checkbox" id="select_all"></th> -->
+                                        <th class="b"><input type="checkbox" id="select_all"></th>
                                         <th class="b">S.No.</th>
-                                        <th class="b">Image</th>
                                         <th class="b">Name</th>
-                                        <th class="b">Email</th>
-                                        <th class="b">Plan</th>
                                         <th class="b">Status</th>
-                                        <th class="b">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for( var i = 0; i < response.length; i++ ){%>
-                                        <tr>
-                                        <td><%= i+1 %></td>
-                                        <td><img src="<%= response[i].image == '' || response[i].image == null || response[i].image == '/images/users/' ? '/white_user.jpg' : response[i].image%>" width="80" height="80" class="img-circle"></td>
-                                        <td><%= response[i].name %></td>
-                                        <td><%= response[i].email %></td>
-                                        <td>
-                                            <%if(response[i].plan_id == 1 ){%>
-                                                Free    
-                                            <%} else if(response[i].plan_id == 2 ) {%>
-                                                Silver
-                                                <%} else if(response[i].plan_id == 3 ){%>
-                                                    Premium    
-                                                <%}%>
-                                        </td>
-                                        <td>
-                                            <% 
-                                                if(response[i].status == 1) { %>
-                                                    <a class="label label-success change_status" id="<%= response[i].user_id %>" table="users">Active</a> 
-                                
-                                                <%} else { %>
-                                                    <a class="label label-danger change_status" id="<%= response[i].user_id %>" table="users">In-Active</a> <%
-                                                }
-                                            %>
-                                        </td>
-                                        <td class="text-center">
-                                            <ul class="icons-list">
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                        <i class="icon-menu9"></i>
-                                                    </a>
-                
-                                                    <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li>
-                                                            <a href="/admin/edit_user/<%=response[i].user_id%>"><i class="fas fa-edit"></i>Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="/admin/view_user/<%=response[i].user_id%>"><i class="fas fa-eye"></i>View</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="delete" table="users" rel="<%= response[i].user_id %>"><i class="fas fa-trash-alt"></i>Delete</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <%}%>
+                                    
                                 </tbody>
                             </table>
                         </div>
