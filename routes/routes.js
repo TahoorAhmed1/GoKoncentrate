@@ -39,5 +39,20 @@ router.post('/delete_data', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.
 
 router.post('/update_status', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updateStatus()], function(req, res){})
 
+router.get('/privacy_policy', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.privacyPolicy()], function(req, res){})
+router.post('/update_privacy_policy', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updatePrivacyPolicy()], function(req, res){})
+
+router.get('/termsconditions', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.termsAndConditions()], function(req, res){})
+router.post('/update_terms_and_conditions', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updateTermsAndConditions()], function(req, res){})
+
+router.get('/about_us', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.aboutUs()], function(req, res){})
+router.post('/update_about_us', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updateAboutUs()], function(req, res){})
+
+router.get('/notifications', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.notificationsToUser()], function(req, res){})
+router.post('/send_email', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.sendNotificationEmail()], function(req, res){} )
+
+router.get('/magazines', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewMagazines()], function(req, res){})
+
+
 router.get('/admin_logout', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.adminLogout()], function(req,res){})
 module.exports = router;

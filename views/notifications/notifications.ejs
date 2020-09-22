@@ -19,7 +19,7 @@
                     <div class="page-header page-header-default">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <h4> <span class="text-semibold">Users</h4>
+                                <h4> <span class="text-semibold">Notification to User(s)</h4>
                             </div>
     
                             <!-- <div class="heading-elements">
@@ -32,7 +32,7 @@
                         <div class="breadcrumb-line">
                             <ul class="breadcrumb">
                                 <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-                                <li class="active">Users</li>
+                                <li class="active">Notification to User(s)</li>
                             </ul>
     
                             <ul class="breadcrumb-elements">
@@ -48,18 +48,18 @@
                                 <thead>
                                     <tr>
                                         <!-- <th class="b"><input type="checkbox" id="select_all"></th> -->
+                                        <th class="b"><input type="checkbox" id="select_all"></th>
                                         <th class="b">S.No.</th>
                                         <th class="b">Image</th>
                                         <th class="b">Name</th>
                                         <th class="b">Email</th>
                                         <th class="b">Plan</th>
-                                        <th class="b">Status</th>
-                                        <th class="b">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% for( var i = 0; i < response.length; i++ ){%>
                                         <tr>
+                                            <td><input type="checkbox" class="sub_check" value="<%= response[i].user_id %>"></td>
                                         <td><%= i+1 %></td>
                                         <td><img src="<%= response[i].image == '' || response[i].image == null || response[i].image == '/images/users/' ? '/white_user.jpg' : response[i].image%>" width="80" height="80" class="img-circle"></td>
                                         <td><%= response[i].name %></td>
@@ -73,37 +73,6 @@
                                                     Premium    
                                                 <%}%>
                                         </td>
-                                        <td>
-                                            <% 
-                                                if(response[i].status == 1) { %>
-                                                    <a style="padding-right: 15px;" class="label label-success change_status" id="<%= response[i].user_id %>" table="users">Active</a> 
-                                
-                                                <%} else { %>
-                                                    <a class="label label-danger change_status" id="<%= response[i].user_id %>" table="users">In-Active</a> <%
-                                                }
-                                            %>
-                                        </td>
-                                        <td class="text-center">
-                                            <ul class="icons-list">
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                        <i class="icon-menu9"></i>
-                                                    </a>
-                
-                                                    <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li>
-                                                            <a href="/admin/edit_user/<%=response[i].user_id%>"><i class="fas fa-edit"></i>Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="/admin/view_user/<%=response[i].user_id%>"><i class="fas fa-eye"></i>View</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="delete" table="users" rel="<%= response[i].user_id %>"><i class="fas fa-trash-alt"></i>Delete</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </td>
                                     </tr>
                                     <%}%>
                                 </tbody>
@@ -114,8 +83,8 @@
                             <!-- <h4><b><span id="selected_user_count">0</span> Users selected</b></h4> -->
 
                             <!-- <button class="btn btn-primary" id="send_advertisement">Send an advertisement</button>
-                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button>
-                            <button class="btn btn-warning" id="send_email">Send an email</button> -->
+                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button> -->
+                            <button class="btn btn-info" id="send_email" style="margin-left: 500px;">Send an email</button> 
                         </div>
                         <br>
                         <br>
@@ -281,7 +250,32 @@
                           if (willDelete) {
                             selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
                             // window.location.replace("/admin/send_email/from_users/0/"+selected_user_ids);
-                            window.location.replace("/admin/select_email/"+selected_user_ids);
+                            //window.location.replace("/admin/select_email/"+selected_user_ids);
+                            $.ajax({
+                                type: "POST",
+                                url: "/admin/send_email",
+                                data:{
+                                    id: selected_user_ids
+                                },
+                                success: function(response) {
+                                    // consle.log(response);
+                                    if(response == 1) {
+                                        swal("Email successfully sent!", {
+                                          icon: "success",
+                                        }).then(function() {
+                                            // location.reload();
+                                            window.location.href = "/admin/notifications";
+                                        });
+                                    } else {
+                                        swal("Email not sent. Please try again!", {
+                                          icon: "error",
+                                        }).then(function() {
+                                            // location.reload();
+                                            window.location.href = "/admin/notifications";
+                                        });
+                                    }
+                                }
+                            })
                           } else {
                             swal("Cancelled", {
                               icon: "error",

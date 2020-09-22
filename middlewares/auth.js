@@ -1,9 +1,10 @@
 const appModules = require('../config/appModules');
 require('dotenv').config(); //configure the .env file
-
+const atob = require('atob');
 const AdminModel = require('../models/admin.model'); //Import the adin model.
 const AdminModel_obj = new AdminModel(); //Create an object of admin model.
 const helpers = require('../config/helper');
+const emailer = require('../config/emailer');
 /**
  * Export the router.
  */
@@ -510,4 +511,158 @@ module.exports = class AuthMiddleware {
                 })
             }
         }
+
+        /**
+         * This middleware is used to view the privacy policy.
+         */
+        privacyPolicy(){
+            return (req, res, next) => {
+                AdminModel_obj.privacyPolicyModel(req, res, function(err, details){
+                    res.render('contents/privacy_policy', {
+                        session: req.session,
+                        title: 'privacy_policy',
+                        response: details[0],
+                        msg: req.flash('msg'),
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to update the privacy policy.
+         */
+        updatePrivacyPolicy(){
+            return (req, res, next) => {
+                AdminModel_obj.updatePrivacyPolicyModel(req, res, function(err, details){
+                    if( err == null ){
+                        req.flash('msg', 'Privacy Policy updated successfully');
+                        res.redirect('/admin/privacy_policy');
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to view the terms and conditions.
+         */
+        termsAndConditions(){
+            return (req, res, next) => {
+                AdminModel_obj.termsAndConditionsModel(req, res, 1, function(err, details){
+                    if( err == null ){
+                        res.render('contents/terms_and_conditions', {
+                            session: req.session,
+                            title: 'terms_and_conditions',
+                            response: details[0],
+                            msg: req.flash('msg'),
+                        })
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to update terms and conditions.
+         */
+        updateTermsAndConditions(){
+            return (req, res, next) => {
+                AdminModel_obj.updateTermsAndConditionsModel(req, res, function(err, details){
+                    if( err == null ){
+                        req.flash('msg', 'Terms and conditions updated successfully');
+                        res.redirect('/admin/termsconditions');
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to view the about us.
+         */
+        aboutUs(){
+            return (req, res, next) => {
+                AdminModel_obj.aboutUsModel(req, res, 3, function(err, details){
+                    if( err == null ){
+                        res.render('contents/about_us', {
+                            session: req.session,
+                            title: 'about_us',
+                            response: details[0],
+                            msg: req.flash('msg'),
+                        })
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to update the about us.
+         */
+        updateAboutUs(){
+            return (req, res, next) => {
+                AdminModel_obj.updateAboutUsModel(req, res, function(err, details){
+                    if( err == null ){
+                        req.flash('msg', 'About us content updated successfully');
+                        res.redirect('/admin/about_us');
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to select the user to send notifications.
+         */
+        notificationsToUser(){
+            return (req, res, next) => {
+                AdminModel_obj.viewUserPlansModel(req, res, function(err, details){
+                    res.render('notifications/notifications',{
+                        response: details,
+                        title: 'notifications',
+                        session: req.session,
+                        msg: req.flash('msg')
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to send notification to the user.
+         */
+        sendNotificationEmail(){
+            return (req, res, next) => {
+                var ids = atob(req.body.id)
+                ids = JSON.parse(ids)
+                var idsArr = Object.keys(ids).map(function (key) { 
+                    return Number(ids[key]); 
+                }); 
+                var obj = {};
+                for( var i = 0; i < idsArr.length; i++ ){
+                    obj[idsArr[i]] = 1;
+                }
+                AdminModel_obj.viewUserDetails(req, res, async function(err, details){
+                    if( err == null ){
+                        for( var i = 0; i < details.length; i++ ){
+                            if( details[i].id in obj ){
+                                var mailOptions = {
+                                    from: 'test978056@gmail.com',
+                                    to: details[i].email,
+                                    subject: 'GoKoncentrate',
+                                    html: '<p>'+'This Message is from GoKoncentrate Admin Panel'+'</p>'
+                                };
+                                await emailer.sendEMail(mailOptions);
+                            }
+                        }
+                        res.send("1")
+                    }
+                })
+                //res.send("1");
+            }
+        }
+
+        /**
+         * This middleware is used to view the magazines
+         */
+        viewMagazines(){
+            return (req, res, next) => {
+
+            }
+        }
+        
     }

@@ -273,7 +273,7 @@ module.exports = class AdminModel {
         connectDB.connection.getConnection(function(err){
             if(err) throw err;
             var sql = "CALL SpUpdateUser(?,?,?,?,?)";
-            var details = [parseInt(req.body.id,10), req.body.name, req.body.email, req.body.address,image[0] == '/' ? image: '/images/users/'+image]
+            var details = [parseInt(req.body.id,10), req.body.name.trim(), req.body.email, req.body.address.trim(),image[0] == '/' ? image: '/images/users/'+image]
             connectDB.connection.query(sql, details, function(err, fields){
                 if(err) throw err;
                 return callback(null, true)
@@ -300,4 +300,128 @@ module.exports = class AdminModel {
         });
     }
 
+    /**
+     * This model is used to view the privacy policy.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    privacyPolicyModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchPrivacyPolicy()";
+            connectDB.connection.query(sql, function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        })
+    }
+
+    /**
+     * This model is used to update the privacy policy.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    updatePrivacyPolicyModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL updatePrivacyPolicy(?)";
+            connectDB.connection.query(sql, [req.body.privacy_policy], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+
+    /**
+     * This model is used to view the terms and conditions
+     * @param {*} req 
+     * @param {*} res
+     * @param {*} type 
+     * @param {*} callback 
+     */
+    termsAndConditionsModel(req, res,type, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchContents(?)";
+            connectDB.connection.query(sql, [type], function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to update the terms and conditions
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    updateTermsAndConditionsModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL updateTermsAndConditions(?)";
+            connectDB.connection.query(sql, [req.body.terms_and_conditions], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+
+    /**
+     * This model is used to fetch the content of about us.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} type 
+     * @param {*} callback 
+     */
+    aboutUsModel(req, res, type, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchContents(?)";
+            connectDB.connection.query(sql, [type], function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to update the content of about us.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    updateAboutUsModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpupdateAboutUs(?)";
+            connectDB.connection.query(sql, [req.body.about_us], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+
+    /**
+     * This model is used to fetch the details of the users.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    viewUserDetails(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpViewOnlyUsersData()";
+            connectDB.connection.query(sql, function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
 }

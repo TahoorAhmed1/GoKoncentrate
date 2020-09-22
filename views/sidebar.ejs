@@ -40,12 +40,13 @@
 					<li class="<% if(title == 'users_plan') { %> active <% } %>"><a href="/admin/user_plans"><i class="fa fa-credit-card"></i> <span class="b">User Plans</span></a></li>
 					<li class="<% if(title == 'magazines_brand') { %> active <% } %>"><a href="/admin/magazines_brand"><i class="fa fa-address-book"></i> <span class="b">Magazine Brands</span></a></li>
 					<li class="<% if(title == 'magazines') { %> active <% } %>"><a href="javascript:void(0)"><i class="fa fa-address-card"></i> <span class="b">Magazine Management</span></a></li>
+					<li class="<% if(title == 'notifications') { %> active <% } %>"><a href="/admin/notifications"><i class="fas fa-envelope"></i> <span class="b">Notification to User(s)</span></a></li>
 					<li class="<% if(title == 'pages') { %> active <% } %>">
 						<a href="#"><i class="fas fa-file-alt"></i> <span class="b">Pages</span></a>
 						<ul>
-							<li><a href="#">Privacy Policy</a></li>
-							<li><a href="#">About Us</a></li>
-							<li><a href="#">Terms and Conditions</a></li>
+							<li class="<% if(title == 'privacy_policy') { %> active <% } %>"><a href="/admin/privacy_policy">Privacy Policy</a></li>
+							<li class="<% if(title == 'about_us') { %> active <% } %>"><a href="/admin/about_us">About Us</a></li>
+							<li class="<% if(title == 'terms_and_conditions') { %> active <% } %>"><a href="/admin/termsconditions">Terms and Conditions</a></li>
 							<li><a href="#">FAQ</a></li>
 						</ul>
 					</li>
