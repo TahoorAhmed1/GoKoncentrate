@@ -126,7 +126,7 @@
                     rules: {
                         name: {
                             required: true,
-                            maxlength: 50,
+                            minlength: 3,
                             remote:{
                                 url: '/admin/add_magazine_check_name_exists',
                                 type: 'post'
@@ -136,7 +136,7 @@
                     messages: {
                         name: {
                             required: "This field is required",
-                            maxlength: "Maximum length 50 characters",
+                            minlength: "Minimum length 3 characters",
                             remote: "Name already exists"
                         }
                     }
