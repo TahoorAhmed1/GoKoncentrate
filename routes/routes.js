@@ -52,7 +52,13 @@ router.get('/notifications', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj
 router.post('/send_email', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.sendNotificationEmail()], function(req, res){} )
 
 router.get('/magazines', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewMagazines()], function(req, res){})
-
+router.get('/add_magazine', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.addMagazine()], function(req, res){})
+router.post('/save_magazine', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.saveMagazine()], function(req, res){})
+router.post('/add_magazine_check_name_existance', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.checkMagazineExistance()], function(req, res){})
+router.get('/edit_magazine/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.editMagazine()], function(req, res){})
+router.post('/add_magazine_page', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.addMagazinePage()], function(req, res){})
+router.post('/update_magazine', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updateMagazine()], function(req, res){})
+router.get('/view_magazine/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewMagazine()], function(req, res){})
 
 router.get('/admin_logout', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.adminLogout()], function(req,res){})
 module.exports = router;

@@ -661,8 +661,191 @@ module.exports = class AuthMiddleware {
          */
         viewMagazines(){
             return (req, res, next) => {
-
+                AdminModel_obj.fetchMagazines(req, res, function(err, details){
+                    if( err == null ){
+                        res.render('magazines/magazines', {
+                            session: req.session,
+                            title: 'magazines',
+                            magazines: details,
+                            msg: req.flash('msg')
+                        })
+                    }
+                })
             }
         }
+
+        /**
+         * This middleware is used to view the add page of magazine.
+         */
+        addMagazine(){
+            return (req, res, next) => {
+                AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, details){
+                    res.render('magazines/add_magazine', {
+                        session: req.session,
+                        title: 'magazines',
+                        msg: req.flash('msg'),
+                        magazine_brands: details 
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to save the details of the magazine.
+         */
+        saveMagazine(){
+            return (req, res, next) => {
+                const image = helpers.imageUpload(req.files.profile_pic);
+                AdminModel_obj.saveMagazineModel(req, res, "/images/users/"+image, function(err, details){
+                    if( err == null ){
+                        req.flash('msg', 'Magazine added successfully !');
+                        res.redirect('/admin/magazines');
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to check magazine exist or not.
+         */
+        checkMagazineExistance(){
+            return (req, res, next) => {
+                AdminModel_obj.fetchMagazines(req, res, function(err, details){
+                    var cnt = 0;
+                    for( var i = 0; i < details.length; i++ ){
+                        if( details[i].name == req.body.name ){
+                            cnt = 1;
+                            break;
+                        }
+                    }
+                    if( cnt == 1 ){
+                        res.send("false");
+                    } else {
+                        res.send("true")
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to edit the magazine.
+         */
+        editMagazine(){
+            return (req, res, next) => {
+                AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, magazines_brand){
+                    AdminModel_obj.fetchMagazineById(req, res, function(err, magazine){
+                        AdminModel_obj.fetchMagazinePageById(req, res, function(err, pages){
+                            res.render('magazines/edit_magazine', {
+                                session: req.session,
+                                title: 'magazines',
+                                magazine_brands: magazines_brand,
+                                magazine: magazine[0],
+                                pages: pages,
+                                msg: req.flash('msg')
+                            })
+                        })
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to add magazine page.
+         */
+        addMagazinePage(){
+            return (req, res, next) => {
+                    // if( details.length == 0 ){
+                    //     var magazineContent = '';
+                    //     if( req.files == null ){
+                    //         magazineContent = req.body.magazine_text;
+                    //     } else {
+                    //         if( typeof(req.files.magazine_image) != 'undefined' ){
+                    //             magazineContent = '/images/users/'+helpers.imageUpload(req.files.magazine_image);
+                    //         } else {
+                    //             magazineContent = '/images/users/'+helpers.imageUpload(req.files.magazine_video);
+                    //         }
+                    //     }
+                    //     AdminModel_obj.saveMagazinePage(req, res, parseInt(req.body.pageno, 10), parseInt(req.body.orderno, 10), magazineContent, function(err, details){
+                    //         if( err == null ){
+                    //             res.redirect('/admin/magazines')
+                    //         }
+                    //     })
+                    // } else {
+                        // var lastPageNo = parseInt(details[0].page_no);
+                        // var lastOrderNo = parseInt(details[0].order_no);
+                        var magazineContent = '';
+                        if( req.files == null ){
+                            magazineContent = req.body.magazine_text;
+                        } else {
+                            if( typeof(req.files.magazine_image) != 'undefined' ){
+                                magazineContent = '/images/users/'+helpers.imageUpload(req.files.magazine_image);
+                            } else {
+                                magazineContent = '/images/users/'+helpers.imageUpload(req.files.magazine_video);
+                            }
+                        }
+                        AdminModel_obj.saveMagazinePage(req, res, parseInt(req.body.pageno, 10),parseInt(req.body.orderno, 10), magazineContent, function(err, details){
+                            if( err == null ){
+                                req.flash('msg', 'Page added successfully !!')
+                                res.redirect('/admin/edit_magazine/'+parseInt(req.body.magazine_id, 10))
+                            }
+                        })
+                }
+        }
         
+        /**
+         * This model is used to update the maagzine
+         */
+        updateMagazine(){
+            return (req, res, next) => {
+                AdminModel_obj.fetchMagazineById(req, res, function(err, details){
+                    var image = '';
+                    if( req.files == null ){
+                        const oldImage = details[0].image;
+                        if( oldImage ){
+                            image = oldImage;
+                        } else {
+                            image = '';
+                        }
+                    }else {
+                        image = '/images/users/'+helpers.imageUpload(req.files.profile_pic);
+                    }
+                    AdminModel_obj.updateMagazineModel(req, res, image, function(err, details){
+                        if( err == null ){
+                            req.flash('msg', 'Magazine updated successfully !!')
+                            res.redirect('/admin/edit_magazine/'+parseInt(req.body.id, 10));
+                        }
+                    })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to view the magazine
+         */
+        viewMagazine(){
+            return(req, res, next) => {
+                AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, magazines_brand){
+                    AdminModel_obj.fetchMagazineById(req, res, function(err, magazine){
+                        AdminModel_obj.fetchMagazinePageById(req, res, function(err, pages){
+                            var brand_name = '';
+                            for( var i = 0; i < magazines_brand.length; i++ ){
+                                if( magazines_brand[i].id == magazine[0].brand_id ){
+                                    brand_name = magazines_brand[i].name;
+                                    break;
+                                }
+                            }
+                            res.render('magazines/view_magazine', {
+                                session: req.session,
+                                title: 'magazines',
+                                magazine_brands: magazines_brand,
+                                magazine: magazine[0],
+                                brand_name: brand_name,
+                                pages: pages,
+                                msg: req.flash('msg')
+                            })
+                        })
+                    })
+                })
+            }
+        }
     }

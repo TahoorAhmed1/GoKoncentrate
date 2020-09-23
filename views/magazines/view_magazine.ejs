@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <body>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4> <span class="text-semibold"></span>Magazine Detail</h4>
+                            </div>
+    
+                            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Magazine Management</li>
+                                <li class="active">View</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <div class="panel panel-flat">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="b">Image</td>
+                                            <td><img src="<%= magazine.image == '' || magazine.image == null || magazine.image == '/images/users/' ? '/white_user.jpg' : magazine.image%>" width="100" height="100" class="img-circle"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="b">Name</td>
+                                            <td><%= magazine.name %></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="b">Magazine Brand</td>
+                                            <td><%= brand_name%></td>
+                                        </tr>
+                                         
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <h3 style="margin-left: 500px;">Magazine Pages Content</h3>
+                        <div class="panel panel-flat">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Page No</th>
+                                            <th>Order No</th>
+                                            <th>Type</th>
+                                            <th>Content</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if(pages.length > 0 ){%>
+                                            <% for( var i = 0; i < pages.length; i++ ){%>
+                                                <tr>
+                                                    <td><%= i+1%></td>
+                                                    <td><%= pages[i].page_no %></td>
+                                                    <td><%= pages[i].order_no%></td>
+                                                    <td><%= pages[i].content_type%></td>
+                                                    <% if( pages[i].content_type == 'text'){%>
+                                                        <td><%= pages[i].content%></td>
+                                                    <%} else if(pages[i].content_type == 'image') {%>
+                                                        <td><img src="<%= pages[i].content %>" width="50" height="50" class="img-circle"></td>
+                                                        <%} else {%>
+                                                            <td>
+                                                                <video controls width="50" height="50">
+                                                                    <source src="<%= pages[i].content%>">
+                                                                </video>
+                                                            </td>
+                                                        <%}%>
+                                                </tr>
+                                            <%}%>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>

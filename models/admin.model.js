@@ -424,4 +424,135 @@ module.exports = class AdminModel {
             })
         });
     }
+
+    /**
+     * This model is used to fetch the magazines
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    fetchMagazines(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchMagazines()";
+            connectDB.connection.query(sql, function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to save the magazine
+     * @param {*} req 
+     * @param {*} res
+     * @param {*} image 
+     * @param {*} callback 
+     */
+    saveMagazineModel(req, res, image, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpSaveMagazine(?,?,?)";
+            connectDB.connection.query(sql, [req.body.name, image, parseInt(req.body.brand, 10)], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+    
+    /**
+     * This model is used to fetch the magazine by its Id.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    fetchMagazineById(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchMagazineById(?)";
+            var details = [typeof(req.params.id) == 'undefined' ? parseInt(req.body.id,10):parseInt(req.params.id,10)]
+            connectDB.connection.query(sql, details,function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to fetch the magazine page by id.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    fetchMagazinePageById(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchMagazinePageById(?)";
+            var details = [typeof(req.params.id) == 'undefined' ? parseInt(req.body.id,10):parseInt(req.params.id,10)]
+            connectDB.connection.query(sql, details,function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to fetch the magazine pages according to Id.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    fetchMagazinePages(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchPagesContent(?)";
+            var details = [typeof(req.params.magazine_id) == 'undefined' ? parseInt(req.body.magazine_id,10):parseInt(req.params.magazine_id,10)]
+            connectDB.connection.query(sql, details,function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to save the magazine page.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} pageno 
+     * @param {*} orderno 
+     * @param {*} content 
+     * @param {*} callback 
+     */
+    saveMagazinePage(req, res, pageno, orderno, content, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpSaveMagazinePage(?,?,?,?,?)";
+            connectDB.connection.query(sql, [pageno, orderno, content, req.body.contentType.slice(1), parseInt(req.body.magazine_id, 10)], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+
+    /**
+     * This model is used to save the maagzine details
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} image 
+     * @param {*} callback 
+     */
+    updateMagazineModel(req, res, image, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpUpdateMagazine(?,?,?,?)";
+            connectDB.connection.query(sql, [parseInt(req.body.id, 10), req.body.name, image, parseInt(req.body.brand, 10)], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
 }

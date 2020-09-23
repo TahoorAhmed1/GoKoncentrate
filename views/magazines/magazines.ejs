@@ -19,20 +19,20 @@
                     <div class="page-header page-header-default">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <h4> <span class="text-semibold">Notification to User(s)</h4>
+                                <h4> <span class="text-semibold">Magazines</h4>
                             </div>
     
-                            <!-- <div class="heading-elements">
+                            <div class="heading-elements">
                                 <div class="heading-btn-group">
-                                    <a href="/admin/add_magazine_brand" class="btn btn-primary">Add</a>
+                                    <a href="/admin/add_magazine" class="btn btn-primary">Add</a>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
     
                         <div class="breadcrumb-line">
                             <ul class="breadcrumb">
                                 <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-                                <li class="active">Notification to User(s)</li>
+                                <li class="active">Magazine Management</li>
                             </ul>
     
                             <ul class="breadcrumb-elements">
@@ -47,34 +47,52 @@
                             <table class="table datatable-basic table-bordered" id="myTable">
                                 <thead>
                                     <tr>
-                                        <!-- <th class="b"><input type="checkbox" id="select_all"></th> -->
-                                        <th class="b"><input type="checkbox" id="select_all"></th>
-                                        <th class="b">S.No.</th>
-                                        <th class="b">Image</th>
-                                        <th class="b">Name</th>
-                                        <th class="b">Email</th>
-                                        <th class="b">Plan</th>
+                                        <th class="b">S.No</th>
+                                        <th class="b">Magazine Pic</th>
+                                        <th class="b">Magazine Name</th>
+                                        <th class="b">Status</th>
+                                        <th class="b">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for( var i = 0; i < response.length; i++ ){%>
-                                        <tr>
-                                            <td><input type="checkbox" class="sub_check" value="<%= response[i].user_id %>"></td>
-                                        <td><%= i+1 %></td>
-                                        <td><img src="<%= response[i].image == '' || response[i].image == null || response[i].image == '/images/users/' ? '/white_user.jpg' : response[i].image%>" width="80" height="80" class="img-circle"></td>
-                                        <td><%= response[i].name %></td>
-                                        <td><%= response[i].email %></td>
-                                        <td>
-                                            <%if(response[i].plan_id == 1 ){%>
-                                                Free    
-                                            <%} else if(response[i].plan_id == 2 ) {%>
-                                                Silver
-                                                <%} else if(response[i].plan_id == 3 ){%>
-                                                    Premium    
-                                                <%}%>
-                                        </td>
-                                    </tr>
-                                    <%}%>
+                                        <% for( var i = 0; i < magazines.length; i++ ){%>
+                                            <tr>
+                                                <td> <%= i+1%></td>
+                                                <td><img src="<%= magazines[i].image == '' || magazines[i].image == null || magazines[i].image == '/images/users/' ? '/white_user.jpg' : magazines[i].image%>" width="80" height="80" class="img-circle"></td>
+                                                <td><%= magazines[i].name%></td>
+                                                <td>
+                                                    <% 
+                                                        if(magazines[i].status == 1) { %>
+                                                            <a style="padding-right: 15px;" class="label label-success change_status" id="<%= magazines[i].id %>" table="users">Active</a> 
+                                        
+                                                        <%} else { %>
+                                                            <a class="label label-danger change_status" id="<%= magazines[i].id %>" table="users">In-Active</a> <%
+                                                        }
+                                                    %>
+                                                </td>
+                                                <td class="text-center">
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                                <i class="icon-menu9"></i>
+                                                            </a>
+                        
+                                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                                <li>
+                                                                    <a href="/admin/edit_magazine/<%=magazines[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="/admin/view_magazine/<%=magazines[i].id%>"><i class="fas fa-eye"></i>View</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="delete" table="magazines" rel="<%= magazines[i].id %>"><i class="fas fa-trash-alt"></i>Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        <%}%>
                                 </tbody>
                             </table>
                         </div>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <% include ../admin_header.ejs %>
+
+    <style>
+        .error{
+            color: red;
+            padding-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
+
+    <body>
+        <% if(msg != '') { %>
+            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+        <% include ../admin_navbar.ejs %>
+
+        <div class="page-container">
+            <div class="page-content">
+    
+                <% include ../sidebar.ejs %>
+    
+                <div class="content-wrapper">
+                    <div class="page-header page-header-default">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <a href="/admin/magazines"><i class="fas fa-arrow-left"></i></a>
+                                <h4> <span class="text-semibold"></span>Edit Magazines</h4>
+                            </div>
+    
+                        </div>
+    
+                        <div class="breadcrumb-line">
+                            <ul class="breadcrumb">
+                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+                                <li class="active">Magazine Management</li>
+                                <li class="active">Edit</li>
+                            </ul>
+    
+                            <ul class="breadcrumb-elements">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        <form action = '/admin/update_magazine'  enctype="multipart/form-data"  method="POST" role="form" id="edit_user_form">
+                            <div class="panel panel-flat">
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Name:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                        <input type="text" name="name" class="form-control" placeholder="Enter name" value="<%= magazine.name %>" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="name-error" class="error" for="name"></label></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Magazine Brand:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+                                        <select name="brand" id="brand" class="form-control">
+                                            <%for( var i = 0; i < magazine_brands.length; i++ ){%>
+                                                <% if(magazine_brands[i].id == magazine.brand_id ){%>
+                                                    <option value="<%= magazine_brands[i].id%>" selected><%= magazine_brands[i].name%></option>
+                                                <%} else {%>
+                                                    <option value="<%= magazine_brands[i].id%>"><%= magazine_brands[i].name%></option>
+                                                <%}%>
+                                            <%}%>
+                                          </select>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="brand-error" class="error" for="brand"></label></div>
+                                    </div>
+
+									<div class="form-group">
+                                        <label class="col-lg-3 control-label">Image:</label>
+                                        <div class="col-lg-2">
+                                            <%
+                                                if(magazine.image == '' || magazine.image == null || magazine.image == '/images/users/')
+                                                { %>
+                                                    <img src="/user.png" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                                else
+                                                { %>
+                                                    <img src="<%= magazine.image %>" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                            %>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
+                                            <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="id" value="<%= magazine.id %>">
+    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </form>
+                        <h3 style="margin-left: 500px;"> Add Page Content</h3>
+                        <form action = '/admin/add_magazine_page'  enctype="multipart/form-data"  method="POST" role="form" id="add_magazine_page">
+                            <div class="panel panel-flat">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label">Choose type of field :</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-file-alt"></i></span>
+                                        <select name="contentType" id="contentType" class="form-control">
+                                            <option disabled selected value> -- select a field --</option>
+                                            <option value="etext">TEXT</option>
+                                            <option value="eimage">IMAGE</option>
+                                            <option value="evideo">VIDEO</option>
+                                            <option></option>
+                                        </select>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="contentType-error" class="error" for="contentType"></label></div>
+                                    </div>
+
+                                    <div class="form-group epage" style="display: none;">
+                                        <label class="col-lg-3 control-label">Page No:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                        <input type="text" name="pageno" class="form-control" placeholder="Enter page number" value="" id="pageno" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="pageno-error" class="error" for="pageno"></label></div>
+                                    </div>
+
+                                    <div class="form-group eorder" style="display: none;">
+                                        <label class="col-lg-3 control-label">Order No:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                        <input type="text" name="orderno" class="form-control" placeholder="Enter order no" value="" id="orderno" required>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="orderno-error" class="error" for="orderno"></label></div>
+                                    </div>
+
+                                    <div class="form-group text mfields" style="display: none;" id="etext">
+                                        <label class="col-lg-3 control-label">Text:</label>
+                                        <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-user-edit"></i></span>
+                                        <textarea class="form-control" placeholder="Enter Text" id="mgtext" name="magazine_text"></textarea>
+                                        </div>
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-9"><label id="magazine_text-error" class="error" for="magazine_text"></label></div>
+                                    </div>
+
+                                    <div class="form-group mfields" style="display: none;" id="eimage">
+                                        <label class="col-lg-3 control-label">Image:</label>
+                                        <div class="col-lg-2">
+                                            <img src="/user.png" width="100" height="100" id="magazine_image" class="img-circle">
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <input type="file" name="magazine_image" class="file-styled" id="fileImage" accept="image/*" required>
+                                    
+                                            <div class="col-lg-9"><label id="fileImage-error" class="error" for="fileImage"></label></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group mfields" style="display: none;" id="evideo">
+                                        <label class="col-lg-3 control-label">Video:</label>
+                                        <!-- <div class="col-lg-2">
+                                            <img src="/user.png" width="100" height="100" id="magazine_video" class="img-circle">
+                                            
+                                        </div> -->
+                                        <div class="col-lg-7">
+                                            <input type="file" name="magazine_video" class="file-styled" id="fileVideo" accept="video/*" required>
+                                            <video controls id="magazine_video">
+                                                <source >
+                                            </video>
+                                            <div class="col-lg-9"><label id="fileVideo-error" class="error" for="fileVideo"></label></div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="magazine_id" value="<%= magazine.id%>">
+    
+                                    <div class="text-right">
+                                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <h3 style="margin-left: 500px;">Magazine Pages Content</h3>
+                        <div class="panel panel-flat">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Page No</th>
+                                            <th>Order No</th>
+                                            <th>Type</th>
+                                            <th>Content</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <% if(pages.length > 0 ){%>
+                                            <% for( var i = 0; i < pages.length; i++ ){%>
+                                                <tr>
+                                                    <td><%= i+1%></td>
+                                                    <td><%= pages[i].page_no %></td>
+                                                    <td><%= pages[i].order_no%></td>
+                                                    <td><%= pages[i].content_type%></td>
+                                                    <% if( pages[i].content_type == 'text'){%>
+                                                        <td><%= pages[i].content%></td>
+                                                    <%} else if(pages[i].content_type == 'image') {%>
+                                                        <td><img src="<%= pages[i].content %>" width="50" height="50" class="img-circle"></td>
+                                                        <%} else {%>
+                                                            <td>
+                                                                <video controls width="50" height="50">
+                                                                    <source src="<%= pages[i].content%>">
+                                                                </video>
+                                                            </td>
+                                                        <%}%>
+                                                </tr>
+                                            <%}%>
+                                        <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <% include ../admin_footer.ejs %>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .control-label{
+                font-weight: 600;
+            }
+            .text-right .btn.btn-primary{
+                margin-top: 70px;
+            }
+            .img-circle {
+                object-fit: cover;
+            }
+        </style>
+
+
+        <script>
+            document.getElementById("files").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("image").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("fileImage").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("magazine_image").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            document.getElementById("fileVideo").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("magazine_video").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+        <script>
+            $(function() {
+                $('#contentType').change(function(){
+                  $('.mfields').hide();
+                  document.getElementById("magazine_video").src = '';
+                  document.getElementById("magazine_image").src = '/user.png';
+                  document.getElementById("mgtext").value = '';
+                  document.getElementById("pageno").value = '';
+                  document.getElementById("orderno").value = '';
+                  $('.epage').show();
+                  $('.eorder').show();
+                  $('#' + $(this).val()).show();
+                });
+              });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $("#edit_user_form").validate({
+                    rules: {
+                        name: {
+                            required: true,
+                            maxlength: 50,
+                            remote:{
+                                url: '/admin/add_magazine_check_name_existance',
+                                type: 'post'
+                            }
+                        },
+                        brand: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        name: {
+                            required: "This field is required",
+                            maxlength: "Maximum length 50 characters",
+                            remote: "Name already exists"
+                        }, 
+                        brand: {
+                            required: "This field is required"
+                        }
+                    }
+                });
+
+                $("#add_magazine_page").validate({
+                    rules: {
+                        contentType: {
+                            required: true
+                        },
+                        magazine_text: {
+                            required: true
+                        },
+                        pageno: {
+                            required: true
+                        },
+                        orderno: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        magazine_text: {
+                            required: "This field is required"
+                        },
+                        pageno: {
+                            required: "This field is required"
+                        },
+                        orderno: {
+                            required: "This field is required"
+                        }
+                    }
+                });
+            })
+        </script>
+
+    </body>
+
+</html>
