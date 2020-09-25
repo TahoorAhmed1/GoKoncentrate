@@ -48,7 +48,7 @@
                                 <thead>
                                     <tr>
                                         <th class="b">S.No</th>
-                                        <th class="b">Magazine Pic</th>
+                                        <th class="b">Magazine Picture</th>
                                         <th class="b">Magazine Name</th>
                                         <th class="b">Status</th>
                                         <th class="b">Actions</th>
@@ -63,10 +63,10 @@
                                                 <td>
                                                     <% 
                                                         if(magazines[i].status == 1) { %>
-                                                            <a style="padding-right: 15px;" class="label label-success change_status" id="<%= magazines[i].id %>" table="users">Active</a> 
+                                                            <a style="padding-right: 15px;" class="label label-success change_status" id="<%= magazines[i].id %>" table="magazines">Active</a> 
                                         
                                                         <%} else { %>
-                                                            <a class="label label-danger change_status" id="<%= magazines[i].id %>" table="users">In-Active</a> <%
+                                                            <a class="label label-danger change_status" id="<%= magazines[i].id %>" table="magazines">InActive</a> <%
                                                         }
                                                     %>
                                                 </td>

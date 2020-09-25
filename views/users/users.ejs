@@ -67,7 +67,7 @@
                                         <td><%= response[i].email %></td>
                                         <td><%= response[i].address %></td>
                                         <td>
-                                            <%if(response[i].plan_id == 1 ){%>
+                                            <%if(response[i].plan_id == 1 || response[i].subscription == 0){%>
                                                 Free    
                                             <%} else if(response[i].plan_id == 2 ) {%>
                                                 Silver
@@ -81,7 +81,7 @@
                                                     <a style="padding-right: 15px;" class="label label-success change_status" id="<%= response[i].user_id %>" table="users">Active</a> 
                                 
                                                 <%} else { %>
-                                                    <a class="label label-danger change_status" id="<%= response[i].user_id %>" table="users">In-Active</a> <%
+                                                    <a class="label label-danger change_status" id="<%= response[i].user_id %>" table="users">InActive</a> <%
                                                 }
                                             %>
                                         </td>

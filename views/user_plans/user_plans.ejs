@@ -63,7 +63,7 @@
                                         <td><%= response[i].name %></td>
                                         <td><%= response[i].email %></td>
                                         <td>
-                                            <%if(response[i].plan_id == 1 ){%>
+                                            <%if(response[i].plan_id == 1 || response[i].subscription == 0){%>
                                                 Free    
                                             <%} else if(response[i].plan_id == 2 ) {%>
                                                 Silver

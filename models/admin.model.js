@@ -555,4 +555,131 @@ module.exports = class AdminModel {
             })
         })
     }
+
+    /**
+     * This model is used to view the content of FAQ.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    faqModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchContents(?)";
+            connectDB.connection.query(sql,[4],function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to update the FAQ's
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    updateFaqModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpUpdateFaq(?)";
+            connectDB.connection.query(sql, [req.body.faq], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+
+    /**
+     * This model is used to fetch the subscriptions.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    fetchSubscriptions(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchAllSubscriptions()";
+            connectDB.connection.query(sql,function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is uesd to update the subscription details of the user.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} user_id 
+     * @param {*} subs_id 
+     * @param {*} callback 
+     */
+    updateSubscription(req, res, user_id, subs_id, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpUpdateSubscriptionDetails(?,?)";
+            connectDB.connection.query(sql, [user_id, subs_id], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+
+    /**
+     * This model is used to add the page
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    addPageModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpSaveCkPage(?,?)";
+            connectDB.connection.query(sql, [req.body.page, parseInt(req.body.id, 10)], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
+
+    /**
+     * This model is used to fetch all the pages.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    fetchPagesByMagazineId(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchPagesByMagazineId(?)";
+            var details = [typeof(req.params.id) == 'undefined' ? parseInt(req.body.id,10):parseInt(req.params.id,10)];
+            connectDB.connection.query(sql,details,function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        });
+    }
+
+    /**
+     * This model is used to edit the page.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    editPageModel(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchPageByPageId(?)";
+            var details = [typeof(req.params.id) == 'undefined' ? parseInt(req.body.id,10):parseInt(req.params.id,10)];
+            connectDB.connection.query(sql, details, function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        })
+    }
 }

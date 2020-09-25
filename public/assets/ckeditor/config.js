@@ -53,9 +53,12 @@ CKEDITOR.editorConfig = function( config ) {
 	// Extra plugins
 	// ------------------------------
 
+	
 	// CKEDITOR PLUGINS LOADING
-    config.extraPlugins = 'pbckcode'; // add other plugins here (comma separated)
-
+    config.extraPlugins = 'pbckcode,video'; // add other plugins here (comma separated)
+	//config.extraPlugins = 'video';
+	//config.extraPlugins = 'imagebrowser';
+	// config.extraPlugins = 'html5video';
 	// PBCKCODE CUSTOMIZATION
     config.pbckcode = {
         // An optional class to your pre tag.

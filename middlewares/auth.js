@@ -78,14 +78,24 @@ module.exports = class AuthMiddleware {
     getDashboard(){
         return (req, res, next) =>{
             AdminModel_obj.fetchDashboardData(req, res, function(err, details){
-                res.render('dashboard/dashboard', {
-                    session: req.session,
-                    title: 'dashboard',
-                    users: details[0].total_users,
-                    magazines: details[0].total_magazines,
-                    magazines_brand: details[0].total_magazines_brand,
-                    msg: req.flash('msg')
-                });
+                AdminModel_obj.fetchSubscriptions(req, res, function(err, subs){
+                    for( var i = 0; i < subs.length; i++ ){
+                        var dt = new Date(subs[i].end_date)
+					    var expiryDate = new Date(subs[i].end_date).toString().split(" ",4).join("/");
+                        var newDate = new Date().toString().split(" ",4).join("/");
+                        if( newDate == expiryDate ){
+                            AdminModel_obj.updateSubscription(req, res, subs[i].user_id, subs[i].id, function(err, upsubs){});
+                        }
+                    }
+                    res.render('dashboard/dashboard', {
+                        session: req.session,
+                        title: 'dashboard',
+                        users: details[0].total_users,
+                        magazines: details[0].total_magazines,
+                        magazines_brand: details[0].total_magazines_brand,
+                        msg: req.flash('msg')
+                    });
+                })
             })
             }
         }
@@ -734,14 +744,19 @@ module.exports = class AuthMiddleware {
             return (req, res, next) => {
                 AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, magazines_brand){
                     AdminModel_obj.fetchMagazineById(req, res, function(err, magazine){
-                        AdminModel_obj.fetchMagazinePageById(req, res, function(err, pages){
-                            res.render('magazines/edit_magazine', {
-                                session: req.session,
-                                title: 'magazines',
-                                magazine_brands: magazines_brand,
-                                magazine: magazine[0],
-                                pages: pages,
-                                msg: req.flash('msg')
+                        AdminModel_obj.fetchMagazinePageById(req, res, function(err, page){
+                            AdminModel_obj.fetchPagesByMagazineId(req, res, function(err, pages){
+                                for(var i = 0; i < pages.length; i++ ){
+                                    pages[i].page_no = i+1;
+                                }
+                                res.render('magazines/edit_magazine', {
+                                    session: req.session,
+                                    title: 'magazines',
+                                    magazine_brands: magazines_brand,
+                                    magazine: magazine[0],
+                                    pages: pages,
+                                    msg: req.flash('msg')
+                                })
                             })
                         })
                     })
@@ -786,7 +801,8 @@ module.exports = class AuthMiddleware {
                         AdminModel_obj.saveMagazinePage(req, res, parseInt(req.body.pageno, 10),parseInt(req.body.orderno, 10), magazineContent, function(err, details){
                             if( err == null ){
                                 req.flash('msg', 'Page added successfully !!')
-                                res.redirect('/admin/edit_magazine/'+parseInt(req.body.magazine_id, 10))
+                                //res.redirect('/admin/edit_magazine/'+parseInt(req.body.magazine_id, 10))
+                                res.redirect('/admin/magazines');
                             }
                         })
                 }
@@ -812,7 +828,8 @@ module.exports = class AuthMiddleware {
                     AdminModel_obj.updateMagazineModel(req, res, image, function(err, details){
                         if( err == null ){
                             req.flash('msg', 'Magazine updated successfully !!')
-                            res.redirect('/admin/edit_magazine/'+parseInt(req.body.id, 10));
+                            //res.redirect('/admin/edit_magazine/'+parseInt(req.body.id, 10));
+                            res.redirect('/admin/magazines');
                         }
                     })
                 })
@@ -845,6 +862,51 @@ module.exports = class AuthMiddleware {
                             })
                         })
                     })
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to view the FAQ's
+         */
+        viewFaq(){
+            return (req, res, next) => {
+                AdminModel_obj.faqModel(req, res, function(err, details){
+                    if( err == null ){
+                        res.render('contents/faq', {
+                            session: req.session,
+                            msg: req.flash('msg'),
+                            title: 'faq',
+                            response: details[0]
+                        })
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to update the FAQ's
+         */
+        updateFaq(){
+            return (req, res, next) => {
+                AdminModel_obj.updateFaqModel(req, res, function(err, details){
+                    if( err == null ){
+                        req.flash('msg', 'Content Updated successfully !')
+                        res.redirect('/admin/faq')
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to add the page.
+         */
+        addPage(){
+            return(req, res, next) => {
+                AdminModel_obj.addPageModel(req, res, function(err, details){
+                    if( err == null ){
+                        res.redirect('/admin/magazines');
+                    }
                 })
             }
         }

@@ -2,7 +2,8 @@
 <html lang="en">
 
     <% include ../admin_header.ejs %>
-
+    <!-- <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script> -->
+    
     <style>
         .error{
             color: red;
@@ -109,7 +110,24 @@
                             </div>
                         </form>
                         <h3 style="margin-left: 500px;"> Add Page Content</h3>
-                        <form action = '/admin/add_magazine_page'  enctype="multipart/form-data"  method="POST" role="form" id="add_magazine_page">
+                            <form action = "/admin/add_page" method = "POST">
+                                <div class="panel panel-flat">
+                                    <div class="panel-body">
+                                <div class="content-group">
+                                    <textarea name="page" id="page" rows="5" cols="4">
+                                    
+                                    </textarea>
+                                </div>
+                                <input type="hidden" name="id" value="<%= magazine.id %>">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                                </div>
+                                </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                        <!-- <form action = '/admin/add_magazine_page'  enctype="multipart/form-data"  method="POST" role="form" id="add_magazine_page">
                             <div class="panel panel-flat">
                                 <div class="panel-body">
                                     <div class="form-group">
@@ -171,12 +189,12 @@
                                     </div>
                                     
                                     <div class="form-group mfields" style="display: none;" id="evideo">
-                                        <label class="col-lg-3 control-label">Video:</label>
+                                        <label class="col-lg-3 control-label">Video:</label> -->
                                         <!-- <div class="col-lg-2">
                                             <img src="/user.png" width="100" height="100" id="magazine_video" class="img-circle">
                                             
                                         </div> -->
-                                        <div class="col-lg-7">
+                                        <!-- <div class="col-lg-7">
                                             <input type="file" name="magazine_video" class="file-styled" id="fileVideo" accept="video/*" required>
                                             <video controls id="magazine_video">
                                                 <source >
@@ -192,50 +210,67 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </form> -->
 
                         <h3 style="margin-left: 500px;">Magazine Pages Content</h3>
-                        <div class="panel panel-flat">
-                            <div class="table-responsive">
+                        <% if(pages.length > 0 ){%>
+                        <div class="panel panel-flat" style="margin-bottom: 80px;">  
+                            <div class="table-responsive" style="padding: 50px;">           
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th>S.No</th>
                                             <th>Page No</th>
-                                            <th>Order No</th>
-                                            <th>Type</th>
-                                            <th>Content</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-                                        <% if(pages.length > 0 ){%>
-                                            <% for( var i = 0; i < pages.length; i++ ){%>
-                                                <tr>
-                                                    <td><%= i+1%></td>
-                                                    <td><%= pages[i].page_no %></td>
-                                                    <td><%= pages[i].order_no%></td>
-                                                    <td><%= pages[i].content_type%></td>
-                                                    <% if( pages[i].content_type == 'text'){%>
-                                                        <td><%= pages[i].content%></td>
-                                                    <%} else if(pages[i].content_type == 'image') {%>
-                                                        <td><img src="<%= pages[i].content %>" width="50" height="50" class="img-circle"></td>
-                                                        <%} else {%>
-                                                            <td>
-                                                                <video controls width="50" height="50">
-                                                                    <source src="<%= pages[i].content%>">
-                                                                </video>
-                                                            </td>
-                                                        <%}%>
-                                                </tr>
-                                            <%}%>
+                                        <%for( var i = 0; i < pages.length; i++ ){%>
+                                            <tr>
+                                                <td><%= i+1 %></td>
+                                                <td><%= pages[i].page_no%></td>
+                                                <td class="text-center">
+                                                    <ul class="icons-list">
+                                                        <li class="dropdown">
+                                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                                <i class="icon-menu9"></i>
+                                                            </a>
+                        
+                                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                                <li>
+                                                                    <a href="javascript:void(0)"><i class="fas fa-edit"></i>Edit</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
                                         <%}%>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        <%} else {%>
+                            <div class="panel panel-flat">  
+                                <div class="table-responsive">           
+                                    <table class="table" >
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Page No</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <td></td>
+                                            <td style="text-align: center;">No Page Added</td>
+                                            <td></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
-
+                        <%}%>
                         <% include ../admin_footer.ejs %>
 
                     </div>
@@ -298,6 +333,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
         <script>
+            CKEDITOR.replace('page');
+        </script>
+
+        <script>
             $(function() {
                 $('#contentType').change(function(){
                   $('.mfields').hide();
@@ -314,6 +353,9 @@
         </script>
         <script>
             $(document).ready(function() {
+                jQuery.validator.addMethod("noSpace", function(value, element) { 
+                    return value == '' || value.trim().length != 0;  
+                  }, "Name is required !");
                 $("#edit_user_form").validate({
                     rules: {
                         name: {

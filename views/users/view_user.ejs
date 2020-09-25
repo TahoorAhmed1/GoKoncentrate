@@ -87,7 +87,7 @@
                                                 <td><%= subs[i].start_date%></td>
                                                 <td><%= subs[i].end_date%></td>
                                                 <td>
-                                                    <%if(subs[i].plan_id == 1 ){%>
+                                                    <%if(subs[i].plan_id == 1 || subs[i].status == 1 ){%>
                                                         Free    
                                                     <%} else if(subs[i].plan_id == 2 ) {%>
                                                         Silver
