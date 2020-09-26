@@ -3,7 +3,7 @@
 
     <% include ../admin_header.ejs %>
     <!-- <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script> -->
-    
+    <!-- <script src="../../node_modules/@ckeditor/ckeditor5-build-decoupled-document/build/ckeditor.js"></script> -->
     <style>
         .error{
             color: red;
@@ -238,7 +238,7 @@
                         
                                                             <ul class="dropdown-menu dropdown-menu-right">
                                                                 <li>
-                                                                    <a href="javascript:void(0)"><i class="fas fa-edit"></i>Edit</a>
+                                                                    <a href="/admin/edit_page/<%=pages[i].id%>"><i class="fas fa-edit"></i>Edit</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -333,7 +333,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
         <script>
-            CKEDITOR.replace('page');
+
+           CKEDITOR.replace('page', {
+            filebrowserBrowseUrl: '/admin/browser',
+            filebrowserUploadUrl: '/admin/upload',
+            filebrowserUploadMethod: '/uploader/upload.php'
+           });
         </script>
 
         <script>
@@ -364,7 +369,8 @@
                             remote:{
                                 url: '/admin/add_magazine_check_name_existance',
                                 type: 'post'
-                            }
+                            },
+                            noSpace: true
                         },
                         brand: {
                             required: true

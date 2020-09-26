@@ -44,7 +44,7 @@
                     <div class="content">
                         <div class="panel panel-flat">
 
-                            <table class="table datatable-basic table-bordered" id="myTable">
+                            <table class="table table-bordered" id="myTable">
                                 <thead>
                                     <tr>
                                         <th class="b">S.No</th>
@@ -115,6 +115,17 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable( {
+                    'columnDefs': [ {
+                        'targets': [1,3,4], /* column index */
+                        'orderable': false, /* true or false */
+                     }]
+                })
+            })
+           </script>
 
         <script>
             $(document).ready(function() {

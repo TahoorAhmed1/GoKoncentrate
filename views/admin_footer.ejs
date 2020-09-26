@@ -113,7 +113,7 @@
                 },
                 success: function(data) {
                     // alert(data);
-                    if(data == 0) {
+                    /**if(data == 0) {
                         _this.removeClass('label label-success');
                         _this.addClass('label label-danger');
                         _this.text('Inactive');
@@ -123,7 +123,8 @@
                         _this.text('Active');
                     } else {
 
-                    }
+                    }**/
+                    window.location.reload();
 
                 },error(error){
                 console.error(error);

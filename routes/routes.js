@@ -63,6 +63,10 @@ router.post('/add_magazine_page', [AuthMiddleware_obj.verifyUser(),AuthMiddlewar
 router.post('/update_magazine', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updateMagazine()], function(req, res){})
 router.get('/view_magazine/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewMagazine()], function(req, res){})
 router.post('/add_page', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.addPage()], function(req, res){})
+router.get('/edit_page/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.editPage()], function(req, res){})
+router.get('/view_page/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewPage()], function(req, res){})
+router.post('/update_page', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updatePage()], function(req, res){})
+router.post('/upload', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.saveImages()], function(req, res){})
 
 router.get('/admin_logout', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.adminLogout()], function(req,res){})
 module.exports = router;

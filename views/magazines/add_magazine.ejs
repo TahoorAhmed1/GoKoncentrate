@@ -138,6 +138,9 @@
 
         <script>
             $(document).ready(function() {
+                jQuery.validator.addMethod("noSpace", function(value, element) { 
+                    return value == '' || value.trim().length != 0;  
+                  }, "Name is required !");
                 $("#add_magazine_form").validate({
                     rules: {
                         name: {
@@ -146,7 +149,8 @@
                             remote:{
                                 url: '/admin/add_magazine_check_name_existance',
                                 type: 'post'
-                            }
+                            },
+                            noSpace: true
                         },
                         brand: {
                             required: true

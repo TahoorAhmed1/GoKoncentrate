@@ -744,7 +744,6 @@ module.exports = class AuthMiddleware {
             return (req, res, next) => {
                 AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, magazines_brand){
                     AdminModel_obj.fetchMagazineById(req, res, function(err, magazine){
-                        AdminModel_obj.fetchMagazinePageById(req, res, function(err, page){
                             AdminModel_obj.fetchPagesByMagazineId(req, res, function(err, pages){
                                 for(var i = 0; i < pages.length; i++ ){
                                     pages[i].page_no = i+1;
@@ -758,7 +757,6 @@ module.exports = class AuthMiddleware {
                                     msg: req.flash('msg')
                                 })
                             })
-                        })
                     })
                 })
             }
@@ -843,7 +841,10 @@ module.exports = class AuthMiddleware {
             return(req, res, next) => {
                 AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, magazines_brand){
                     AdminModel_obj.fetchMagazineById(req, res, function(err, magazine){
-                        AdminModel_obj.fetchMagazinePageById(req, res, function(err, pages){
+                        AdminModel_obj.fetchPagesByMagazineId(req, res, function(err, pages){
+                            for(var i = 0; i < pages.length; i++ ){
+                                pages[i].page_no = i+1;
+                            }
                             var brand_name = '';
                             for( var i = 0; i < magazines_brand.length; i++ ){
                                 if( magazines_brand[i].id == magazine[0].brand_id ){
@@ -903,11 +904,67 @@ module.exports = class AuthMiddleware {
          */
         addPage(){
             return(req, res, next) => {
-                AdminModel_obj.addPageModel(req, res, function(err, details){
+                console.log(req.body)
+                // AdminModel_obj.addPageModel(req, res, function(err, details){
+                //     if( err == null ){
+                //         res.redirect('/admin/magazines');
+                //     }
+                // })
+            }
+        }
+
+        /**
+         * This middleware is used to edit the page.
+         */
+        editPage(){
+            return (req, res, next) => {
+                AdminModel_obj.editPageModel(req, res, function(err, details){
                     if( err == null ){
-                        res.redirect('/admin/magazines');
+                        res.render('magazines/edit_magazine_page', {
+                            session: req.session,
+                            title: 'magazines',
+                            response: details[0],
+                            msg: req.flash('msg')
+                        })
                     }
                 })
+            }
+        }
+
+        /**
+         * This middleware is used to view the page.
+         */
+        viewPage(){
+            return (req, res, next) => {
+                AdminModel_obj.editPageModel(req, res, function(err, details){
+                    if( err == null ){
+                        res.render('magazines/view_magazine_page', {
+                            session: req.session,
+                            title: 'magazines',
+                            msg: req.flash('msg'),
+                            response: details[0]
+                        })
+                    }
+                })
+            }
+        }
+
+        /**
+         * This middleware is used to update the page.
+         */
+        updatePage(){
+            return (req, res, next) => {
+                AdminModel_obj.updatePage(req, res, function(err, details){
+                    if( err == null ){
+                        res.redirect('/admin/magazines')
+                    }
+                })
+            }
+        }
+
+        saveImages(){
+            return (req, res, next) => {
+                console.log(req.files)
             }
         }
     }

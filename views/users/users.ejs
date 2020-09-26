@@ -44,7 +44,7 @@
                     <div class="content">
                         <div class="panel panel-flat">
 
-                            <table class="table datatable-basic table-bordered" id="myTable">
+                            <table class="table table-bordered" id="myTable">
                                 <thead>
                                     <tr>
                                         <!-- <th class="b"><input type="checkbox" id="select_all"></th> -->
@@ -78,9 +78,9 @@
                                         <td>
                                             <% 
                                                 if(response[i].status == 1) { %>
-                                                    <a style="padding-right: 15px;" class="label label-success change_status" id="<%= response[i].user_id %>" table="users">Active</a> 
+                                                    <a style="padding-right: 15px" class="label label-success change_status" id="<%= response[i].user_id %>" table="users">Active</a> 
                                 
-                                                <%} else { %>
+                                                <%} else if(response[i].status == 0) { %>
                                                     <a class="label label-danger change_status" id="<%= response[i].user_id %>" table="users">InActive</a> <%
                                                 }
                                             %>
@@ -130,6 +130,18 @@
                 </div>
             </div>
         </div>
+
+
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable( {
+                    'columnDefs': [ {
+                        'targets': [1,6,7], /* column index */
+                        'orderable': false, /* true or false */
+                     }]
+                })
+            })
+           </script>
 
         <script>
             $(document).ready(function() {

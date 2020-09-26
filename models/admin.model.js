@@ -682,4 +682,21 @@ module.exports = class AdminModel {
             })
         })
     }
+
+    /**
+     * This model is used to update the page.
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} callback 
+     */
+    updatePage(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpUpdateCkPage(?,?)";
+            connectDB.connection.query(sql, [req.body.magazine_page, parseInt(req.body.page_id, 10)], function(err, result, fields){
+                if(err) throw err;
+                return callback(null, true)
+            })
+        })
+    }
 }
