@@ -906,12 +906,12 @@ module.exports = class AuthMiddleware {
          */
         addPage(){
             return(req, res, next) => {
-                console.log(req.body)
-                // AdminModel_obj.addPageModel(req, res, function(err, details){
-                //     if( err == null ){
-                //         res.redirect('/admin/magazines');
-                //     }
-                // })
+                //console.log(req.body)
+                AdminModel_obj.addPageModel(req, res, function(err, details){
+                    if( err == null ){
+                        res.redirect('/admin/magazines');
+                    }
+                })
             }
         }
 
