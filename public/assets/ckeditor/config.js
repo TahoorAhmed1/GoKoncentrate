@@ -55,7 +55,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	
 	// CKEDITOR PLUGINS LOADING
-	config.extraPlugins = 'pbckcode,video'; // add other plugins here (comma separated)
+	config.extraPlugins = 'pbckcode,video,imagebrowser,filebrowser'; // add other plugins here (comma separated)
 	//config.UserFilesAbsolutePath = '/images/users/';
 	//config.extraPlugins = 'video';
 	//config.extraPlugins = 'imagebrowser';

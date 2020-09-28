@@ -4,6 +4,7 @@
     <% include ../admin_header.ejs %>
     <!-- <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script> -->
     <!-- <script src="../../node_modules/@ckeditor/ckeditor5-build-decoupled-document/build/ckeditor.js"></script> -->
+    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
     <style>
         .error{
             color: red;
@@ -335,9 +336,9 @@
         <script>
 
            CKEDITOR.replace('page', {
-            filebrowserBrowseUrl: '/admin/browser',
+            //filebrowserBrowseUrl: '/admin/browser',
             filebrowserUploadUrl: '/admin/upload',
-            filebrowserUploadMethod: '/uploader/upload.php'
+            //filebrowserUploadMethod: '/uploader/upload.php'
            });
         </script>
 

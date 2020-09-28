@@ -5,6 +5,8 @@ const AdminModel = require('../models/admin.model'); //Import the adin model.
 const AdminModel_obj = new AdminModel(); //Create an object of admin model.
 const helpers = require('../config/helper');
 const emailer = require('../config/emailer');
+const multiparty = require('connect-multiparty');
+const MultipartyMiddleware = multiparty({uploadDir: '/images/users/'})
 /**
  * Export the router.
  */
@@ -962,9 +964,23 @@ module.exports = class AuthMiddleware {
             }
         }
 
-        saveImages(){
-            return (req, res, next) => {
+
+        uploadPageImage(){
+            return(req, res, next) => {
                 console.log(req.files)
+                console.log(req.params)
+                // const images = fs.readdirSync('public/images/users');
+                // var sorted = [];
+                // for( let item of images ){
+                //     if( item.split('.').pop() == 'png' || item.split('.').pop() == 'jpg' || item.split('.').pop() == 'jpeg' || item.split('.').pop() == 'svg' ){
+                //         var abc = {
+                //             "image": "/images/users/"+item,
+                //             "folder": "/"
+                //         }
+                //         sorted.push(abc)
+                //     }
+                // }
+                // res.send(sorted)
             }
         }
     }

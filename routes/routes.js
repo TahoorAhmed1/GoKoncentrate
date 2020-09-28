@@ -2,7 +2,8 @@ const appModules = require('../config/appModules');
 const AuthMiddleware = require('../middlewares/auth');//Import the middleware.
 const AuthMiddleware_obj = new AuthMiddleware();//Create a object of Authmiddleware.
 const router = appModules.express.Router(); //Import the router module
-
+const multiparty = require('connect-multiparty');
+const MultipartyMiddleware = multiparty({uploadDir: '/images/users/'})
 
 router.get('/', function(req, res){
     res.render('login')
@@ -66,7 +67,7 @@ router.post('/add_page', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.add
 router.get('/edit_page/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.editPage()], function(req, res){})
 router.get('/view_page/:id', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.viewPage()], function(req, res){})
 router.post('/update_page', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.updatePage()], function(req, res){})
-router.post('/upload', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.saveImages()], function(req, res){})
+router.post('/upload', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.uploadPageImage()], function(req, res){})
 
 router.get('/admin_logout', [AuthMiddleware_obj.verifyUser(),AuthMiddleware_obj.adminLogout()], function(req,res){})
 module.exports = router;
