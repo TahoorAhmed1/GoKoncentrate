@@ -691,7 +691,7 @@ module.exports = class AuthMiddleware {
          */
         addMagazine(){
             return (req, res, next) => {
-                AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, details){
+                AdminModel_obj.viewMagazinesBrandModel2(req, res, function(err, details){
                     res.render('magazines/add_magazine', {
                         session: req.session,
                         title: 'magazines',

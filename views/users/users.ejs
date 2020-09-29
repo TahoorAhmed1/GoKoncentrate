@@ -78,10 +78,12 @@
                                         <td>
                                             <% 
                                                 if(response[i].status == 1) { %>
-                                                    <a style="padding-right: 15px" class="label label-success change_status" id="<%= response[i].user_id %>" table="users">Active</a> 
+                                                    <a href="javascript:void(0)">  <span class="label label-success change_status custom_label" id="<%= response[i].user_id %>" 
+                                                        table="users">Active</span></a>
+                                                   
                                 
                                                 <%} else if(response[i].status == 0) { %>
-                                                    <a class="label label-danger change_status" id="<%= response[i].user_id %>" table="users">InActive</a> <%
+                                                    <a href="javascript:void(0)"> <span class="label label-danger change_status custom_label" id="<%= response[i].user_id %>" table="users">InActive</span></a> <%
                                                 }
                                             %>
                                         </td>

@@ -113,6 +113,18 @@ module.exports = class AdminModel {
         })
     }
 
+    viewMagazinesBrandModel2(req, res, callback){
+        connectDB.connection.getConnection(function(err){
+            if(err) throw err;
+            var sql = "CALL SpFetchMagazinesBrand2()";
+            connectDB.connection.query(sql, function(err, result, fields){
+                if(err) throw err;
+                var rows = JSON.parse(JSON.stringify(result));
+                return callback(null, rows[0])
+            })
+        })
+    }
+
     /**
      * This model is used to edit the Magazines Brand
      * @param {*} req 

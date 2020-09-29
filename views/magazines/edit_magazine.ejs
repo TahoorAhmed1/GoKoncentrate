@@ -95,7 +95,7 @@
                                                 }
                                             %>
                                         </div>
-                                        <div class="col-lg-7">
+                                        <div class="col-lg-7 pr-0">
                                             <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
                                             <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
                                         </div>
@@ -367,10 +367,6 @@
                         name: {
                             required: true,
                             maxlength: 50,
-                            remote:{
-                                url: '/admin/add_magazine_check_name_existance',
-                                type: 'post'
-                            },
                             noSpace: true
                         },
                         brand: {
@@ -381,7 +377,7 @@
                         name: {
                             required: "This field is required",
                             maxlength: "Maximum length 50 characters",
-                            remote: "Name already exists"
+                            //remote: "Name already exists"
                         }, 
                         brand: {
                             required: "This field is required"

@@ -63,10 +63,10 @@
                                                 <td>
                                                     <% 
                                                         if(magazines[i].status == 1) { %>
-                                                            <a style="padding-right: 15px;" class="label label-success change_status" id="<%= magazines[i].id %>" table="magazines">Active</a> 
+                                                            <a href="javascript:void(0)">  <span class="label label-success change_status custom_label" id="<%= magazines[i].id %>" table="magazines">Active</span> </a>
                                         
                                                         <%} else { %>
-                                                            <a class="label label-danger change_status" id="<%= magazines[i].id %>" table="magazines">InActive</a> <%
+                                                            <a href="javascript:void(0)"> <span class="label label-danger change_status custom_label" id="<%= magazines[i].id %>" table="magazines">InActive</span></a> <%
                                                         }
                                                     %>
                                                 </td>

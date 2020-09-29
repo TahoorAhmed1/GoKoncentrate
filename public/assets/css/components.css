@@ -20551,3 +20551,72 @@ label.display-block {
 
   min-height: 120px;
 }
+span.custom_label {
+  display: flex;
+  justify-content: center;
+  max-width: 75px;
+  margin: 0 auto;
+}
+
+/* css added by satish jassal */
+.pr-0{
+  padding-right: 0px !important;
+}
+.card.counter_card {
+  display: block;
+  width: 100%;
+  padding: 18px 20px;
+}
+.mx-0{
+ margin-left: 0px !important;
+ margin-right: 0px !important;
+}
+.card.counter_card h3.total_numbers {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 0px;
+  line-height: 1.6;
+  margin-top: 0;
+}
+.card.counter_card span.total_users {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+.card.counter_card span.icon_holder {
+  display: block;
+  padding: 0px 0;
+  margin-bottom: 0;
+}
+.card.counter_card span.icon_holder i {
+  font-size: 50px;
+  padding-top: 10px;
+}
+.grren{
+  background-color: #00695C;
+}
+
+
+@media only screen and (max-width: 768) {
+  .card.counter_card {
+    margin-bottom: 20px !important;
+  }
+}
+.dataTable thead .sorting_desc:after {
+  content: '\e9c1';
+}
+.dataTable thead .sorting_asc:before {
+  content: '\f106';
+  display: none;
+}
+.dataTable thead .sorting:before {
+  content: '\e9c1';
+  margin-top: -2px;
+  color: #999999;
+}
+.dataTable thead .sorting:after {
+  content: '\e9c2';
+  margin-top: -10px;
+  color: #999999;
+}
