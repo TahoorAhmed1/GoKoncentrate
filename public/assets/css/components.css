@@ -20620,3 +20620,7 @@ span.custom_label {
   margin-top: -10px;
   color: #999999;
 }
+
+.dataTable thead .sorting_asc:after {
+  content: '\f0d8' !important;
+}
