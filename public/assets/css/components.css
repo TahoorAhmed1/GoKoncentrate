@@ -20621,6 +20621,16 @@ span.custom_label {
   color: #999999;
 }
 
-.dataTable thead .sorting_asc:after {
+.dataTable thead .sorting_asc:before {
   content: '\f0d8' !important;
+}
+
+.sidebar-xs .sidebar-main .navigation > li > a > span {
+  display: none;
+} 
+.sidebar-xs .sidebar-main {
+  width: 56px;
+}
+.sidebar-xs .sidebar-main .navigation > li:hover + .sidebar-main {
+  width: 56px !important;
 }

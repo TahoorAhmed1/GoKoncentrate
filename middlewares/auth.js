@@ -744,7 +744,7 @@ module.exports = class AuthMiddleware {
          */
         editMagazine(){
             return (req, res, next) => {
-                AdminModel_obj.viewMagazinesBrandModel(req, res, function(err, magazines_brand){
+                AdminModel_obj.viewMagazinesBrandModel2(req, res, function(err, magazines_brand){
                     AdminModel_obj.fetchMagazineById(req, res, function(err, magazine){
                             AdminModel_obj.fetchPagesByMagazineId(req, res, function(err, pages){
                                 for(var i = 0; i < pages.length; i++ ){

@@ -63,8 +63,9 @@
                             </div>
                         </div>
                         <h3 style="margin-left: 500px;">View Magazine Pages Content</h3>
-                        <div class="panel panel-flat">
-                            <div class="table-responsive">
+                        <% if(pages.length > 0 ){%>
+                        <div class="panel panel-flat" style="margin-bottom: 80px;">
+                            <div class="table-responsive" style="padding: 50px;">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -74,7 +75,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if(pages.length > 0 ){%>
                                             <% for( var i = 0; i < pages.length; i++ ){%>
                                                 <tr>
                                                     <td><%= i+1%></td>
@@ -96,11 +96,31 @@
                                                     </td>
                                                 </tr>
                                             <%}%>
-                                        <%}%>
+                                        
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        <%} else {%>
+                            <div class="panel panel-flat">  
+                                <div class="table-responsive">           
+                                    <table class="table" >
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Page No</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <td></td>
+                                            <td style="text-align: center;">No Page Added</td>
+                                            <td></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        <%}%>
                         <% include ../admin_footer.ejs %>
 
                     </div>
