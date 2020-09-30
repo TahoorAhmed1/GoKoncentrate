@@ -4,7 +4,16 @@
     <% include ../admin_header.ejs %>
     <!-- <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script> -->
     <!-- <script src="../../node_modules/@ckeditor/ckeditor5-build-decoupled-document/build/ckeditor.js"></script> -->
-    <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+    <!-- <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> -->
+    <!-- include libraries(jQuery, bootstrap) -->
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <style>
         .error{
             color: red;
@@ -111,7 +120,7 @@
                             </div>
                         </form>
                         <h3 style="margin-left: 500px;"> Add Page Content</h3>
-                            <form action = "/admin/add_page" method = "POST">
+                            <form enctype="multipart/form-data" method="POST" action="/admin/add_page">
                                 <div class="panel panel-flat">
                                     <div class="panel-body">
                                 <div class="content-group">
@@ -334,12 +343,19 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
         <script>
-
-           CKEDITOR.replace('page', {
+            $(document).ready(function() {
+                $('#page').summernote('code');
+              });
+            /**CKEDITOR.replace('page', {
             //filebrowserBrowseUrl: '/admin/browser',
             filebrowserUploadUrl: '/admin/upload',
             //filebrowserUploadMethod: '/uploader/upload.php'
            });
+           **/
+          function addPage(){
+              var myData = document.getElementById('page').value;
+              console.log(myData)
+          }
         </script>
 
         <script>

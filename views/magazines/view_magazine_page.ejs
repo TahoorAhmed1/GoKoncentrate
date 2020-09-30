@@ -5,6 +5,8 @@
     
     <!-- <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script> -->
 
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <body>
         <% if(msg != '') { %>
             <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
@@ -73,7 +75,10 @@
         </div>
         
         <script>
-            CKEDITOR.replace('editor');
+            //CKEDITOR.replace('editor');
+            $(document).ready(function() {
+                $('#editor').summernote();
+              });
             document.getElementById("editor").disabled = true;
         </script>
 

@@ -906,7 +906,7 @@ module.exports = class AuthMiddleware {
          */
         addPage(){
             return(req, res, next) => {
-                //console.log(req.body)
+               //console.log("body",req.body)
                 AdminModel_obj.addPageModel(req, res, function(err, details){
                     if( err == null ){
                         res.redirect('/admin/magazines');
@@ -940,6 +940,7 @@ module.exports = class AuthMiddleware {
             return (req, res, next) => {
                 AdminModel_obj.editPageModel(req, res, function(err, details){
                     if( err == null ){
+                        //console.log("View", details)
                         res.render('magazines/view_magazine_page', {
                             session: req.session,
                             title: 'magazines',
@@ -967,8 +968,29 @@ module.exports = class AuthMiddleware {
 
         uploadPageImage(){
             return(req, res, next) => {
-                console.log(req.files)
-                console.log(req.params)
+                //console.log(req.files)
+                //console.log(req.query.CKEditorFuncNum)
+                // var filename;
+                // var dest = __dirname + "/public/images/users" + 
+                // fs.writeFile(dest, data, function(err) {
+                //     var html;
+                //     if (err) {
+                //       console.log(err);
+                //       return;
+                //     }
+                    
+                //     html = "";
+                //     html += "<script type='text/javascript'>";
+                //     html += "    var funcNum = " + req.query.CKEditorFuncNum + ";";
+                //     html += "    var url     = \"/uploads/" + fileName + "\";";
+                //     html += "    var message = \"Uploaded file successfully\";";
+                //     html += "";
+                //     html += "    window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);";
+                //     html += "</script>";
+                    
+                //     res.send(html);
+                //   });
+            
                 // const images = fs.readdirSync('public/images/users');
                 // var sorted = [];
                 // for( let item of images ){
