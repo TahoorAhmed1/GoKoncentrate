@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="panel-body">
-                                <form action = "/admin/update_page" method = "POST">
+                                <form action = "/admin/update_page" method = "POST" onsubmit="return check(this)">
                                     <div class="content-group">
                                         <textarea name="magazine_page" id="editor" rows="4" cols="4">
                                             <%= response.content %>
@@ -77,7 +77,15 @@
                 </div>
             </div>
         </div>
-        
+        <script>
+            function check(form){
+                if (form.editor.value.trim() == ""){
+                    //document.getElementById('add_page_error').style.display = 'block';
+                    alert("Please enter some content in page !")
+                    return false;
+                } 
+            }
+        </script>
         <script>
             $(".oldPage").click(function(){
                 window.history.back();

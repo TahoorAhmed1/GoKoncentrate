@@ -120,7 +120,7 @@
                             </div>
                         </form>
                         <h3 style="margin-left: 500px;"> Add Page Content</h3>
-                            <form enctype="multipart/form-data" method="POST" action="/admin/add_page">
+                            <form enctype="multipart/form-data" method="POST" action="/admin/add_page" id="add_summer_page" onsubmit="return check(this)">
                                 <div class="panel panel-flat">
                                     <div class="panel-body">
                                 <div class="content-group">
@@ -128,6 +128,9 @@
                                     
                                     </textarea>
                                 </div>
+                                <div class="add_page_error" style="display: none;">This field is required !</div>
+                                <!-- <div class="col-lg-3"></div>
+                                    <div class="col-lg-9"><label id="page-error" class="error" for="page"></label></div> -->
                                 <input type="hidden" name="id" value="<%= magazine.id %>">
                                 <div class="text-right">
                                     <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
@@ -343,6 +346,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 
         <script>
+            function check(form){
+                if (form.page.value.trim() == ""){
+                    //document.getElementById('add_page_error').style.display = 'block';
+                    alert("Please enter some content in page !")
+                    return false;
+                } 
+            }
+        </script>
+        
+        <script>
             $(document).ready(function() {
                 $('#page').summernote('code');
               });
@@ -428,6 +441,8 @@
                         }
                     }
                 });
+
+               
             })
         </script>
 
