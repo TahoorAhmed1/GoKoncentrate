@@ -8,10 +8,13 @@
 *  Latest update: Aug 10, 2016
 *
 * ---------------------------------------------------------------------------- */
-
-
+ 
 // Allow CSS transitions when page is loaded
 $(window).on('load', function() {
+//      // Hide all nested lists
+ //  $('.navigation').find('li').not('.active, .category-title').has('ul').children('ul').addClass('hidden-ul');
+
+
     $('body').removeClass('no-transitions');
 });
 
@@ -297,9 +300,7 @@ $(function() {
     // Add 'active' class to parent list item in all levels
     $('.navigation').find('li.active').parents('li').addClass('active');
 
-    // Hide all nested lists
-    $('.navigation').find('li').not('.active, .category-title').has('ul').children('ul').addClass('hidden-ul');
-
+  
     // Highlight children links
     $('.navigation').find('li').has('ul').children('a').addClass('has-ul');
 

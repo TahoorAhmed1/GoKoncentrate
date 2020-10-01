@@ -806,7 +806,7 @@ a.badge,
     border-radius: 0 3px 0 0;
     cursor: default;
   }
-  .sidebar-xs .sidebar-main .navigation > li.active > ul {
+  /* .sidebar-xs .sidebar-main .navigation > li.active > ul {
     display: none!important;
   }
   .sidebar-xs .sidebar-main .navigation > li.disabled:hover > ul,
@@ -818,7 +818,7 @@ a.badge,
   }
   .sidebar-xs .sidebar-main .navigation > li:hover > a > span {
     display: block;
-  }
+  } */
   .sidebar-xs .sidebar-main .navigation > li:hover:not(.active) > a {
     background-color: rgba(0, 0, 0, 0.1);
     color: #fff;
