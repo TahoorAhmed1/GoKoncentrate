@@ -23,7 +23,7 @@
                     <div class="page-header page-header-default">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <a href="/admin/magazines"><i class="fas fa-arrow-left"></i></a>
+                                <a href="javascript:void(0)" class="oldPage"><i class="fas fa-arrow-left"></i></a>
                                 <h4> <span class="text-semibold"></span>Edit Magazine Page</h4>
                             </div>
     
@@ -78,6 +78,11 @@
             </div>
         </div>
         
+        <script>
+            $(".oldPage").click(function(){
+                window.history.back();
+            })
+        </script>
         <script>
            // CKEDITOR.replace('editor');
            $(document).ready(function() {
