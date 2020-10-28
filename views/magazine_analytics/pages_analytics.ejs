@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../admin_header.ejs %>
+
+<body>
+  <% if(msg != '') { %>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+  <% include ../admin_navbar.ejs %>
+
+  <div class="page-container">
+    <div class="page-content">
+
+      <% include ../sidebar.ejs %>
+
+      <div class="content-wrapper">
+        <div class="page-header page-header-default">
+          <div class="page-header-content">
+            <div class="page-title">
+              <h4> <span class="text-semibold">Pages</h4>
+            </div>
+
+            <div class="heading-elements">
+              <div class="heading-btn-group">
+                <!-- <a href="/admin/add_magazine" class="btn btn-primary">Add</a> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+              <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+              <li class="active">Pages</li>
+            </ul>
+
+            <ul class="breadcrumb-elements">
+
+            </ul>
+          </div>
+
+       
+        </div>
+
+        <div class="content">
+         
+          <div class="panel panel-flat">
+            <!-- <div class="form-group">
+              <label for="usr">From Date:</label>
+              <input type="date" id="min" onchange="myFunction()">
+            </div>
+            <div class="form-group">
+              <label for="pwd">To Date:</label>
+              <input type="date" id="max" onchange="myFunction()">
+            </div> -->
+            <table class="table table-bordered" id="myTable">
+              <thead>
+                <tr>
+                  <th class="b">S.No</th>
+                  <th class="b">Page Unique Id</th>
+                  <th class="b">Magazine Image</th>
+                  <th class="b">Page Content</th>
+                  <th class="b">No Of visitor</th>
+                </tr>
+              </thead>
+              <tbody id="dataval">
+                <% for( var i = 0; i < response.length; i++ ){%>
+                <tr>
+                  <td> <%= i+1%></td>
+                  <!-- <td><%= response[i].magazineName%></td> -->
+                  <td><%= response[i].id%></td>
+                  <td><img
+                    src="<%= response[i].magazineImage == '' || response[i].magazineImage == null || response[i].magazineImage == '/images/users/' ? '/white_user.jpg' : response[i].magazineImage%>"
+                    width="80" height="80" class="img-circle"></td>
+                  <td><%= response[i].content%></td>
+                 
+                  <td><a href="/admin/get_magazines_pages_couunt?id=<%=response[i].id%>"><%=response[i].total_visitcount%> </a></td>
+                </tr>
+                <%}%>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12">
+                            <!-- <h4><b><span id="selected_user_count">0</span> Users selected</b></h4> -->
+
+                            <!-- <button class="btn btn-primary" id="send_advertisement">Send an advertisement</button>
+                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button> -->
+                            <!-- <button class="btn btn-info" id="send_email" style="margin-left: 500px;">Send an email</button>  -->
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+
+                        <% include ../admin_footer.ejs %>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+     
+      $(document).ready(function () {
+        // $('#myTable').DataTable({
+        //   'columnDefs': [{
+        //     'targets': [1, 3, 4], /* column index */
+        //     'orderable': false, /* true or false */
+        //   }]
+        // })
+      })
+    </script>
+
+    <script>
+    
+      function myFunction() {
+         // alert('here');
+          let minId = document.getElementById("min").value
+          let maxId = document.getElementById("max").value
+
+       //  alert(minId)
+        $.ajax({
+            type: "post",
+            url: "/get_filtered__pageana",
+            data: { minId, maxId },
+            success: function (data) {
+              userhtml=''
+              console.log(data,"data[0]==============================");
+            
+            if (data.length > 0) {
+                for (var k in data) {
+                  userhtml += `<tr>`
+                    userhtml += `<td>`+k+1+ `</td>`
+                  userhtml += `<td>`+data[k].userName+ `</td>`
+                  userhtml += `<td>` + data[k].MagazineName + `</td>`
+                  userhtml += `<td>` + data[k].magazinevisit + `</td>`
+                  // userhtml += `<td>` + data[k].magazinecount + `</td>`
+                //   userhtml+= `<td><a href="/admin/get_magazines_pages?id=${data[k].magazineId}">${data[k].magazinecount}</a></td>`
+                //  userhtml+= `<td class="text-center"><ul class="icons-list"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i></a><ul class="dropdown-menu dropdown-menu-right"><li><a href="/admin/view_magazinepage?id=${data[k].id}"><i class="fas fa-eye"></i>View Page</a></li></ul></li></ul></td>`
+                //   userhtml += `</tr>`
+                }
+              }
+              $('#dataval').html(userhtml)
+            }
+          });
+      }
+    </script>
+
+    <style>
+      .badge {
+        padding: 2px 8px 2px 8px;
+        font-size: 14px;
+      }
+
+      img {
+        object-fit: cover;
+      }
+
+      .postCount,
+      .crowdCount,
+      .engageCount {
+        font-size: 14px;
+        padding: 0px 6px 0px 6px;
+      }
+
+      .fa-arrow-circle-right {
+        padding-left: 4px;
+      }
+
+      .dataTable thead .sorting_asc:after {
+        content: none;
+      }
+    </style>
+
+</body>
+
+</html>

@@ -1,205 +1,836 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <% include ../admin_header.ejs %>
-    
-    <style>
-        .yellow {
-            background-color: #e2bb00;
-            border-color: #e2bb00;
-        }
-        .green {
-            background-color: #4b8a00;
-            border-color: #4b8a00;
-        }
-        .orange {
-            background-color: #bd4e00;
-            border-color: #bd4e00;
-        }
-        .blue {
-            background-color: #0046ad;
-            border-color: #0046ad;
-        }
-        .panel:hover {
-            -ms-transform: scale(1.05); /* IE 9 */
-            -webkit-transform: scale(1.05); /* Safari 3-8 */
-            transform: scale(1.05); 
-            transition: transform .2s;
-        }
-    </style>
+<% include ../admin_header.ejs %>
 
-    <body class="pace-done">
-        
-        <% if(msg != '') { %>
-            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span style="font-size: 16px;"><%= msg %></span></div> <%
+<style>
+  @import 'https://code.highcharts.com/css/highcharts.css';
+
+  .yellow {
+    background-color: #e2bb00;
+    border-color: #e2bb00;
+  }
+
+  .green {
+    background-color: #4b8a00;
+    border-color: #4b8a00;
+  }
+
+  .orange {
+    background-color: #bd4e00;
+    border-color: #bd4e00;
+
+  }
+
+  .blue {
+    background-color: #0046ad;
+    border-color: #0046ad;
+  }
+
+  .brown {
+    background-color: #00bd59;
+    border-color: #00bd59;
+  }
+
+  .panel:hover {
+    -ms-transform: scale(1.05);
+    /* IE 9 */
+    -webkit-transform: scale(1.05);
+    /* Safari 3-8 */
+    transform: scale(1.05);
+    transition: transform .2s;
+  }
+
+  text.highcharts-credits {
+    display: none;
+  }
+</style>
+
+<body class="pace-done">
+
+  <% if(msg != '') { %>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
         } %>
-        <% include ../admin_navbar.ejs %>
+  <% include ../admin_navbar.ejs %>
 
-        
 
-        <div class="page-container">
-            <div class="page-content">
-    
-                <% include ../sidebar.ejs %>
-    
-                <div class="content-wrapper">
-                    <div class="page-header page-header-default">
-                        <div class="page-header-content">
-                            <div class="page-title">
-                                <h4> <span class="text-semibold"></span>Dashboard</h4>
-                            </div>
-    
-                            <div class="heading-elements">
-                                <div class="heading-btn-group">
-                                    
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="breadcrumb-line">
-                            <ul class="breadcrumb">
-                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-                                <li class="active">Dashboard</li>
-                            </ul>
-    
-                            <ul class="breadcrumb-elements">
-                                
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="content">
-                        
+  <div class="page-container">
+    <div class="page-content">
 
-                        <!-- <a data-toggle="modal" data-target="#totalNoOfClicks">
+      <% include ../sidebar.ejs %>
+
+      <div class="content-wrapper">
+        <div class="page-header page-header-default">
+          <div class="page-header-content">
+            <div class="page-title">
+              <h4> <span class="text-semibold"></span>Dashboard</h4>
+            </div>
+
+            <div class="heading-elements">
+              <div class="heading-btn-group">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+              <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+              <li class="active">Dashboard</li>
+            </ul>
+
+            <ul class="breadcrumb-elements">
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="content">
+
+          <%
+          let s_id= session.module_id.split(",");
+         
+        %>
+          <!-- <a data-toggle="modal" data-target="#totalNoOfClicks">
                             <div class="col-md-4"> -->
-                
-                            <!-- Members online -->
-                            <!-- <div class="panel bg-teal-800 yellow"> -->
-                                <!-- <div class="panel-body">
+
+          <!-- Members online -->
+          <!-- <div class="panel bg-teal-800 yellow"> -->
+          <!-- <div class="panel-body">
                                     <div class="heading-elements">
                                         <span class="heading-text badge bg-teal-800 yellow"><i class="fas fa-mouse-pointer fa-4x"></i></span>
                                     </div> -->
-                
-                                    <!-- <h3 class="no-margin"></h3>
+
+          <!-- <h3 class="no-margin"></h3>
                                     <span class="f">TOTAL CLICKS</span> -->
-                                    <!-- <div class="text-muted text-size-small">489 avg</div> -->
-                                <!-- </div> -->
-                
-                                <!-- <div class="container-fluid">
+          <!-- <div class="text-muted text-size-small">489 avg</div> -->
+          <!-- </div> -->
+
+          <!-- <div class="container-fluid">
                                     <div id="members-online">
                                         <svg width="183.328125" height="50"><g width="183.328125"><rect class="d3-random-bars" width="5.281057098765432" x="2.263310185185185" height="47.5" y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="9.807677469135802" height="25" y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="17.352044753086417" height="47.5" y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="24.896412037037038" height="25" y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="32.44077932098765" height="47.5" y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="39.98514660493827" height="32.5" y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="47.529513888888886" height="50" y="0" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="55.0738811728395" height="30" y="20" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="62.61824845679012" height="40" y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="70.16261574074075" height="45" y="5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="77.70698302469137" height="42.5" y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="85.25135030864197" height="40" y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="92.7957175925926" height="32.5" y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="100.34008487654322" height="40" y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="107.88445216049382" height="45" y="5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="115.42881944444444" height="47.5" y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="122.97318672839506" height="35" y="15" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="130.51755401234567" height="42.5" y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="138.0619212962963" height="30" y="20" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="145.6062885802469" height="37.5" y="12.5" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="153.15065586419755" height="27.500000000000004" y="22.499999999999996" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="160.69502314814815" height="40" y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="168.23939043209876" height="25" y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect><rect class="d3-random-bars" width="5.281057098765432" x="175.7837577160494" height="45" y="5" style="fill: rgba(255, 255, 255, 0.5);"></rect></g></svg>
                                     </div>
                                 </div> -->
-                            <!-- </div> -->
-                            <!-- /members online -->
-                
-                            <!-- </div>
-                        </a> -->
-                        <a href="/admin/users">
-                            <div class="col-md-4">
-                            <!-- Members online -->
-                                <div class="card counter_card card-body text-white yellow">
-                                    <div class="row mx-0">
-                                        <div class="col-md-9 col-sm-6 col-xs-6">
-                                            <h3 class="total_numbers"><%= users %></h3>
-                                            <span class="total_users">TOTAL USERS</span>
-                                        </div>
-                                        <div class="col-md-3 col-sm-6  col-xs-6 text-right">
-                                            <span class="icon_holder"><i class="fas fa-user fa-4x"></i></span>
-                                        </div>
-                                    </div>
-                                </div>                
-                            </div>
-                        </a>
+          <!-- </div> -->
+          <!-- /members online -->
 
-                        <a href="/admin/magazines_brand">
-                            <div class="col-md-4">
-                            <!-- Members online -->
-                                <div class="card counter_card card-body text-white blue">
-                                    <div class="row mx-0">
-                                        <div class="col-md-9 col-sm-6 col-xs-6">
-                                            <h3 class="total_numbers"><%= magazines_brand %></h3>
-                                            <span class="total_users">TOTAL MAGAZINES BRAND</span>
-                                        </div>
-                                        <div class="col-md-3 col-sm-6  col-xs-6 text-right">
-                                            <span class="icon_holder"><i class="fas fa-user fa-4x"></i></span>
-                                        </div>
-                                    </div>
-                                </div>                
-                            </div>
-                        </a>
-
-                        <a href="/admin/magazines">
-                            <div class="col-md-4">
-                            <!-- Members online -->
-                                <div class="card counter_card card-body text-white green">
-                                    <div class="row mx-0">
-                                        <div class="col-md-9 col-sm-6 col-xs-6">
-                                            <h3 class="total_numbers"><%= magazines %></h3>
-                                            <span class="total_users">TOTAL MAGAZINES</span>
-                                        </div>
-                                        <div class="col-md-3 col-sm-6  col-xs-6 text-right">
-                                            <span class="icon_holder"><i class="fa fa-address-book fa-4x"></i></span>
-                                        </div>
-                                    </div>
-                                </div>                
-                            </div>
-                        </a>
-
-    
-                        <!-- <a href="/admin/users">
-                            <div class="col-md-4">
-                
-                            <div class="panel bg-teal-800 orange">
-                                <div class="panel-body">
-                                    <div class="heading-elements">
-                                        <span class="heading-text badge bg-teal-800 orange"><i class="fas fa-exclamation-circle fa-4x"></i></span>
-                                    </div>
-                
-                                    <h3 class="no-margin"><%=  %></h3>
-                                    <span class="f">GROUP REPORT/SPAMS</span>
-                                </div>
-                
-                                <div class="container-fluid">
-                                    <div id="members-online">
-                                        <svg width="203.328125" height="50"><g transform="translate(0,0)" width="203.328125"><defs><clipPath id="load-clip-server-load"><rect class="load-clip" width="203.328125" height="50"></rect></clipPath></defs><g clip-path="url(#load-clip-server-load)"><path d="M-7.8203125,6.333333333333332L-6.516927083333332,11C-5.213541666666666,15.666666666666666,-2.606770833333333,25,0,28.555555555555554C2.606770833333333,32.111111111111114,5.213541666666666,29.888888888888886,7.820312499999999,25.666666666666664C10.427083333333332,21.444444444444443,13.033854166666664,15.222222222222221,15.640624999999998,16.333333333333332C18.247395833333332,17.444444444444443,20.854166666666664,25.88888888888889,23.4609375,25.444444444444443C26.067708333333332,25,28.674479166666664,15.666666666666666,31.281249999999996,10.555555555555554C33.88802083333333,5.444444444444442,36.494791666666664,4.555555555555552,39.1015625,4.111111111111107C41.70833333333333,3.6666666666666625,44.315104166666664,3.6666666666666625,46.921875,3.222222222222218C49.52864583333333,2.7777777777777737,52.135416666666664,1.888888888888885,54.7421875,2.7777777777777746C57.34895833333333,3.6666666666666643,59.95572916666666,6.333333333333332,62.56249999999999,9.444444444444443C65.16927083333333,12.555555555555555,67.77604166666666,16.11111111111111,70.3828125,18.333333333333332C72.98958333333333,20.555555555555554,75.59635416666666,21.444444444444443,78.203125,22.777777777777775C80.80989583333333,24.111111111111107,83.41666666666666,25.888888888888886,86.0234375,24.999999999999996C88.63020833333333,24.111111111111107,91.23697916666666,20.555555555555554,93.84375,19C96.45052083333333,17.444444444444443,99.05729166666666,17.88888888888889,101.66406249999999,21.444444444444446C104.27083333333331,25,106.87760416666666,31.666666666666668,109.484375,32.333333333333336C112.09114583333331,33,114.69791666666666,27.666666666666664,117.30468749999997,22.555555555555557C119.91145833333331,17.444444444444443,122.51822916666666,12.555555555555554,125.12499999999999,9.666666666666666C127.73177083333331,6.777777777777777,130.33854166666666,5.888888888888888,132.9453125,8.11111111111111C135.55208333333331,10.333333333333332,138.15885416666666,15.666666666666666,140.765625,15.222222222222223C143.37239583333331,14.777777777777779,145.97916666666666,8.555555555555555,148.5859375,5.666666666666666C151.19270833333331,2.777777777777777,153.79947916666666,3.2222222222222197,156.40625,7.888888888888886C159.01302083333331,12.555555555555552,161.61979166666666,21.444444444444443,164.2265625,26.555555555555554C166.83333333333331,31.666666666666664,169.44010416666666,33,172.046875,29.22222222222222C174.65364583333331,25.444444444444443,177.26041666666666,16.555555555555557,179.8671875,11.222222222222221C182.47395833333331,5.888888888888888,185.08072916666666,4.111111111111111,187.6875,3.2222222222222223C190.29427083333331,2.333333333333334,192.90104166666666,2.333333333333334,195.5078125,3.8888888888888884C198.11458333333331,5.444444444444444,200.72135416666663,8.555555555555554,203.32812499999997,10.111111111111109C205.93489583333331,11.666666666666664,208.54166666666666,11.666666666666664,211.14843749999997,16.111111111111107C213.75520833333331,20.555555555555554,216.36197916666666,29.444444444444446,217.66536458333331,33.888888888888886L218.96875,38.333333333333336L218.96875,50L217.66536458333331,49.999999999999986C216.36197916666666,49.99999999999999,213.75520833333331,49.99999999999999,211.1484375,49.999999999999986C208.54166666666666,49.99999999999999,205.93489583333331,49.99999999999999,203.32812499999997,49.999999999999986C200.72135416666663,49.99999999999999,198.11458333333331,49.99999999999999,195.5078125,49.999999999999986C192.90104166666666,49.99999999999999,190.29427083333331,49.99999999999999,187.6875,49.999999999999986C185.08072916666666,49.99999999999999,182.47395833333331,49.99999999999999,179.86718749999997,49.999999999999986C177.26041666666666,49.99999999999999,174.65364583333331,49.99999999999999,172.046875,49.999999999999986C169.44010416666666,49.99999999999999,166.83333333333331,49.99999999999999,164.2265625,49.999999999999986C161.61979166666666,49.99999999999999,159.01302083333331,49.99999999999999,156.40624999999997,49.999999999999986C153.79947916666666,49.99999999999999,151.19270833333331,49.99999999999999,148.5859375,49.999999999999986C145.97916666666666,49.99999999999999,143.37239583333331,49.99999999999999,140.765625,49.999999999999986C138.15885416666666,49.99999999999999,135.55208333333331,49.99999999999999,132.9453125,49.999999999999986C130.33854166666666,49.99999999999999,127.73177083333331,49.99999999999999,125.12499999999999,49.999999999999986C122.51822916666666,49.99999999999999,119.91145833333331,49.99999999999999,117.30468749999999,49.999999999999986C114.69791666666666,49.99999999999999,112.09114583333331,49.99999999999999,109.484375,49.999999999999986C106.87760416666666,49.99999999999999,104.27083333333331,49.99999999999999,101.66406249999999,49.999999999999986C99.05729166666666,49.99999999999999,96.45052083333333,49.99999999999999,93.84374999999999,49.999999999999986C91.23697916666666,49.99999999999999,88.63020833333333,49.99999999999999,86.0234375,49.999999999999986C83.41666666666666,49.99999999999999,80.80989583333333,49.99999999999999,78.203125,49.999999999999986C75.59635416666666,49.99999999999999,72.98958333333333,49.99999999999999,70.3828125,49.999999999999986C67.77604166666666,49.99999999999999,65.16927083333333,49.99999999999999,62.56249999999999,49.999999999999986C59.95572916666666,49.99999999999999,57.34895833333333,49.99999999999999,54.7421875,49.999999999999986C52.135416666666664,49.99999999999999,49.52864583333333,49.99999999999999,46.921875,49.999999999999986C44.315104166666664,49.99999999999999,41.70833333333333,49.99999999999999,39.10156249999999,49.999999999999986C36.494791666666664,49.99999999999999,33.88802083333333,49.99999999999999,31.281249999999996,49.999999999999986C28.674479166666664,49.99999999999999,26.067708333333332,49.99999999999999,23.460937499999996,49.999999999999986C20.854166666666664,49.99999999999999,18.247395833333332,49.99999999999999,15.640624999999998,49.999999999999986C13.033854166666664,49.99999999999999,10.427083333333332,49.99999999999999,7.820312499999999,49.999999999999986C5.213541666666666,49.99999999999999,2.606770833333333,49.99999999999999,0,49.999999999999986C-2.606770833333333,49.99999999999999,-5.213541666666666,49.99999999999999,-6.516927083333332,49.999999999999986L-7.8203125,50Z" class="d3-area" style="fill: rgba(255, 255, 255, 0.5); opacity: 1;" transform="translate(-6.016427083333333,0)"></path></g></g></svg>
-                                    </div>
-                                </div>
-                            </div>
-                
-                            </div>
+          <!-- </div>
                         </a> -->
-                        
-                        <!-- <a href="#">
-                            <div class="col-md-4">
-                
-                            <div class="panel bg-teal-800 blue">
-                                <div class="panel-body">
-                                    <div class="heading-elements">
-                                        <span class="heading-text badge bg-teal-800 blue"><i class="fas fa-hand-holding-usd fa-4x"></i></span>
-                                    </div>
-                
-                                    <h3 class="no-margin">$ <%=  %></h3>
-                                    <span class="f">TOTAL EARNINGS</span>
-                                </div>
-                
-                                <div class="container-fluid">
-                                    <div id="members-online">
-                    <svg width="203.328125" height="50"><g transform="translate(0,0)" width="203.328125"><defs><clipPath id="clip-line-small"><rect class="clip" width="203.328125" height="50"></rect></clipPath></defs><path d="M20,8.46153846153846L47.22135416666667,25.76923076923077L74.44270833333334,5L101.6640625,15.384615384615383L128.88541666666666,5L156.10677083333334,36.15384615384615L183.328125,8.46153846153846" clip-path="url(#clip-line-small)" class="d3-line d3-line-medium" style="stroke: rgb(255, 255, 255);"></path><g><line class="d3-line-guides" x1="20" y1="50" x2="20" y2="8.46153846153846" style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;"></line><line class="d3-line-guides" x1="47.22135416666667" y1="50" x2="47.22135416666667" y2="25.76923076923077" style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;"></line><line class="d3-line-guides" x1="74.44270833333334" y1="50" x2="74.44270833333334" y2="5" style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;"></line><line class="d3-line-guides" x1="101.6640625" y1="50" x2="101.6640625" y2="15.384615384615383" style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;"></line><line class="d3-line-guides" x1="128.88541666666666" y1="50" x2="128.88541666666666" y2="5" style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;"></line><line class="d3-line-guides" x1="156.10677083333334" y1="50" x2="156.10677083333334" y2="36.15384615384615" style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;"></line><line class="d3-line-guides" x1="183.328125" y1="50" x2="183.328125" y2="8.46153846153846" style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;"></line></g><g><circle class="d3-line-circle d3-line-circle-medium" cx="20" cy="8.46153846153846" r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle><circle class="d3-line-circle d3-line-circle-medium" cx="47.22135416666667" cy="25.76923076923077" r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle><circle class="d3-line-circle d3-line-circle-medium" cx="74.44270833333334" cy="5" r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle><circle class="d3-line-circle d3-line-circle-medium" cx="101.6640625" cy="15.384615384615383" r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle><circle class="d3-line-circle d3-line-circle-medium" cx="128.88541666666666" cy="5" r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle><circle class="d3-line-circle d3-line-circle-medium" cx="156.10677083333334" cy="36.15384615384615" r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle><circle class="d3-line-circle d3-line-circle-medium" cx="183.328125" cy="8.46153846153846" r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle></g></g></svg>
-                                    </div>
-                                </div>
-                            </div>
-                
-                            </div>
-                        </a> -->
-    
-                        <% include ../admin_footer.ejs %>
+                        <% if(s_id.indexOf('1')!= -1){%>
+          <a href="/admin/users">
+            
+            <div class="col-md-4">
+              <!-- Members online -->
+              <div class="card counter_card card-body text-white yellow">
+                <div class="row mx-0">
+                  <div class="col-md-9 col-sm-6 col-xs-6">
+                    <h3 class="total_numbers"><%=response.get_total_user%></h3>
+                    <span class="total_users">TOTAL USERS</span>
+                  </div>
+                  <div class="col-md-3 col-sm-6  col-xs-6 text-right">
+                    <span class="icon_holder"><i class="fas fa-user fa-4x"></i></span>
+                  </div>
+                  <div class="container-fluid">
+                    <div id="members-online">
+                      <svg width="183.328125" height="50">
+                        <g width="183.328125">
+                          <rect class="d3-random-bars" width="5.281057098765432" x="2.263310185185185" height="47.5"
+                            y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="9.807677469135802" height="25"
+                            y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="17.352044753086417" height="47.5"
+                            y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="24.896412037037038" height="25"
+                            y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="32.44077932098765" height="47.5"
+                            y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="39.98514660493827" height="32.5"
+                            y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="47.529513888888886" height="50"
+                            y="0" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="55.0738811728395" height="30" y="20"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="62.61824845679012" height="40"
+                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="70.16261574074075" height="45" y="5"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="77.70698302469137" height="42.5"
+                            y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="85.25135030864197" height="40"
+                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="92.7957175925926" height="32.5"
+                            y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="100.34008487654322" height="40"
+                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="107.88445216049382" height="45"
+                            y="5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="115.42881944444444" height="47.5"
+                            y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="122.97318672839506" height="35"
+                            y="15" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="130.51755401234567" height="42.5"
+                            y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="138.0619212962963" height="30"
+                            y="20" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="145.6062885802469" height="37.5"
+                            y="12.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="153.15065586419755"
+                            height="27.500000000000004" y="22.499999999999996" style="fill: rgba(255, 255, 255, 0.5);">
+                          </rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="160.69502314814815" height="40"
+                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="168.23939043209876" height="25"
+                            y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="175.7837577160494" height="45" y="5"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        </g>
+                      </svg>
                     </div>
+                  </div>
+
                 </div>
+              </div>
+            </div>
+            
+          </a>
+          <%}%>
+          <% if(s_id.indexOf('3')!= -1){%>
+          <a href="/admin/magazines_brand">
+            <div class="col-md-4">
+              <!-- Members online -->
+              <div class="card counter_card card-body text-white blue">
+                <div class="row mx-0">
+                  <div class="col-md-9 col-sm-6 col-xs-6">
+                    <h3 class="total_numbers"><%=response.get_all_mgazinebrand_count%></h3>
+                    <span class="total_users">MAGAZINES BRAND</span>
+                  </div>
+                  <div class="col-md-3 col-sm-6  col-xs-6 text-right">
+                    <span class="icon_holder"><i class="fas fa-user fa-4x"></i></span>
+                  </div>
+                  <div class="container-fluid">
+                    <div id="members-online">
+                      <svg width="203.328125" height="50">
+                        <g transform="translate(0,0)" width="203.328125">
+                          <defs>
+                            <clipPath id="clip-line-small">
+                              <rect class="clip" width="203.328125" height="50"></rect>
+                            </clipPath>
+                          </defs>
+                          <path
+                            d="M20,8.46153846153846L47.22135416666667,25.76923076923077L74.44270833333334,5L101.6640625,15.384615384615383L128.88541666666666,5L156.10677083333334,36.15384615384615L183.328125,8.46153846153846"
+                            clip-path="url(#clip-line-small)" class="d3-line d3-line-medium"
+                            style="stroke: rgb(255, 255, 255);"></path>
+                          <g>
+                            <line class="d3-line-guides" x1="20" y1="50" x2="20" y2="8.46153846153846"
+                              style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                            </line>
+                            <line class="d3-line-guides" x1="47.22135416666667" y1="50" x2="47.22135416666667"
+                              y2="25.76923076923077"
+                              style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                            </line>
+                            <line class="d3-line-guides" x1="74.44270833333334" y1="50" x2="74.44270833333334" y2="5"
+                              style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                            </line>
+                            <line class="d3-line-guides" x1="101.6640625" y1="50" x2="101.6640625"
+                              y2="15.384615384615383"
+                              style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                            </line>
+                            <line class="d3-line-guides" x1="128.88541666666666" y1="50" x2="128.88541666666666" y2="5"
+                              style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                            </line>
+                            <line class="d3-line-guides" x1="156.10677083333334" y1="50" x2="156.10677083333334"
+                              y2="36.15384615384615"
+                              style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                            </line>
+                            <line class="d3-line-guides" x1="183.328125" y1="50" x2="183.328125" y2="8.46153846153846"
+                              style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                            </line>
+                          </g>
+                          <g>
+                            <circle class="d3-line-circle d3-line-circle-medium" cx="20" cy="8.46153846153846" r="3"
+                              style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                            <circle class="d3-line-circle d3-line-circle-medium" cx="47.22135416666667"
+                              cy="25.76923076923077" r="3"
+                              style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                            <circle class="d3-line-circle d3-line-circle-medium" cx="74.44270833333334" cy="5" r="3"
+                              style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                            <circle class="d3-line-circle d3-line-circle-medium" cx="101.6640625"
+                              cy="15.384615384615383" r="3"
+                              style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                            <circle class="d3-line-circle d3-line-circle-medium" cx="128.88541666666666" cy="5" r="3"
+                              style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                            <circle class="d3-line-circle d3-line-circle-medium" cx="156.10677083333334"
+                              cy="36.15384615384615" r="3"
+                              style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                            <circle class="d3-line-circle d3-line-circle-medium" cx="183.328125" cy="8.46153846153846"
+                              r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                          </g>
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </a>
+          <%}%>
+          <% if(s_id.indexOf('4')!= -1){%>
+          <a href="/admin/magazines">
+            <div class="col-md-4">
+              <!-- Members online -->
+              <div class="card counter_card card-body text-white green">
+                <div class="row mx-0">
+                  <div class="col-md-9 col-sm-6 col-xs-6">
+                    <h3 class="total_numbers"><%=response.get_all_mgazine_count%></h3>
+                    <span class="total_users">TOTAL MAGAZINES</span>
+                  </div>
+                  <div class="col-md-3 col-sm-6  col-xs-6 text-right">
+                    <span class="icon_holder"><i class="fa fa-address-book fa-4x"></i></span>
+                  </div>
+                  <div class="container-fluid">
+                    <div id="members-online">
+                      <svg width="203.328125" height="50">
+                        <g transform="translate(0,0)" width="203.328125">
+                          <defs>
+                            <clipPath id="load-clip-server-load">
+                              <rect class="load-clip" width="203.328125" height="50"></rect>
+                            </clipPath>
+                          </defs>
+                          <g clip-path="url(#load-clip-server-load)">
+                            <path
+                              d="M-7.8203125,6.333333333333332L-6.516927083333332,11C-5.213541666666666,15.666666666666666,-2.606770833333333,25,0,28.555555555555554C2.606770833333333,32.111111111111114,5.213541666666666,29.888888888888886,7.820312499999999,25.666666666666664C10.427083333333332,21.444444444444443,13.033854166666664,15.222222222222221,15.640624999999998,16.333333333333332C18.247395833333332,17.444444444444443,20.854166666666664,25.88888888888889,23.4609375,25.444444444444443C26.067708333333332,25,28.674479166666664,15.666666666666666,31.281249999999996,10.555555555555554C33.88802083333333,5.444444444444442,36.494791666666664,4.555555555555552,39.1015625,4.111111111111107C41.70833333333333,3.6666666666666625,44.315104166666664,3.6666666666666625,46.921875,3.222222222222218C49.52864583333333,2.7777777777777737,52.135416666666664,1.888888888888885,54.7421875,2.7777777777777746C57.34895833333333,3.6666666666666643,59.95572916666666,6.333333333333332,62.56249999999999,9.444444444444443C65.16927083333333,12.555555555555555,67.77604166666666,16.11111111111111,70.3828125,18.333333333333332C72.98958333333333,20.555555555555554,75.59635416666666,21.444444444444443,78.203125,22.777777777777775C80.80989583333333,24.111111111111107,83.41666666666666,25.888888888888886,86.0234375,24.999999999999996C88.63020833333333,24.111111111111107,91.23697916666666,20.555555555555554,93.84375,19C96.45052083333333,17.444444444444443,99.05729166666666,17.88888888888889,101.66406249999999,21.444444444444446C104.27083333333331,25,106.87760416666666,31.666666666666668,109.484375,32.333333333333336C112.09114583333331,33,114.69791666666666,27.666666666666664,117.30468749999997,22.555555555555557C119.91145833333331,17.444444444444443,122.51822916666666,12.555555555555554,125.12499999999999,9.666666666666666C127.73177083333331,6.777777777777777,130.33854166666666,5.888888888888888,132.9453125,8.11111111111111C135.55208333333331,10.333333333333332,138.15885416666666,15.666666666666666,140.765625,15.222222222222223C143.37239583333331,14.777777777777779,145.97916666666666,8.555555555555555,148.5859375,5.666666666666666C151.19270833333331,2.777777777777777,153.79947916666666,3.2222222222222197,156.40625,7.888888888888886C159.01302083333331,12.555555555555552,161.61979166666666,21.444444444444443,164.2265625,26.555555555555554C166.83333333333331,31.666666666666664,169.44010416666666,33,172.046875,29.22222222222222C174.65364583333331,25.444444444444443,177.26041666666666,16.555555555555557,179.8671875,11.222222222222221C182.47395833333331,5.888888888888888,185.08072916666666,4.111111111111111,187.6875,3.2222222222222223C190.29427083333331,2.333333333333334,192.90104166666666,2.333333333333334,195.5078125,3.8888888888888884C198.11458333333331,5.444444444444444,200.72135416666663,8.555555555555554,203.32812499999997,10.111111111111109C205.93489583333331,11.666666666666664,208.54166666666666,11.666666666666664,211.14843749999997,16.111111111111107C213.75520833333331,20.555555555555554,216.36197916666666,29.444444444444446,217.66536458333331,33.888888888888886L218.96875,38.333333333333336L218.96875,50L217.66536458333331,49.999999999999986C216.36197916666666,49.99999999999999,213.75520833333331,49.99999999999999,211.1484375,49.999999999999986C208.54166666666666,49.99999999999999,205.93489583333331,49.99999999999999,203.32812499999997,49.999999999999986C200.72135416666663,49.99999999999999,198.11458333333331,49.99999999999999,195.5078125,49.999999999999986C192.90104166666666,49.99999999999999,190.29427083333331,49.99999999999999,187.6875,49.999999999999986C185.08072916666666,49.99999999999999,182.47395833333331,49.99999999999999,179.86718749999997,49.999999999999986C177.26041666666666,49.99999999999999,174.65364583333331,49.99999999999999,172.046875,49.999999999999986C169.44010416666666,49.99999999999999,166.83333333333331,49.99999999999999,164.2265625,49.999999999999986C161.61979166666666,49.99999999999999,159.01302083333331,49.99999999999999,156.40624999999997,49.999999999999986C153.79947916666666,49.99999999999999,151.19270833333331,49.99999999999999,148.5859375,49.999999999999986C145.97916666666666,49.99999999999999,143.37239583333331,49.99999999999999,140.765625,49.999999999999986C138.15885416666666,49.99999999999999,135.55208333333331,49.99999999999999,132.9453125,49.999999999999986C130.33854166666666,49.99999999999999,127.73177083333331,49.99999999999999,125.12499999999999,49.999999999999986C122.51822916666666,49.99999999999999,119.91145833333331,49.99999999999999,117.30468749999999,49.999999999999986C114.69791666666666,49.99999999999999,112.09114583333331,49.99999999999999,109.484375,49.999999999999986C106.87760416666666,49.99999999999999,104.27083333333331,49.99999999999999,101.66406249999999,49.999999999999986C99.05729166666666,49.99999999999999,96.45052083333333,49.99999999999999,93.84374999999999,49.999999999999986C91.23697916666666,49.99999999999999,88.63020833333333,49.99999999999999,86.0234375,49.999999999999986C83.41666666666666,49.99999999999999,80.80989583333333,49.99999999999999,78.203125,49.999999999999986C75.59635416666666,49.99999999999999,72.98958333333333,49.99999999999999,70.3828125,49.999999999999986C67.77604166666666,49.99999999999999,65.16927083333333,49.99999999999999,62.56249999999999,49.999999999999986C59.95572916666666,49.99999999999999,57.34895833333333,49.99999999999999,54.7421875,49.999999999999986C52.135416666666664,49.99999999999999,49.52864583333333,49.99999999999999,46.921875,49.999999999999986C44.315104166666664,49.99999999999999,41.70833333333333,49.99999999999999,39.10156249999999,49.999999999999986C36.494791666666664,49.99999999999999,33.88802083333333,49.99999999999999,31.281249999999996,49.999999999999986C28.674479166666664,49.99999999999999,26.067708333333332,49.99999999999999,23.460937499999996,49.999999999999986C20.854166666666664,49.99999999999999,18.247395833333332,49.99999999999999,15.640624999999998,49.999999999999986C13.033854166666664,49.99999999999999,10.427083333333332,49.99999999999999,7.820312499999999,49.999999999999986C5.213541666666666,49.99999999999999,2.606770833333333,49.99999999999999,0,49.999999999999986C-2.606770833333333,49.99999999999999,-5.213541666666666,49.99999999999999,-6.516927083333332,49.999999999999986L-7.8203125,50Z"
+                              class="d3-area" style="fill: rgba(255, 255, 255, 0.5); opacity: 1;"
+                              transform="translate(-6.016427083333333,0)"></path>
+                          </g>
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
             </div>
         </div>
+        </a>
+        <%}%>
 
-    </body>
+        <div class="content">
+          <% if(s_id.indexOf('1')!= -1){%>
+          <a href="/admin/users">
+            <div class="col-md-4">
+
+              <div class="panel bg-teal-800 orange">
+                <div class="panel-body">
+                  <div class="heading-elements">
+                    <span class="heading-text badge bg-teal-800 orange"><i class="fas fa-users fa-4x"></i></span>
+                  </div>
+
+                  <h3 class="no-margin"><%=response.subscribed_user_count%></h3>
+                  <span class="f">Total Subscriber</span>
+                </div>
+
+                <div class="container-fluid">
+                  <div id="members-online">
+                    <svg width="183.328125" height="50">
+                      <g width="183.328125">
+                        <rect class="d3-random-bars" width="5.281057098765432" x="2.263310185185185" height="47.5"
+                          y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="9.807677469135802" height="25" y="25"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="17.352044753086417" height="47.5"
+                          y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="24.896412037037038" height="25" y="25"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="32.44077932098765" height="47.5"
+                          y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="39.98514660493827" height="32.5"
+                          y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="47.529513888888886" height="50" y="0"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="55.0738811728395" height="30" y="20"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="62.61824845679012" height="40" y="10"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="70.16261574074075" height="45" y="5"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="77.70698302469137" height="42.5"
+                          y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="85.25135030864197" height="40" y="10"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="92.7957175925926" height="32.5"
+                          y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="100.34008487654322" height="40" y="10"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="107.88445216049382" height="45" y="5"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="115.42881944444444" height="47.5"
+                          y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="122.97318672839506" height="35" y="15"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="130.51755401234567" height="42.5"
+                          y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="138.0619212962963" height="30" y="20"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="145.6062885802469" height="37.5"
+                          y="12.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="153.15065586419755"
+                          height="27.500000000000004" y="22.499999999999996" style="fill: rgba(255, 255, 255, 0.5);">
+                        </rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="160.69502314814815" height="40" y="10"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="168.23939043209876" height="25" y="25"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                        <rect class="d3-random-bars" width="5.281057098765432" x="175.7837577160494" height="45" y="5"
+                          style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </a>
+          <%}%>
+          <% if(s_id.indexOf('1')!= -1){%>
+          <a href="/admin/users">
+            <div class="col-md-4">
+
+              <div class="panel bg-teal-800 brown">
+                <div class="panel-body">
+                  <div class="heading-elements">
+                    <span class="heading-text badge bg-teal-800 brown"><i class="fas fa-users fa-4x"></i></span>
+                  </div>
+
+                  <h3 class="no-margin"><%=response.active_user_count%></h3>
+                  <span class="f">Active Users</span>
+                </div>
+
+                <div class="container-fluid">
+                  <div id="members-online">
+                    <svg width="203.328125" height="50">
+                      <g transform="translate(0,0)" width="203.328125">
+                        <defs>
+                          <clipPath id="clip-line-small">
+                            <rect class="clip" width="203.328125" height="50"></rect>
+                          </clipPath>
+                        </defs>
+                        <path
+                          d="M20,8.46153846153846L47.22135416666667,25.76923076923077L74.44270833333334,5L101.6640625,15.384615384615383L128.88541666666666,5L156.10677083333334,36.15384615384615L183.328125,8.46153846153846"
+                          clip-path="url(#clip-line-small)" class="d3-line d3-line-medium"
+                          style="stroke: rgb(255, 255, 255);"></path>
+                        <g>
+                          <line class="d3-line-guides" x1="20" y1="50" x2="20" y2="8.46153846153846"
+                            style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                          </line>
+                          <line class="d3-line-guides" x1="47.22135416666667" y1="50" x2="47.22135416666667"
+                            y2="25.76923076923077"
+                            style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                          </line>
+                          <line class="d3-line-guides" x1="74.44270833333334" y1="50" x2="74.44270833333334" y2="5"
+                            style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                          </line>
+                          <line class="d3-line-guides" x1="101.6640625" y1="50" x2="101.6640625" y2="15.384615384615383"
+                            style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                          </line>
+                          <line class="d3-line-guides" x1="128.88541666666666" y1="50" x2="128.88541666666666" y2="5"
+                            style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                          </line>
+                          <line class="d3-line-guides" x1="156.10677083333334" y1="50" x2="156.10677083333334"
+                            y2="36.15384615384615"
+                            style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                          </line>
+                          <line class="d3-line-guides" x1="183.328125" y1="50" x2="183.328125" y2="8.46153846153846"
+                            style="stroke: rgba(255, 255, 255, 0.3); stroke-dasharray: 4, 2; shape-rendering: crispEdges;">
+                          </line>
+                        </g>
+                        <g>
+                          <circle class="d3-line-circle d3-line-circle-medium" cx="20" cy="8.46153846153846" r="3"
+                            style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                          <circle class="d3-line-circle d3-line-circle-medium" cx="47.22135416666667"
+                            cy="25.76923076923077" r="3"
+                            style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                          <circle class="d3-line-circle d3-line-circle-medium" cx="74.44270833333334" cy="5" r="3"
+                            style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                          <circle class="d3-line-circle d3-line-circle-medium" cx="101.6640625" cy="15.384615384615383"
+                            r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                          <circle class="d3-line-circle d3-line-circle-medium" cx="128.88541666666666" cy="5" r="3"
+                            style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                          <circle class="d3-line-circle d3-line-circle-medium" cx="156.10677083333334"
+                            cy="36.15384615384615" r="3"
+                            style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                          <circle class="d3-line-circle d3-line-circle-medium" cx="183.328125" cy="8.46153846153846"
+                            r="3" style="stroke: rgb(255, 255, 255); fill: rgb(41, 182, 246); opacity: 1;"></circle>
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </a>
+          <%}%>
+          <% if(s_id.indexOf('1')!= -1){%>
+          <a href="/admin/users">
+            <div class="col-md-4">
+
+              <div class="panel bg-teal-800 red">
+                <div class="panel-body">
+                  <div class="heading-elements">
+                    <span class="heading-text badge bg-teal-800 red"><i class="fas fa-users fa-4x"></i></span>
+                  </div>
+                  <h3 class="no-margin"><%=response.inactive_user_count%></h3>
+                  <span class="f">Inactive Users</span>
+                </div>
+                <div class="container-fluid">
+                  <div id="members-online">
+                    <svg width="203.328125" height="50">
+                      <g transform="translate(0,0)" width="203.328125">
+                        <defs>
+                          <clipPath id="load-clip-server-load">
+                            <rect class="load-clip" width="203.328125" height="50"></rect>
+                          </clipPath>
+                        </defs>
+                        <g clip-path="url(#load-clip-server-load)">
+                          <path
+                            d="M-7.8203125,6.333333333333332L-6.516927083333332,11C-5.213541666666666,15.666666666666666,-2.606770833333333,25,0,28.555555555555554C2.606770833333333,32.111111111111114,5.213541666666666,29.888888888888886,7.820312499999999,25.666666666666664C10.427083333333332,21.444444444444443,13.033854166666664,15.222222222222221,15.640624999999998,16.333333333333332C18.247395833333332,17.444444444444443,20.854166666666664,25.88888888888889,23.4609375,25.444444444444443C26.067708333333332,25,28.674479166666664,15.666666666666666,31.281249999999996,10.555555555555554C33.88802083333333,5.444444444444442,36.494791666666664,4.555555555555552,39.1015625,4.111111111111107C41.70833333333333,3.6666666666666625,44.315104166666664,3.6666666666666625,46.921875,3.222222222222218C49.52864583333333,2.7777777777777737,52.135416666666664,1.888888888888885,54.7421875,2.7777777777777746C57.34895833333333,3.6666666666666643,59.95572916666666,6.333333333333332,62.56249999999999,9.444444444444443C65.16927083333333,12.555555555555555,67.77604166666666,16.11111111111111,70.3828125,18.333333333333332C72.98958333333333,20.555555555555554,75.59635416666666,21.444444444444443,78.203125,22.777777777777775C80.80989583333333,24.111111111111107,83.41666666666666,25.888888888888886,86.0234375,24.999999999999996C88.63020833333333,24.111111111111107,91.23697916666666,20.555555555555554,93.84375,19C96.45052083333333,17.444444444444443,99.05729166666666,17.88888888888889,101.66406249999999,21.444444444444446C104.27083333333331,25,106.87760416666666,31.666666666666668,109.484375,32.333333333333336C112.09114583333331,33,114.69791666666666,27.666666666666664,117.30468749999997,22.555555555555557C119.91145833333331,17.444444444444443,122.51822916666666,12.555555555555554,125.12499999999999,9.666666666666666C127.73177083333331,6.777777777777777,130.33854166666666,5.888888888888888,132.9453125,8.11111111111111C135.55208333333331,10.333333333333332,138.15885416666666,15.666666666666666,140.765625,15.222222222222223C143.37239583333331,14.777777777777779,145.97916666666666,8.555555555555555,148.5859375,5.666666666666666C151.19270833333331,2.777777777777777,153.79947916666666,3.2222222222222197,156.40625,7.888888888888886C159.01302083333331,12.555555555555552,161.61979166666666,21.444444444444443,164.2265625,26.555555555555554C166.83333333333331,31.666666666666664,169.44010416666666,33,172.046875,29.22222222222222C174.65364583333331,25.444444444444443,177.26041666666666,16.555555555555557,179.8671875,11.222222222222221C182.47395833333331,5.888888888888888,185.08072916666666,4.111111111111111,187.6875,3.2222222222222223C190.29427083333331,2.333333333333334,192.90104166666666,2.333333333333334,195.5078125,3.8888888888888884C198.11458333333331,5.444444444444444,200.72135416666663,8.555555555555554,203.32812499999997,10.111111111111109C205.93489583333331,11.666666666666664,208.54166666666666,11.666666666666664,211.14843749999997,16.111111111111107C213.75520833333331,20.555555555555554,216.36197916666666,29.444444444444446,217.66536458333331,33.888888888888886L218.96875,38.333333333333336L218.96875,50L217.66536458333331,49.999999999999986C216.36197916666666,49.99999999999999,213.75520833333331,49.99999999999999,211.1484375,49.999999999999986C208.54166666666666,49.99999999999999,205.93489583333331,49.99999999999999,203.32812499999997,49.999999999999986C200.72135416666663,49.99999999999999,198.11458333333331,49.99999999999999,195.5078125,49.999999999999986C192.90104166666666,49.99999999999999,190.29427083333331,49.99999999999999,187.6875,49.999999999999986C185.08072916666666,49.99999999999999,182.47395833333331,49.99999999999999,179.86718749999997,49.999999999999986C177.26041666666666,49.99999999999999,174.65364583333331,49.99999999999999,172.046875,49.999999999999986C169.44010416666666,49.99999999999999,166.83333333333331,49.99999999999999,164.2265625,49.999999999999986C161.61979166666666,49.99999999999999,159.01302083333331,49.99999999999999,156.40624999999997,49.999999999999986C153.79947916666666,49.99999999999999,151.19270833333331,49.99999999999999,148.5859375,49.999999999999986C145.97916666666666,49.99999999999999,143.37239583333331,49.99999999999999,140.765625,49.999999999999986C138.15885416666666,49.99999999999999,135.55208333333331,49.99999999999999,132.9453125,49.999999999999986C130.33854166666666,49.99999999999999,127.73177083333331,49.99999999999999,125.12499999999999,49.999999999999986C122.51822916666666,49.99999999999999,119.91145833333331,49.99999999999999,117.30468749999999,49.999999999999986C114.69791666666666,49.99999999999999,112.09114583333331,49.99999999999999,109.484375,49.999999999999986C106.87760416666666,49.99999999999999,104.27083333333331,49.99999999999999,101.66406249999999,49.999999999999986C99.05729166666666,49.99999999999999,96.45052083333333,49.99999999999999,93.84374999999999,49.999999999999986C91.23697916666666,49.99999999999999,88.63020833333333,49.99999999999999,86.0234375,49.999999999999986C83.41666666666666,49.99999999999999,80.80989583333333,49.99999999999999,78.203125,49.999999999999986C75.59635416666666,49.99999999999999,72.98958333333333,49.99999999999999,70.3828125,49.999999999999986C67.77604166666666,49.99999999999999,65.16927083333333,49.99999999999999,62.56249999999999,49.999999999999986C59.95572916666666,49.99999999999999,57.34895833333333,49.99999999999999,54.7421875,49.999999999999986C52.135416666666664,49.99999999999999,49.52864583333333,49.99999999999999,46.921875,49.999999999999986C44.315104166666664,49.99999999999999,41.70833333333333,49.99999999999999,39.10156249999999,49.999999999999986C36.494791666666664,49.99999999999999,33.88802083333333,49.99999999999999,31.281249999999996,49.999999999999986C28.674479166666664,49.99999999999999,26.067708333333332,49.99999999999999,23.460937499999996,49.999999999999986C20.854166666666664,49.99999999999999,18.247395833333332,49.99999999999999,15.640624999999998,49.999999999999986C13.033854166666664,49.99999999999999,10.427083333333332,49.99999999999999,7.820312499999999,49.999999999999986C5.213541666666666,49.99999999999999,2.606770833333333,49.99999999999999,0,49.999999999999986C-2.606770833333333,49.99999999999999,-5.213541666666666,49.99999999999999,-6.516927083333332,49.999999999999986L-7.8203125,50Z"
+                            class="d3-area" style="fill: rgba(255, 255, 255, 0.5); opacity: 1;"
+                            transform="translate(-6.016427083333333,0)"></path>
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </a>
+<%}%>
+
+        </div>
+        <div class="row">
+          <div class="col-lg-2">
+            <h2 class="card-inside-title">From Date</h2>
+            <div class="form-line">
+              <input type="date" id="min" onchange="myFunction()" class="form-control" data-date-format="YYYY-MM-DD">
+            </div>
+          </div>
+          <div class="col-xs-2">
+            <h2 class="card-inside-title">To Date</h2>
+            <div class="form-line">
+              <input type="date" id="max" onchange="myFunction()" class="form-control" data-date-format="YYYY-MM-DD">
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="row">
+
+
+            <% if(s_id.indexOf('1')!= -1){%>
+            <div class="col-lg-6">
+              <div id="container"></div>
+
+            </div>
+            <%}%>
+            <% if(s_id.indexOf('1')!= -1){%>
+            <div class="col-lg-6">
+
+              <h5>Latest Users</h5>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>email</th>
+                    <th>Image</th>
+
+                  </tr>
+                </thead>
+                <tbody id="latestuser">
+                  <% for( var i = 0; i < get_user_all.length; i++ ){%>
+                  <tr>
+                    <td><%=get_user_all[i].name%></td>
+                    <td><%=get_user_all[i].email%></td>
+                    <td><img
+                        src="<%= get_user_all[i].image == '' || get_user_all[i].image == null || get_user_all[i].image == '/images/users/' ? '/white_user.jpg' : get_user_all[i].image%>"
+                        width="50" height="50" class="img-circle"></td>
+
+                  </tr>
+                  <%}%>
+                          
+                          </tbody>
+                        </table>
+                        </div>
+                        <%}%>
+                        <% if(s_id.indexOf('1')!= -1){%>
+                        <div class="col-lg-6">
+                        <h5>Latest subscriber</h5>
+                        <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Username</th>
+                              <th>Email</th>
+                              <th>address</th>
+                  
+                            </tr>
+                          </thead>
+                          <tbody id="latestsubscriber">
+                            <% for( var i = 0; i < get_user_subscriber.length; i++ ){%>
+                  <tr>
+                    <td><%=get_user_subscriber[i].name%></td>
+                    <td><%=get_user_subscriber[i].email%></td>
+                    <td><%=get_user_subscriber[i].planName%></td>
+
+                  </tr>
+                  <%}%>
+                         
+                          </tbody>
+                        </table>
+                  
+                          </div>
+                          <%}%>
+                          <% if(s_id.indexOf('4')!= -1){%>
+                          <div class="col-lg-6">
+                            <h5>Most Popular Magazine</h5>
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th>Magazine name</th>
+                                  <th>Brand name</th>
+                                  <th>User name</th>
+                      
+                                </tr>
+                              </thead>
+                              <tbody id="popularmagazine">
+                                <% for( var i = 0; i < get_latest_magazine.length; i++ ){%>
+                  <tr>
+                    <td><%=get_latest_magazine[i].magazineName%></td>
+                    <td><%=get_latest_magazine[i].brandName%></td>
+                    <td><%=get_latest_magazine[i].userName%></td>
+
+                  </tr>
+                  <%}%>
+                             
+                              </tbody>
+                            </table>
+                      
+                              </div>
+                              <%}%>
+                              <% if(s_id.indexOf('4')!= -1){%>
+                              <div class="col-lg-6">
+                                <h5>Least Popular Magazine</h5>
+                                <table class="table table-bordered">
+                                  <thead>
+                                    <tr>
+                                      <th>Magazine name</th>
+                                      <th>Brand name</th>
+                                      <th>User name</th>
+                          
+                                    </tr>
+                                  </thead>
+                                  <tbody id="leastpopularmagazine">
+                                
+                                      <% for( var i = 0; i < get_latest_magazine.length; i++ ){%>
+                  <tr>
+                    <td><%=get_latest_magazine[i].magazineName%></td>
+                    <td><%=get_latest_magazine[i].brandName%></td>
+                    <td><%=get_latest_magazine[i].userName%></td>
+
+                  </tr>
+                  <%}%>
+                                 
+                                  </tbody>
+                                </table>
+                          
+                                  </div>
+                                  <%}%>
+                        </div>
+                       
+                        </hr>
+                        <!-- <div class="row">
+                          <div class="col-lg-6">
+                            <div id="container"></div>
+                  
+                          </div> -->
+                         
+                          
+                        </div>
+                  
+                  
+                  
+                  
+                      </div>
+                   
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
 
 </html>
+
+
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $.ajax({
+      method: 'get',
+      url: '/admin/get_count',
+      success: function (data) {
+        console.log(data, "data==========")
+        active_user = data.data
+        total_user = data.total
+        inactive_user = data.inactive
+        subscribed_user = data.subscribed
+        Highcharts.chart('container', {
+
+          chart: {
+            styledMode: true
+          },
+
+          title: {
+            text: 'All Counts'
+          },
+
+          xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          },
+
+          series: [{
+            type: 'pie',
+            allowPointSelect: true,
+            keys: ['name', 'y', 'selected', 'sliced'],
+            data: [
+              ['Total Users', total_user, false],
+              ['Active users Bookings', active_user, false],
+              ['Inactive users', inactive_user, false],
+              ['Subscribed users', subscribed_user, false],
+              // ['Complete Bookings', 5, false],
+              // ['Total Users', data.user, false],
+              // ['Total Categories', data.category, false],
+              // ['Total Providers', data.provider, true, true],
+              // ['Total Requests', data.request, false]
+            ],
+            showInLegend: true
+          }]
+        });
+
+      }
+    });
+
+  });
+  function myFunction() {
+
+    let minId = document.getElementById("min").value
+    let maxId = document.getElementById("max").value
+    //alert(minId,'here');
+    // alert(minId)
+    $.ajax({
+      type: "post",
+      url: "/get_filtered_data_dashboard",
+      data: { minId, maxId },
+      success: function (data) {
+        userhtml = ''
+        maghtml = ''
+        leahtml=''
+        subhtml=''
+        //console.log(data.response,"data[0]==============================");
+        latest_user = data.response
+        latest_magazine = data.latest_magazine
+        least_magazine = data.least_magazine
+        latest_subscriber = data.latest_subscriber
+        active_user = data.active_user.length
+        total_user = data.total_user.length
+        inactive_user = data.inactive_user.length
+        total_subscribed = data.latest_subscriber.length
+        // console.log(latest_user.length,"latest_user")
+        if (latest_user.length > 0) {
+          for (var i in latest_user) {
+            userhtml += `<tr>`
+            userhtml += `<td>` + latest_user[i].name + `</td>`
+            userhtml += `<td>` + latest_user[i].email + `</td>`
+            userhtml += `<td><img src=${latest_user[i].image} == '' || ${latest_user[i].image} == null ||${latest_user[i].image} == '/images/users/' ? '/white_user.jpg' : ${latest_user[i].image}" width="50" height="50" class="img-circle"></td>`
+            userhtml += `</tr>`
+          }
+
+        }
+        $('#latestuser').html(userhtml)
+        if (latest_magazine.length > 0) {
+          for (var k in latest_magazine) {
+            maghtml += `<tr>`
+              maghtml += `<td>${latest_magazine[k].magazineName}</td>`
+            maghtml += `<td>${latest_magazine[k].brandName}</td>`
+            maghtml += `<td>${latest_magazine[k].userName}</td>`
+
+            maghtml += `</tr>`
+          }
+
+        }
+        $('#popularmagazine').html(maghtml)
+        if (least_magazine.length > 0) {
+          for (var j in least_magazine) {
+            leahtml += `<tr>`
+              leahtml += `<td>${least_magazine[j].magazineName}</td>`
+              leahtml += `<td>${least_magazine[j].brandName}</td>`
+              leahtml += `<td>${least_magazine[j].userName}</td>`
+              leahtml += `</tr>`
+          }
+
+        }
+        $('#leastpopularmagazine').html(leahtml)
+
+
+        if (latest_subscriber.length > 0) {
+          for (var m in latest_subscriber) {
+            subhtml += `<tr>`
+              subhtml += `<td>${latest_subscriber[m].name}</td>`
+              subhtml += `<td>${latest_subscriber[m].email}</td>`
+              subhtml += `<td>${latest_subscriber[m].planName}</td>`
+              subhtml += `</tr>`
+          }
+
+        }
+        $('#latestsubscriber').html(subhtml)
+        Highcharts.chart('container', {
+
+          chart: {
+            styledMode: true
+          },
+
+          title: {
+            text: 'All Counts'
+          },
+
+          xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          },
+
+          series: [{
+            type: 'pie',
+            allowPointSelect: true,
+            keys: ['name', 'y', 'selected', 'sliced'],
+            data: [
+              ['Total Users', total_user, false],
+              ['Active users Bookings', active_user, false],
+              ['Inactive users', inactive_user, false],
+              ['Subscribed users', total_subscribed, false],
+
+            ],
+            showInLegend: true
+          }]
+        });
+
+
+      }
+    });
+  }
+
+
+</script>
+                  <!-- <% include ../admin_footer.ejs %> -->

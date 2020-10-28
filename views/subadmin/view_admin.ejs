@@ -16,8 +16,8 @@
                     <div class="page-header page-header-default">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <a href="/admin/magazines_brand"><i class="fas fa-arrow-left"></i></a>
-                                <h4> <span class="text-semibold"></span>Magazine Brand Detail</h4>
+                                <a href="/admin/users"><i class="fas fa-arrow-left"></i></a>
+                                <h4> <span class="text-semibold"></span>User Details</h4>
                             </div>
     
                             <div class="heading-elements">
@@ -30,7 +30,7 @@
                         <div class="breadcrumb-line">
                             <ul class="breadcrumb">
                                 <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-                                <li class="active">Magazine Brands</li>
+                                <li class="active">Users</li>
                                 <li class="active">View</li>
                             </ul>
     
@@ -47,44 +47,68 @@
                                     <tbody>
                                         <tr>
                                             <td class="b">Image</td>
-                                            <td><img src="<%= magazine_brand.image == '' || magazine_brand.image == null || magazine_brand.image == '/images/users/' ? '/white_user.jpg' : magazine_brand.image%>" width="100" height="100" class="img-circle"></td>
+                                            <td><img src="<%= user.image == '' || user.image == null || user.image == '/images/users/' ? '/white_user.jpg' : user.image%>" width="100" height="100" class="img-circle"></td>
                                         </tr>
                                         <tr>
                                             <td class="b">Name</td>
-                                            <td><%= magazine_brand.name %></span></td>
+                                            <td><%= user.name %></span></td>
                                         </tr>
-                                        <!-- <% for( var i = 0; i < magazines.length; i++ ){%>
-                                            <tr>
-                                                <td><img src="<%= magazines[i].image == '' || magazines[i].image == null || magazines[i].image == '/images/users/' ? '/white_user.jpg' : magazines[i].image%>" width="30" height="30" class="img-circle"></td>
-                                                <td><%= magazines[i].name%></td>
-                                            </tr>
-                                        <%}%> -->   
+                                        <tr>
+                                            <td class="b">Email</td>
+                                            <td><%= user.email %></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="b">Address</td>
+                                            <td><%= user.address %></span></td>
+                                        </tr>
+                                         
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <h3 style="margin-left: 500px;">Magazines of this Brand</h3>
+                        <h3 style="margin-left: 500px;">Plans buy by the User</h3>
                         <div class="panel panel-flat">
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th>S.No</th>
-                                            <th>Magazine Picture</th>
-                                            <th>Magazine Name</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Plan Type</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if(magazines.length > 0 ){%>
-                                        <% for( var i = 0; i < magazines.length; i++ ){%>
+                                        <% if(total_subs > 0 ){%>
+                                        <% for( var i = 0; i < subs.length; i++ ){%>
                                             <tr>
                                                 <td> <%= i+1%></td>
-                                                <td><img src="<%= magazines[i].image == '' || magazines[i].image == null || magazines[i].image == '/images/users/' ? '/white_user.jpg' : magazines[i].image%>" width="30" height="30" class="img-circle"></td>
-                                                <td><%= magazines[i].name%></td>
+                                                <td><%= subs[i].start_date%></td>
+                                                <td><%= subs[i].end_date%></td>
+                                                <td>
+                                                    <%if(subs[i].plan_id == 1 || subs[i].status == 1 ){%>
+                                                        Free    
+                                                    <%} else if(subs[i].plan_id == 2 ) {%>
+                                                        Silver
+                                                        <%} else if(subs[i].plan_id == 3 ){%>
+                                                            Premium    
+                                                        <%}%>
+                                                </td>
+                                                <td>
+                                                    <% 
+                                                        if(subs[i].status == 1) { %>
+                                                            <a style="padding-right: 10px" class="label label-success">Active</a> 
+                                        
+                                                        <%} else { %>
+                                                            <a class="label label-danger">Expired</a> <%
+                                                        }
+                                                    %>
+                                                </td>
                                             </tr>
                                         <%}} else {%>
                                             <tr>
-                                                <td>No Magazines of this brand.</td>
+                                                <td>No Plan buy the user.</td>
                                             </tr>
                                             <%}%>  
                                     </tbody>

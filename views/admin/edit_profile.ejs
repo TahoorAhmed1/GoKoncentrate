@@ -1,118 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <% include ../admin_header.ejs %>
+<% include ../admin_header.ejs %>
 
-    <body>
+<body>
 
-        <% include ../admin_navbar.ejs %>
+  <% include ../admin_navbar.ejs %>
 
-        <div class="page-container">
-            <div class="page-content">
-    
-                <% include ../sidebar.ejs %>
-    
-                <div class="content-wrapper">
-                    <div class="page-header page-header-default">
-                        <div class="page-header-content">
-                            <div class="page-title">
-                                <h4> <span class="text-semibold"></span>Edit Admin Details</h4>
-                            </div>
-    
-                            <div class="heading-elements">
-                                <div class="heading-btn-group">
-                                    
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div class="breadcrumb-line">
-                            <ul class="breadcrumb">
-                                <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-                                <li class="active">Profile</li>
-                                <li class="active">Edit</li>
-                            </ul>
-    
-                            <ul class="breadcrumb-elements">
-                                
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="content">
-                        <form action = '/admin/update_profile'  enctype="multipart/form-data"  method="POST" role="form">
-                            <div class="panel panel-flat">
-                                <div class="panel-body">
+  <div class="page-container">
+    <div class="page-content">
 
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label">Name:</label>
-                                        <div class="col-lg-9 input-group">
-                                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                                        <input type="text" name="name" class="form-control" value="<%= response.name %>" placeholder="Enter name" required>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label">Email:</label>
-                                        <div class="col-lg-9 input-group">
-                                        <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
-                                        <input type="email" name="email" class="form-control" value="<%= response.email %>" placeholder="Enter email" required>
-                                        </div>
-                                    </div>
+      <% include ../sidebar.ejs %>
 
-									<div class="form-group">
-                                        <label class="col-lg-3 control-label">Image:</label>
-                                        <div class="col-lg-2">
-                                            <img src="<%= response.image == '' ? '/user.png' : response.image %>" width="100" height="100" id="image" class="img-circle">
-                                        </div>
-                                        <div class="col-lg-7">
-                                            <input type="file" name="image" class="file-styled" id="files" accept="image/*">
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="id" value="<%= session.admin_id %>">
-    
-                                    <div class="text-right">
-                                        <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </form>
-
-                        <% include ../admin_footer.ejs %>
-
-                    </div>
-                    
-                </div>
+      <div class="content-wrapper">
+        <div class="page-header page-header-default">
+          <div class="page-header-content">
+            <div class="page-title">
+              <h4> <span class="text-semibold"></span>Edit Admin Details</h4>
             </div>
+
+            <div class="heading-elements">
+              <div class="heading-btn-group">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+              <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+              <li class="active">Profile</li>
+              <li class="active">Edit</li>
+            </ul>
+
+            <ul class="breadcrumb-elements">
+
+            </ul>
+          </div>
         </div>
 
-        <style>
-            .control-label{
-                font-weight: 600;
-            }
-            .btn.btn-primary{
-                margin-top: 70px;
-            }
-            .img-circle {
-                object-fit: cover;
-            }
-        </style>
+        <div class="content">
+          <form action='/admin/update_profile' enctype="multipart/form-data" method="POST" role="form">
+            <div class="panel panel-flat">
+              <div class="panel-body">
 
-        <script>
-            document.getElementById("files").onchange = function () {
-                var reader = new FileReader();
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Name:</label>
+                  <div class="col-lg-9 input-group">
+                    <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                    <input type="text" name="name" class="form-control" value="<%= response.name %>"
+                      placeholder="Enter name" required>
+                  </div>
+                </div>
 
-                reader.onload = function (e) {
-                    // get loaded data and render thumbnail.
-                    document.getElementById("image").src = e.target.result;
-                };
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Email:</label>
+                  <div class="col-lg-9 input-group">
+                    <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+                    <input type="email" name="email" class="form-control" value="<%= response.email %>"
+                      placeholder="Enter email" required>
+                  </div>
+                </div>
 
-                // read the image file as a data URL.
-                reader.readAsDataURL(this.files[0]);
-            };
-        </script>
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Image:</label>
+                  <div class="col-lg-2">
+                    <img src="<%= response.image == '' ? '/user.png' : response.image %>" width="100" height="100"
+                      id="image" class="img-circle">
+                  </div>
+                  <div class="col-lg-7">
+                    <input type="file" name="image" class="file-styled" id="files" accept="image/*">
+                  </div>
+                </div>
+                <input type="hidden" name="id" value="<%= session.admin_id %>">
 
-    </body>
+                <div class="text-right">
+                  <button type="submit" class="btn btn-primary">Submit <i
+                      class="icon-arrow-right14 position-right"></i></button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+
+          <% include ../admin_footer.ejs %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .control-label {
+      font-weight: 600;
+    }
+
+    .btn.btn-primary {
+      margin-top: 70px;
+    }
+
+    .img-circle {
+      object-fit: cover;
+    }
+  </style>
+
+  <script>
+    document.getElementById("files").onchange = function () {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+      };
+
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+    };
+  </script>
+
+</body>
 
 </html>

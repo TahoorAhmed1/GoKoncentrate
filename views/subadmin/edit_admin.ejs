@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../admin_header.ejs %>
+
+<style>
+  .error {
+    color: red;
+    padding-bottom: 10px;
+    font-size: 14px;
+  }
+</style>
+
+<body>
+  <% if(msg != '') { %>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+  <% include ../admin_navbar.ejs %>
+
+  <div class="page-container">
+    <div class="page-content">
+
+      <% include ../sidebar.ejs %>
+
+      <div class="content-wrapper">
+        <div class="page-header page-header-default">
+          <div class="page-header-content">
+            <div class="page-title">
+              <h4> <span class="text-semibold"></span>Add Sub Admin</h4>
+            </div>
+
+            <div class="heading-elements">
+              <div class="heading-btn-group">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+              <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+              <li class="active">Sub Admin</li>
+              <li class="active">Add</li>
+            </ul>
+
+            <ul class="breadcrumb-elements">
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="content">
+          <form action='/admin/sub_admin_edit' enctype="multipart/form-data" method="POST" id="edit_sub_form" role="form">
+            <div class="panel panel-flat">
+              <div class="panel-body">
+
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Name:</label>
+                  <div class="col-lg-9 input-group">
+                    <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                    <input type="text" name="name" value="<%=response.name%>" class="form-control" placeholder="Enter name" required>
+                  </div>
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-9"><label id="name-error" class="error" for="name"></label></div>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Email:</label>
+                  <div class="col-lg-9 input-group">
+                    <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+                    <input type="email" name="email" value="<%=response.email%>" class="form-control" placeholder="Enter email" required>
+                  </div>
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-9"><label id="email-error" class="error" for="email"></label></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Password:</label>
+                  <div class="col-lg-9 input-group">
+                    <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                    <input type="text" name="password" value="<%=response.real_password%>" class="form-control" placeholder="Enter password" required>
+                  </div>
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-9"><label id="password-error" class="error" for="password"></label></div>
+                </div>
+                <%
+                let s_id= response.module_id.split(",");
+               
+              %>
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Select Modules:</label>
+                  <div class="col-lg-9 input-group">
+                    <label class="checkbox-inline">
+                      <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="1" <%= (s_id.indexOf('1') !=-1)? 'checked' : '' %> required>
+                      Users  
+                  </label> <br>
+                  <label class="checkbox-inline">
+                    <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="2"  <%= (s_id.indexOf('2') !=-1)? 'checked' : '' %> >
+                    Users Plans  
+                </label> <br>
+                <label class="checkbox-inline">
+                  <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="3" <%= (s_id.indexOf('3') !=-1)? 'checked' : '' %>>
+                  Magazine Brands 
+              </label> <br>
+              <label class="checkbox-inline">
+                <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="4" <%= (s_id.indexOf('4') !=-1)? 'checked' : '' %>>
+                Magazine Managment 
+            </label> <br>
+            <label class="checkbox-inline">
+              <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="5" <%= (s_id.indexOf('5') !=-1)? 'checked' : '' %>>
+              Notifications To users 
+          </label> <br>
+          <label class="checkbox-inline">
+            <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="6" <%= (s_id.indexOf('6') !=-1)? 'checked' : '' %>>
+            Magazine Analytics
+        </label> <br>
+        <label class="checkbox-inline">
+          <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="7" <%= (s_id.indexOf('7') !=-1)? 'checked' : '' %>>
+          Pages
+      </label> <br>
+                  </div>
+                  <div class="col-lg-3"></div>
+                  <div class="col-lg-9"><label id="modules_data" class="error" for="modules_data"></label></div>
+                </div>
+
+                
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Image:</label>
+                  <div class="col-lg-2">
+                    <%
+                                                if(response.image == '' || response.image == null || response.image == '/images/users/')
+                                                { %>
+                    <img src="/user.png" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                                else
+                                                { %>
+                    <img src="<%= response.image %>" width="100" height="100" id="image" class="img-circle"> <%
+                                                }
+                                            %>
+                  </div>
+                  <div class="col-lg-7 pr-0">
+                    <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
+                    <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                  </div>
+                </div>
+
+                <input type="hidden" name="id" value="<%=response.id%>">
+               
+                
+
+                <div class="text-right">
+                  <button type="submit" class="btn btn-primary">Submit <i
+                      class="icon-arrow-right14 position-right"></i></button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+
+          <% include ../admin_footer.ejs %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .control-label {
+      font-weight: 600;
+    }
+
+    .btn.btn-primary {
+      margin-top: 70px;
+    }
+
+    .img-circle {
+      object-fit: cover;
+    }
+  </style>
+
+  <script>
+    document.getElementById("files").onchange = function () {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+      };
+
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+    };
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $("#edit_sub_form").validate({
+        rules: {
+          name: {
+            required: true,
+            maxlength: 50
+          },
+          username: {
+            required: true,
+            maxlength: 50
+          },
+          email: {
+            required: true,
+            email: true,
+            maxlength: 50,
+            // remote: {
+            //   url: '/add_user_check_email_exists',
+            //   type: 'post'
+            // }
+          },
+          password: {
+            required: true,
+            maxlength: 50
+          },
+          dob: {
+            required: true,
+            maxlength: 50
+          },
+          bio: {
+            required: true,
+            maxlength: 1000
+          },
+        },
+        messages: {
+          name: {
+            required: "This field is required",
+            maxlength: "Maximum length 50 characters",
+          },
+          username: {
+            required: "This field is required",
+            maxlength: "Maximum length 50 characters",
+          },
+          email: {
+            required: "This field is required",
+            email: "Please enter a valid email address",
+            maxlength: "Maximum length 50 characters",
+            remote: "Email already exists"
+          },
+          password: {
+            required: "This field is required",
+            maxlength: "Maximum length 50 characters",
+          },
+          dob: {
+            required: "This field is required",
+            maxlength: "Maximum length 50 characters",
+          },
+          bio: {
+            required: "This field is required",
+            maxlength: "Maximum length 1000 characters",
+          },
+        }
+      });
+    })
+  </script>
+
+</body>
+
+</html>

@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 var fileUpload=require('express-fileupload');
 const routes = require('./routes/routes')
 const flash = require('connect-flash');
-const port = process.env.PORT || 3090;
+const port = process.env.PORT || 3191;
 const app = express();
 var http = require('http').createServer(app);
 
@@ -62,8 +62,8 @@ const expressSession = require('cookie-session')
 //     })
 //     );
 app.use(flash());
-
-app.use('/admin', routes);
+require('./routes/routes')(app);
+// app.use('/admin', routes);
 
 http.listen(port, function(){
     console.log(`listening on *: ${port}`);
