@@ -25,7 +25,10 @@ module.exports = {
           role: {
             [Op.ne]: 1
           }
-        }
+        },
+        order:[
+          ['id','desc']
+        ]
       })
       // console.log(get_all_admin,"get_all_admin");return
       res.render('subadmin/index', { msg: req.flash('msg'), response: get_all_admin, title: 'sub_admin', session: req.session })
@@ -43,6 +46,11 @@ module.exports = {
   save_sub_admin: async function (req, res) {
     try {
       // console.log(req.body,"===================")
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/add_subadmin`)
+        return
+      }
       let check_email = await admins.findOne({
         where: {
           email: req.body.email
@@ -111,6 +119,12 @@ module.exports = {
   },
   sub_admin_edit: async function (req, res) {
     try {
+
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/edit_sub_admin?id=${req.body.id}`)
+        return
+      }
       let check_email = await admins.findOne({
         where: {
           email: req.body.email,

@@ -98,6 +98,17 @@ module.exports = {
   update_user:async function(req,res){
     try{
         //   console.log("innnnnnnnnnnnnnnnnnnnn");return
+
+        if (req.body.name.indexOf(' ') == 0) {
+          req.flash('msg', 'Please write something in name')
+  res.redirect(`/admin/edit_user?id=${req.body.id}`)
+          return
+        }
+        if (req.body.address.indexOf(' ') == 0) {
+          req.flash('msg', 'Please write something in address')
+  res.redirect(`/admin/edit_user?id=${req.body.id}`)
+          return
+        }
       var get_last_image= await users.findOne({
         attributes:['id','image'],
         where:{

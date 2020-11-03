@@ -27,6 +27,20 @@
         padding: 13px;
         border-radius: 5px;
     }
+    .dt-buttons {
+    float: right;
+    display: inline-block;
+    margin: 10px 10px 20px 20px;
+    margin-left: 4opx;
+}
+.dataTables_filter > label {
+    margin-bottom: 0;
+    position: relative;
+    margin-top: 10px;
+}
+.dataTables_info {
+    margin-left: 20px;
+}
 </style>
 
 <script>
@@ -321,12 +335,19 @@
   <script>
  var table = $('#myTable').DataTable({
         dom: 'Bfrtip',
+//         aoColumnDefs: [
+//   {
+//      bSortable: false,
+//      aTargets: [ -1,-7 ],
+//   }
+// ],
         buttons: [
             'copyHtml5',
             'excelHtml5',
             'csvHtml5',
             'pdfHtml5'
-        ]
+        ],
+        
     });
 </script>
       </script>

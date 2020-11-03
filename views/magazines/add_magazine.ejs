@@ -12,10 +12,13 @@
 </style>
 
 <body>
-  <% if(msg != '') { %>
-  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+  <% if(msg != '' && msg=='Please write something in name') { %>
+  <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
       style="font-size: 16px;"><%= msg %></span></div> <%
-        } %>
+        } else if(msg != ''){%>
+          <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+            style="font-size: 16px;"><%= msg %></span></div>
+          <%}%>
 
   <% include ../admin_navbar.ejs %>
 
@@ -71,7 +74,7 @@
                   <label class="col-lg-3 control-label">Magazine Brand:</label>
                   <div class="col-lg-9 input-group">
                     <span class="input-group-addon" style="font-size: 15px;"><i class="fa fa-address-book"></i></span>
-                    <select name="brand" id="brand" class="form-control">
+                    <select name="brand" id="brand" class="form-control" required>
                       <option disabled selected value> select a magazine brand</option>
                       <%for( var i = 0; i < magazine_brands.length; i++ ){%>
                       <option value="<%= magazine_brands[i].id%>"><%= magazine_brands[i].name%></option>

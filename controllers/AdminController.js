@@ -255,7 +255,7 @@ module.exports = {
         }
       );
       req.flash('msg', 'Admin updated successfully')
-      res.redirect(`/admin/profile?id=${requestdata.id}`)
+      res.redirect('/admin/dashboard')
     } catch (error) {
       throw error
     }

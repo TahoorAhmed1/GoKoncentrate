@@ -37,6 +37,12 @@ module.exports = {
   },
   magazine_brand_add: async function (req, res) {
     try {
+
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/add_magazine_brand`)
+        return
+      }
       image_user_url = ''
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
@@ -110,6 +116,12 @@ module.exports = {
   update_magazine_brand: async function (req, res) {
     try {
 
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/edit_magazine_brand?id=${req.body.id}`)
+        return
+      }
+
       var get_last_image = await magazinesBrand.findOne({
         attributes: ['id', 'image'],
         where: {
@@ -176,6 +188,9 @@ module.exports = {
       })
       var get_all_magazine_brands = await magazinesBrand.findAll({
         attributes: ['id', 'name', 'image', 'delete_status', 'status'],
+        where:{
+          status:1
+        },
         order: [
           ['id', 'desc']
         ],
@@ -186,6 +201,9 @@ module.exports = {
         where: {
           magazine_id: req.query.id
         },
+        order:[
+          ['id','desc']
+        ],
         raw: true
       })
       res.render('magazines/edit_magazine', { msg: req.flash('msg'), magazine: get_all_magazine, magazine_brands: get_all_magazine_brands, pages: get_all_magazine_page, title: 'magazines', session: req.session });
@@ -195,6 +213,11 @@ module.exports = {
   },
   update_magazine: async function (req, res) {
     try {
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
+        return
+      }
       //  console.log("return");return
       var get_last_image = await magazines.findOne({
         attributes: ['id', 'image'],
@@ -256,6 +279,9 @@ module.exports = {
         where: {
           id: req.query.id
         },
+        order:[
+          ['id','desc']
+        ],
         raw: true
       })
       //  console.log(get_page,"get_page");return
@@ -287,6 +313,9 @@ module.exports = {
         where: {
           id: req.query.id
         },
+        order:[
+          ['id','desc']
+        ],
         raw: true
       })
       //console.log(get_all_magazine_brands,"get_all_magazine_brands");return
@@ -308,6 +337,9 @@ module.exports = {
         where: {
           id: req.query.id
         },
+        order:[
+          ['id','desc']
+        ],
         raw: true
       })
       //  console.log(get_page,"get_page");return
@@ -320,6 +352,9 @@ module.exports = {
     try {
       var get_all_magazine_brands = await magazinesBrand.findAll({
         attributes: ['id', 'name', 'image', 'delete_status', 'status'],
+        where:{
+          status:1
+        },
         order: [
           ['id', 'desc']
         ],
@@ -333,17 +368,23 @@ module.exports = {
   },
   save_magazine: async function (req, res) {
     try {
-    //  console.log("hello");return
-     image_user_url= ''
+      //  console.log("hello");return
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/magazines`)
+        return
+      }
+
+      image_user_url = ''
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
         var fileimage = uuid() + extension;
         image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
         });
-        image_user_url= `/images/users/${fileimage}`
+        image_user_url = `/images/users/${fileimage}`
       }
-    //  console.log(image_user_url,"image_user_url");return
+      //  console.log(image_user_url,"image_user_url");return
       let create_magazine = await magazines.create({
         name: req.body.name,
         image: image_user_url,
