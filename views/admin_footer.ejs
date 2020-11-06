@@ -113,6 +113,56 @@
                 }
             });
         });
+        $('.delete_magazine').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('rel'); 
+            var table = _this.attr('table'); 
+           // alert(_id);
+            //var username = _this.attr("username");
+
+        
+                var text = "You want to delete this account";
+            
+            
+            swal({
+                title: "Are you sure?",
+                text: text,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((data) => {
+                if (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/delete_magazine_data",
+                        data: {
+                            "id":_id,
+                            "table":table,
+                        },
+    
+                        success: function(data) {
+                            if(data == 1) {
+                                _this.parents('tr').remove();
+                                swal("Your data has been deleted!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                             //   alert("innnnnnnnn")
+                               // swal("Error", "Error", "You can't delete this brand magazine because used by other magazine");
+                               swal("Error", "You can't delete this brand magazine because used by other magazine");
+                            }
+                            // setTimeout(function () { location.reload(1); }, 1000);
+
+                        },error(error){
+                        console.error(error);
+                        }
+                    });
+                }
+            });
+        });
 
         $('.change_status').on('click', function () {
             let _this=$(this);

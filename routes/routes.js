@@ -67,8 +67,9 @@ module.exports =function(app){
     app.route('/admin/view_page').get(magazine.view_page_magazine);
     app.route('/admin/add_magazine').get(magazine.add_magazine);
     app.route('/admin/save_magazine').post(magazine.save_magazine);
+    app.route('/admin/delete_magazine_data').post(magazine.delete_magazine_data);
 
-    //  notification controller
+    //  notification controller  
     app.route('/admin/notifications').get(notification.index);
     app.route('/admin/send_email').post(notification.send_email_user);
 

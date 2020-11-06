@@ -395,5 +395,30 @@ module.exports = {
     } catch (error) {
       throw error
     }
+  },
+  delete_magazine_data:async function(req,res){
+    try{
+
+      let get_magazine_data= await magazines.findOne({
+        where:{
+          brand_id:req.body.id
+        },
+        raw:true
+      })
+     // console.log(get_magazine_data,"get_magazine_data");return
+      if(get_magazine_data){
+        res.json(2)
+      }else{
+      let destroy_all_data= await magazines.destroy({
+        where:{
+          id:req.body.id
+        }
+     });
+     res.json(1)
+    }
+
+    }catch(error){
+      throw error
+    }
   }
 }
