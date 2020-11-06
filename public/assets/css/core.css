@@ -852,9 +852,17 @@ th {
 }
 .table > thead > tr > th {
   border-bottom: 1px solid #bbb;
+  border-top: 1px solid #ddd !important;
 }
 .table > tfoot > tr > th {
   border-top: 1px solid #bbb;
+}
+.table-responsive.db {
+  clear: both;
+  
+}
+.edt label {
+  padding-left: 0;
 }
 .table .table {
   background-color: #fff;
@@ -5994,6 +6002,19 @@ a.list-group-item-danger:focus {
   margin-bottom: 20px;
   border-color: #ddd;
   color: #333333;
+  padding: 20px ;
+}
+.col-lg-12.mb-1 {
+  margin: 0 0 20px;
+}
+.table-responsive.db {
+  clear: both;
+}
+div#myTable_filter > label > input {
+  margin-left: 10px;
+}
+div#myTable_filter > label {
+  margin: 14px 0 0 0;
 }
 .panel.has-scroll {
   max-width: 100%;
@@ -6487,3 +6508,32 @@ h6.panel-title,
 .popover[class*=border-].left > .arrow:after {
   border-left-color: inherit;
 }
+.footer.text-muted {
+  margin: 0 !important;
+}
+.col-lg-9.input-group.s label {
+  padding-left: 30px;
+}
+.navbar-header {
+  background: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.form-group.ds {
+  margin: 0 0 0 0;
+}
+@media (max-width:1199px)
+{
+ 
+}
+@media (max-width:991px)
+{}
+@media (max-width:767px)
+{
+  .navbar-header a.navbar-brand img {
+    margin: 0 !important;
+}
+}
+@media (max-width:567px)
+{}
+@media (max-width:479px)
+{}

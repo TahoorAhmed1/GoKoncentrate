@@ -17032,7 +17032,7 @@ thead .htCollapseButton:after {
 .dataTables_paginate {
   float: right;
   text-align: right;
-  margin: 0 0 20px 20px;
+  margin: 15px 0 20px 20px;
 }
 .dataTables_paginate .paginate_button {
   display: inline-block;
@@ -20633,4 +20633,19 @@ span.custom_label {
 }
 .sidebar-xs .sidebar-main .navigation > li:hover + .sidebar-main {
   width: 56px !important;
+}
+@media (max-width:556px)
+{
+.dt-buttons {
+  float: right;
+  display: inline-block;
+  margin: 10px 10px 0 20px !important;
+}
+}
+@media (max-width:338px)
+{
+  .dataTables_filter input {
+    outline: 0;
+    width: 174px;
+  }
 }
