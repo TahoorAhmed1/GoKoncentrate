@@ -553,6 +553,7 @@
             </thead>
             <tbody id="latestuser">
               <% for( var i = 0; i < get_user_all.length; i++ ){%>
+                <%if(get_user_all[i].name!=null){%>
               <tr>
                 <td><%=get_user_all[i].name%></td>
                 <td><%=get_user_all[i].email%></td>
@@ -561,6 +562,7 @@
                     width="50" height="50" class="img-circle"></td>
 
               </tr>
+              <%}%>
               <%}%>
                           
                           </tbody>
@@ -580,13 +582,15 @@
                     </tr>
                   </thead>
                   <tbody id="latestsubscriber">
-                    <% for( var i = 0; i < get_user_subscriber.length; i++ ){%>
+                    <% for( var i in  get_user_subscriber){%>
+                      <%if(get_user_subscriber[i].name!=null){%>
                     <tr>
                       <td><%=get_user_subscriber[i].name%></td>
                       <td><%=get_user_subscriber[i].email%></td>
                       <td><%=get_user_subscriber[i].planName%></td>
 
                     </tr>
+                    <%}%>
                     <%}%>
                          
                           </tbody>
@@ -608,12 +612,14 @@
                         </thead>
                         <tbody id="popularmagazine">
                           <% for( var i = 0; i < get_latest_magazine.length; i++ ){%>
+                            <%if(get_latest_magazine[i].magazineName!=null || get_latest_magazine[i].brandName!=null || get_latest_magazine[i].userName!=null){%>
                           <tr>
                             <td><%=get_latest_magazine[i].magazineName%></td>
                             <td><%=get_latest_magazine[i].brandName%></td>
                             <td><%=get_latest_magazine[i].userName%></td>
 
                           </tr>
+                          <%}%>
                           <%}%>
                              
                               </tbody>
@@ -636,12 +642,14 @@
                               <tbody id="leastpopularmagazine">
 
                                 <% for( var i = 0; i < get_latest_magazine.length; i++ ){%>
+                                  <%if(get_latest_magazine[i].magazineName!=null || get_latest_magazine[i].brandName!=null || get_latest_magazine[i].userName!=null){%>
                                 <tr>
                                   <td><%=get_latest_magazine[i].magazineName%></td>
                                   <td><%=get_latest_magazine[i].brandName%></td>
                                   <td><%=get_latest_magazine[i].userName%></td>
 
                                 </tr>
+                                <%}%>
                                 <%}%>
                                  
                                   </tbody>
