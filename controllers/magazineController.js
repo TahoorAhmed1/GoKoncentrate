@@ -371,7 +371,7 @@ module.exports = {
       //  console.log("hello");return
       if (req.body.name.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in name')
-        res.redirect(`/admin/magazines`)
+        res.redirect(`/admin/add_magazine`)
         return
       }
 
