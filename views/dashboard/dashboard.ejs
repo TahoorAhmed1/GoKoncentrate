@@ -48,10 +48,13 @@
 
 <body class="pace-done">
 
-  <% if(msg != '') { %>
-  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+  <% if(msg != '' && msg=='Please write something in name') { %>
+  <div class="alert alert-success msg" id="msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
       style="font-size: 16px;"><%= msg %></span></div> <%
-        } %>
+        } else if(msg != ''){%>
+          <div class="alert alert-success msg" id="msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+            style="font-size: 16px;"><%= msg %></span></div>
+          <%}%>
   <% include ../admin_navbar.ejs %>
 
 
@@ -830,7 +833,9 @@
       }
     });
   }
-
+  setTimeout(function(){
+        $("#msg"). fadeOut();
+        },3000);
 
 </script>
 <!-- <% include ../admin_footer.ejs %> -->

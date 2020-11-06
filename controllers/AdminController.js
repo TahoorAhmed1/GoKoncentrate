@@ -211,6 +211,12 @@ module.exports = {
   },
   update_profile_admn: async function (req, res) {
     try {
+
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/profile?id=${req.body.id}`)
+        return
+      }
       let requestdata = req.body;
       //console.log(requestdata);return false;
       const users = await admins.findOne({

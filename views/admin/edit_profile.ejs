@@ -14,7 +14,10 @@
 
   <div class="page-container">
     <div class="page-content">
-
+      <% if(msg != '') { %>
+      <div class="alert alert-danger msg" id="msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+        style="font-size: 16px;"><%= msg %></span></div>
+        <%}%>
       <% include ../sidebar.ejs %>
 
       <div class="content-wrapper">
