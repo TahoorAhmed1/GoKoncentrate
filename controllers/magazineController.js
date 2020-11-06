@@ -83,6 +83,9 @@ module.exports = {
         where: {
           brand_id: req.query.id
         },
+       order:[
+         ['id','desc']
+       ],
         raw: true
       })
       res.render('magazines_brand/view_magazine_brand', { msg: req.flash('msg'), magazine_brand: get_all_magazines, title: 'magazines_brand', magazines: get_all_magazines_daat, session: req.session });
@@ -323,6 +326,9 @@ module.exports = {
         where: {
           magazine_id: req.query.id
         },
+        order:[
+          ['id','desc']
+        ],
         raw: true
       })
       res.render('magazines/view_magazine', { msg: req.flash('msg'), magazine: get_all_magazine, pages: get_all_magazine_page, title: 'magazines', session: req.session });
