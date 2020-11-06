@@ -6521,6 +6521,9 @@ h6.panel-title,
 .form-group.ds {
   margin: 0 0 0 0;
 }
+.form-group.s .col-lg-9.input-group label {
+  padding: 0 0 0 30px;
+}
 @media (max-width:1199px)
 {
  

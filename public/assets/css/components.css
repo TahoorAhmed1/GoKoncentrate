@@ -16980,7 +16980,7 @@ thead .htCollapseButton:after {
   position: relative;
   display: block;
   float: left;
-  margin: 0 0 20px 20px;
+  margin: 0 0 20px 9px;
 }
 .dataTables_filter > label {
   margin-bottom: 0;
