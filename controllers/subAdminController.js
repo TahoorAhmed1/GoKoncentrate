@@ -38,14 +38,26 @@ module.exports = {
   },
   add_subadmin: async function (req, res) {
     try {
-      res.render('subadmin/add', { msg: req.flash('msg'), title: 'sub_admin', session: req.session })
+      let get_all_magazine= await magazines.findAll({
+        attributes:['id','name','status'],
+        where:{
+          status:1
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true
+      });
+
+   //   console.log(get_all_magazine,"get_all_magazine");return
+      res.render('subadmin/add', { msg: req.flash('msg'),get_all_magazine, title:'sub_admin', session: req.session })
     } catch (error) {
       throw error
     }
   },
   save_sub_admin: async function (req, res) {
     try {
-      // console.log(req.body,"===================")
+     //  console.log(req.body,"===================");return
       if (req.body.name.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in name')
         res.redirect(`/admin/add_subadmin`)
@@ -70,6 +82,13 @@ module.exports = {
       } else {
         var module_valye = req.body.modules_data
       }
+
+      if(Array.isArray(req.body.selectedmagazines)){
+
+        var magazine_value = req.body.selectedmagazines.join();
+      }else{
+        var magazine_value = req.body.selectedmagazines
+      }
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
@@ -90,6 +109,7 @@ module.exports = {
         password: confirm_password,
         real_password: req.body.password,
         module_id: module_valye,
+        magazine_id:magazine_value,
         role: 2,
         image: image_user_url
       })
@@ -109,10 +129,20 @@ module.exports = {
         },
         raw: true
       })
+      let get_all_magazine= await magazines.findAll({
+        attributes:['id','name','status'],
+        where:{
+          status:1
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true
+      });
       //
       let split_data = admin_get.module_id.split(",")
-      //  console.log(admin_get,"admin_get");return
-      res.render('subadmin/edit_admin', { msg: req.flash('msg'), title: 'sub_admin', response: admin_get, split_data, session: req.session })
+   //    console.log(split_data,"split_data");return
+      res.render('subadmin/edit_admin', { msg: req.flash('msg'),get_all_magazine, title: 'sub_admin', response: admin_get,split_data, session: req.session })
     } catch (error) {
       throw error
     }

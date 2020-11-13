@@ -34,7 +34,9 @@ module.exports =function(app){
     app.route('/get_filtered__user_name').post(admin.get_filtered__user_name);
     app.route('/get_filtered_data_dashboard').post(admin.get_filtered_data_dashboard);
     app.route('/admin/get_count').get(admin.get_count);
-    // user controller  /
+    app.route('/get_user_subscripber').get(admin.get_user_subscripber);
+    // user controller  /  
+
     app.route('/admin/users').get(user.user_index);
     app.route('/admin/view_user').get(user.view_user);
     app.route('/admin/delete_data').post(user.delete_data);

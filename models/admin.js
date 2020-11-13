@@ -44,6 +44,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			field: 'module_id'
 		},
+		magazine_id: {
+			type: DataTypes.STRING(255),
+			allowNull: true,
+			field: 'magazine_id'
+		},
 		real_password: {
 			type: DataTypes.STRING(255),
 			allowNull: true,

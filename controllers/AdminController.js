@@ -1,3 +1,5 @@
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/config.json')[env];
 const db = require('../models');
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
@@ -544,6 +546,53 @@ module.exports = {
       })
       res.send({data:get_active_user,total:get_total_user,inactive:get_inactive_user,subscribed:get_subscriptions_user})
 
+    }catch(error){
+      throw error
+    }
+  },
+  get_user_subscripber:async function(req,res){
+    try{
+      var getYear = new Date().getFullYear();
+      var getMonth = new Date().getMonth() + 1;
+      var Sequelize = new sequelize(config.database, config.username, config.password, config);
+  
+      var userData = [];
+  
+      var subscriberData = [];
+  
+      var Totalmonth = 12
+  
+      for (i = 1; i <= Totalmonth; i++) {
+        if (i < 10) {
+          var day = "0" + i;
+        }
+        else {
+          day = i;
+        }
+  
+        var fromDate = getYear + "-" + day + "-01";
+  
+        var endDate = getYear + "-" + day + "-30";
+  
+  
+        var userquery = "select COUNT(*) as total from users where created_at between '" + fromDate + "' and '" + endDate + "'";
+  
+        var subscriberquery = "select COUNT(*) as total from subscriptions where created_at between '" + fromDate + "' and '" + endDate + "'";
+  
+  
+        var [getUserCount] = await Sequelize.query(userquery);
+  
+        var [getSubscriberCount] = await Sequelize.query(subscriberquery);
+  
+        userData.push(getUserCount[0].total);
+  
+        subscriberData.push(getSubscriberCount[0].total);
+  
+  
+      }
+      var responseData = { userData: userData, subscriberData: subscriberData };
+    //  console.log(responseData, "===============responseData1");return
+      res.json(responseData);
     }catch(error){
       throw error
     }
