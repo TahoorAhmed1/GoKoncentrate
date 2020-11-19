@@ -24,6 +24,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			field: 'brand_id'
 		},
+		launch_date: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+			field: 'launch_date'
+		},
 		delete_status: {
 			type: DataTypes.INTEGER(11),
 			allowNull: true,

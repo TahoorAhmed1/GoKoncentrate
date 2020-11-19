@@ -35,7 +35,7 @@ module.exports = {
       const confirm_password = crypto.createHash('sha1').update(req.body.password).digest('hex');
 
       let get_admin = await admins.findOne({
-        attributes: ['id', 'name', 'email', 'image','module_id','role'],
+        attributes: ['id', 'name', 'email', 'image','module_id','role','magazine_id'],
         where: {
           email: req.body.email,
           password: confirm_password
@@ -49,6 +49,7 @@ module.exports = {
         req.session.image = get_admin.dataValues.image;
         req.session.admin_id = get_admin.dataValues.id;
         req.session.module_id = get_admin.dataValues.module_id;
+        req.session.magazine_id = get_admin.dataValues.magazine_id;
         req.session.role = get_admin.dataValues.role;
         // req.session.logo = users.dataValues.logo;
         req.session.id = get_admin.dataValues.id;

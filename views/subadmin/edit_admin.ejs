@@ -13,12 +13,12 @@
 
 <body>
   <% if(msg != '' && msg=='Please write something in name') { %>
-    <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-        style="font-size: 16px;"><%= msg %></span></div> <%
+  <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
           } else if(msg != ''){%>
-            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-              style="font-size: 16px;"><%= msg %></span></div>
-            <%}%>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div>
+  <%}%>
 
 
   <% include ../admin_navbar.ejs %>
@@ -56,7 +56,8 @@
         </div>
 
         <div class="content edt">
-          <form action='/admin/sub_admin_edit' enctype="multipart/form-data" method="POST" id="edit_sub_form" role="form">
+          <form action='/admin/sub_admin_edit' enctype="multipart/form-data" method="POST" id="edit_sub_form"
+            role="form">
             <div class="panel panel-flat">
               <div class="panel-body">
 
@@ -64,7 +65,8 @@
                   <label class="col-lg-3 control-label">Name:</label>
                   <div class="col-lg-9 input-group">
                     <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                    <input type="text" name="name" value="<%=response.name%>" class="form-control" placeholder="Enter name" required>
+                    <input type="text" name="name" value="<%=response.name%>" class="form-control"
+                      placeholder="Enter name" required>
                   </div>
                   <!--div class="col-lg-3"></div>
                   <div class="col-lg-9"><label id="name-error" class="error" for="name"></label></div-->
@@ -75,7 +77,8 @@
                   <label class="col-lg-3 control-label">Email:</label>
                   <div class="col-lg-9 input-group">
                     <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
-                    <input type="email" name="email" value="<%=response.email%>" class="form-control" placeholder="Enter email" required>
+                    <input type="email" name="email" value="<%=response.email%>" class="form-control"
+                      placeholder="Enter email" required>
                   </div>
                   <!--div class="col-lg-3"></div>
                   <div class="col-lg-9"><label id="email-error" class="error" for="email"></label></div-->
@@ -85,20 +88,33 @@
                   <label class="col-lg-3 control-label">Password:</label>
                   <div class="col-lg-9 input-group">
                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                    <input type="text" name="password" minlength="6" value="<%=response.real_password%>" class="form-control" placeholder="Enter password" required>
+                    <input type="text" name="password" minlength="6" value="<%=response.real_password%>"
+                      class="form-control" placeholder="Enter password" required>
                   </div>
                   <!--div class="col-lg-3"></div>
                   <div class="col-lg-9"><label id="password-error" class="error" for="password"></label></div-->
                 </div>
-            
+                <%
+                let magazine_id_data= response.magazine_id.split(",");
+                  console.log(magazine_id_data,"magazine_id_data")
+              %>
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Please select magazine:</label>
                   <div class="col-lg-9 input-group">
-               
-      <select multiple class="form-control selectpicker" name="selectedmagazines"  multiple data-live-search="true">
-        <%for(var i in get_all_magazine){%>
-        <option value="<%=get_all_magazine[i].id%>"><%=get_all_magazine[i].name%></option>
-        <%}%>
+
+                    <select multiple class="form-control selectpicker" name="selectedmagazines" multiple
+                      data-live-search="true">
+                      <%for(var i in get_all_magazine){%>
+                        
+                      <option value="<%=get_all_magazine[i].id%>"
+                        <%= 
+                        magazine_id_data.includes(String(get_all_magazine[i].id)) ? 'selected' : '';
+                        %>
+                        
+                        ><%=get_all_magazine[i].name%></option>
+                      <%}%>
+                    
+                   
       
       </select>
     </div>
@@ -109,74 +125,86 @@
                 let s_id= response.module_id.split(",");
                
               %>
-                <div class="form-group">
-                  <label class="col-lg-3 control-label">Select Modules:</label>
-                  <div class="col-lg-9 input-group s">
-                    <label class="checkbox-inline">
-                      <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="1" <%= (s_id.indexOf('1') !=-1)? 'checked' : '' %> required>
-                      Users  
-                  </label> <br>
-                  <label class="checkbox-inline">
-                    <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="2"  <%= (s_id.indexOf('2') !=-1)? 'checked' : '' %> >
-                    Users Plans  
-                </label> <br>
-                <label class="checkbox-inline">
-                  <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="3" <%= (s_id.indexOf('3') !=-1)? 'checked' : '' %>>
-                  Magazine Brands 
-              </label> <br>
-              <label class="checkbox-inline">
-                <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="4" <%= (s_id.indexOf('4') !=-1)? 'checked' : '' %>>
-                Magazine Managment 
-            </label> <br>
-            <label class="checkbox-inline">
-              <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="5" <%= (s_id.indexOf('5') !=-1)? 'checked' : '' %>>
-              Notifications To users 
-          </label> <br>
-          <label class="checkbox-inline">
-            <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="6" <%= (s_id.indexOf('6') !=-1)? 'checked' : '' %>>
-            Magazine Analytics
-        </label> <br>
-        <label class="checkbox-inline">
-          <input type="checkbox"  class="styled cb" name="modules_data" title ="Please select a module" id="modules_data" value="7" <%= (s_id.indexOf('7') !=-1)? 'checked' : '' %>>
-          Pages
-      </label> <br>
-                  </div>
-                  <!--div class="col-lg-3"></div>
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Select Modules:</label>
+                        <div class="col-lg-9 input-group s">
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="1" <%= (s_id.indexOf('1') !=-1)? 'checked' : '' %> required>
+                            Users
+                          </label> <br>
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="2" <%= (s_id.indexOf('2') !=-1)? 'checked' : '' %>>
+                            Users Plans
+                          </label> <br>
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="3" <%= (s_id.indexOf('3') !=-1)? 'checked' : '' %>>
+                            Magazine Brands
+                          </label> <br>
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="4" <%= (s_id.indexOf('4') !=-1)? 'checked' : '' %>>
+                            Magazine Managment
+                          </label> <br>
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="5" <%= (s_id.indexOf('5') !=-1)? 'checked' : '' %>>
+                            Notifications To users
+                          </label> <br>
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="6" <%= (s_id.indexOf('6') !=-1)? 'checked' : '' %>>
+                            Magazine Analytics
+                          </label> <br>
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="7" <%= (s_id.indexOf('7') !=-1)? 'checked' : '' %>>
+                            Pages
+                          </label> <br>
+                          <label class="checkbox-inline">
+                            <input type="checkbox" class="styled cb" name="modules_data" title="Please select a module"
+                              id="modules_data" value="8" <%= (s_id.indexOf('8') !=-1)? 'checked' : '' %>>
+                            Sub Admin
+                          </label> <br>
+                        </div>
+                        <!--div class="col-lg-3"></div>
                   <div class="col-lg-9"><label id="modules_data" class="error" for="modules_data"></label></div-->
-                </div>
+                      </div>
 
-                
-                <div class="form-group">
-                  <label class="col-lg-3 control-label">Image:</label>
-                  <div class="col-lg-2">
-                    <%
+
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label">Image:</label>
+                        <div class="col-lg-2">
+                          <%
                                                 if(response.image == '' || response.image == null || response.image == '/images/users/')
                                                 { %>
-                    <img src="/user.png" width="100" height="100" id="image" class="img-circle"> <%
+                          <img src="/user.png" width="100" height="100" id="image" class="img-circle"> <%
                                                 }
                                                 else
                                                 { %>
-                    <img src="<%= response.image %>" width="100" height="100" id="image" class="img-circle"> <%
+                          <img src="<%= response.image %>" width="100" height="100" id="image" class="img-circle"> <%
                                                 }
                                             %>
+                        </div>
+                        <div class="col-lg-7 pr-0">
+                          <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
+                          <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
+                        </div>
+                      </div>
+
+                      <input type="hidden" name="id" value="<%=response.id%>">
+
+
+
+                      <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Submit <i
+                            class="icon-arrow-right14 position-right"></i></button>
+                      </div>
                   </div>
-                  <div class="col-lg-7 pr-0">
-                    <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
-                    <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
-                  </div>
+
                 </div>
-
-                <input type="hidden" name="id" value="<%=response.id%>">
-               
-                
-
-                <div class="text-right">
-                  <button type="submit" class="btn btn-primary">Submit <i
-                      class="icon-arrow-right14 position-right"></i></button>
-                </div>
-              </div>
-
-            </div>
           </form>
 
           <% include ../admin_footer.ejs %>

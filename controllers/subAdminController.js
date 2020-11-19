@@ -24,6 +24,9 @@ module.exports = {
         where: {
           role: {
             [Op.ne]: 1
+          },
+          id: {
+            [Op.ne]:req.session.admin_id
           }
         },
         order:[
@@ -200,6 +203,16 @@ module.exports = {
         image_user_url = get_last_image.image
       }
 
+      // req.session.image = image_user_url;
+      // req.session.name = requestdata.name;
+      //console.log(req.body.selectedmagazines,"selectedmagazines");return
+      if(Array.isArray(req.body.selectedmagazines)){
+
+        var magazine_value = req.body.selectedmagazines.join();
+      }else{
+        var magazine_value = req.body.selectedmagazines
+      }
+
       let update_admin = await admins.update({
         name: req.body.name,
         email: req.body.email,
@@ -207,7 +220,8 @@ module.exports = {
         real_password: req.body.password,
         module_id: module_valye,
         role: 2,
-        image: image_user_url
+        image: image_user_url,
+        magazine_id:magazine_value
       }, {
         where: {
           id: req.body.id

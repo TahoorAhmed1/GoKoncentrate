@@ -59,7 +59,10 @@
                     <td class="b">Magazine Brand</td>
                     <td><%= magazine.brand_name%></td>
                   </tr>
-
+                  <tr>
+                    <td class="b">Launch Date</td>
+                    <td><%= magazine.start_time%></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -81,6 +84,7 @@
                   <tr>
                     <td><%= i+1%></td>
                     <td><%= pages[i].id %></td>
+
                     <td class="text-center">
                       <ul class="icons-list">
                         <li class="dropdown">

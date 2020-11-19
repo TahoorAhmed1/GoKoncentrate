@@ -11,6 +11,7 @@ var crypto = require('crypto');
 var path = require('path');
 var uuid = require('uuid');
 const flash = require('connect-flash');
+var moment = require('moment');
 module.exports = {
   index: async function (req, res) {
     try {
@@ -55,7 +56,7 @@ module.exports = {
         });
         image_user_url = `/images/users/${fileimage}`
       }
-
+      
       let create_magazine_brand = await magazinesBrand.create({
         name: req.body.name,
         image: image_user_url
@@ -176,6 +177,21 @@ module.exports = {
         ],
         raw: true
       })
+
+      for(var i in get_all_magazine){
+        // for 12 hr
+        if(get_all_magazine[i].launch_date!=''){
+          get_all_magazine[i].start_time = moment.unix(get_all_magazine[i].launch_date).format("YYYY-MM-DD");
+         
+        }else{
+          get_all_magazine[i].start_time='Not Available'
+        }
+       // for 24 hr
+       // var start_time = moment.unix(slots[i].startTime).format("YYYY-MM-DD H:mm:ss");
+    }
+
+   //  console.log(get_all_magazine,"get_all_magazine");return
+
       res.render('magazines/magazines', { msg: req.flash('msg'), magazines: get_all_magazine, title: 'magazines', session: req.session });
     } catch (error) {
       throw error
@@ -189,6 +205,7 @@ module.exports = {
         },
         raw: true
       })
+      get_all_magazine.start_time = moment.unix(get_all_magazine.launch_date).format("YYYY-MM-DD");
       var get_all_magazine_brands = await magazinesBrand.findAll({
         attributes: ['id', 'name', 'image', 'delete_status', 'status'],
         where:{
@@ -243,11 +260,12 @@ module.exports = {
       } else {
         image_user_url = get_last_image.image
       }
-
+      var timestampdate = new Date(req.body.date).getTime()/1000
       let update_magazine_data = await magazines.update({
         image: image_user_url,
         brand_id: req.body.brand,
-        name: req.body.name
+        name: req.body.name,
+        launch_date:timestampdate
       }, {
         where: {
           id: req.body.id
@@ -312,7 +330,7 @@ module.exports = {
   view_magazine: async function (req, res) {
     try {
       var get_all_magazine = await magazines.findOne({
-        attributes: ['id', 'name', 'image', [sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = magazines.brand_id)`), 'brand_name']],
+        attributes: ['id', 'name', 'image','launch_date', [sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = magazines.brand_id)`), 'brand_name']],
         where: {
           id: req.query.id
         },
@@ -321,6 +339,7 @@ module.exports = {
         ],
         raw: true
       })
+      get_all_magazine.start_time = moment.unix(get_all_magazine.launch_date).format("YYYY-MM-DD");
       //console.log(get_all_magazine_brands,"get_all_magazine_brands");return
       var get_all_magazine_page = await pages.findAll({
         where: {
@@ -390,11 +409,14 @@ module.exports = {
         });
         image_user_url = `/images/users/${fileimage}`
       }
-      //  console.log(image_user_url,"image_user_url");return
+      //  console.log(req.body.date,"req.body.date");return
+      var timestampdate = new Date(req.body.date).getTime()/1000
+     // console.log(timestampdate,"timestampdate");return
       let create_magazine = await magazines.create({
         name: req.body.name,
         image: image_user_url,
-        brand_id: req.body.brand
+        brand_id: req.body.brand,
+        launch_date:timestampdate
       })
       req.flash('msg', 'Magazine added successfully')
       res.redirect('/admin/magazines')

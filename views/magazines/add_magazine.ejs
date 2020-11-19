@@ -16,9 +16,9 @@
   <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
       style="font-size: 16px;"><%= msg %></span></div> <%
         } else if(msg != ''){%>
-          <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-            style="font-size: 16px;"><%= msg %></span></div>
-          <%}%>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div>
+  <%}%>
 
   <% include ../admin_navbar.ejs %>
 
@@ -84,6 +84,14 @@
                                         <!--div class="col-lg-3"></div>
                                         <div class="col-lg-9"><label id="brand-error" class="error" for="brand"></label></div-->
                                     </div>
+                                    <div class="form-group">
+                                      <label class="col-lg-3 control-label">Select Launch date:</label>
+                                      <div class="col-lg-9 input-group">
+                                        <span class="input-group-addon"><i class="fas fa-calendar"></i></span>
+                                        <input type="date" name="date" class="form-control" required>
+                                      </div>
+                                     
+                                    </div>
 
 									<div class="form-group">
                                         <label class="col-lg-3 control-label">Image:</label>
@@ -95,6 +103,8 @@
                                             <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div>
                                         </div>
                                     </div>
+                                   
+                                   
     
                                     <div class="text-right">
                                         <button type="submit" class="btn btn-primary">Submit <i class="icon-arrow-right14 position-right"></i></button>
