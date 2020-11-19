@@ -20639,7 +20639,7 @@ span.custom_label {
 .dt-buttons {
   float: right;
   display: inline-block;
-  margin: 10px 10px 0 20px !important;
+  margin: 10px 0px 0 20px !important;
 }
 }
 @media (max-width:338px)

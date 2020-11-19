@@ -6540,3 +6540,24 @@ h6.panel-title,
 {}
 @media (max-width:479px)
 {}
+@media (max-width: 768px) {
+  .dt-buttons {
+    margin-right: 0px !important;
+}
+.dataTables_info, .dataTables_paginate, .dataTables_length, .dataTables_filter, .DTTT_container, .ColVis {
+  text-align:right !important;
+}
+.heading-elements.visible-elements {
+  text-align: right !important;
+}
+
+}
+
+
+
+a.btn.btn-primary.float_right {
+  float: right;
+}
+.page-title {
+  padding: 20px 0px 20px 0 !important;
+}
