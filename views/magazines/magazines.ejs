@@ -64,10 +64,11 @@
               </thead>
               <tbody>
                 <% for( var i in  magazines){%>
-                  <%for(var k in magazine_data){%>
-                  <%if(magazine_data[k]==magazines[i].id || session.role==1){%>
+                 
+                   
+                  <%if(magazine_data.includes(String(magazines[i].id)) || session.role==1){%>
                 <tr>
-                  <td> <%= i+1%></td>
+                  <td> <%=parseInt(i)+1%></td>
                   <td><img
                       src="<%= magazines[i].image == '' || magazines[i].image == null || magazines[i].image == '/images/users/' ? '/white_user.jpg' : magazines[i].image%>"
                       width="80" height="80" class="img-circle"></td>
@@ -116,7 +117,7 @@
                   </td>
                 </tr>
                 <%}%>
-                <%}%>
+               
                 <%}%>
                                 </tbody>
                             </table>
