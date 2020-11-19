@@ -63,7 +63,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% for( var i = 0; i < magazines.length; i++ ){%>
+                <% for( var i in  magazines){%>
                   <%for(var k in magazine_data){%>
                   <%if(magazine_data[k]==magazines[i].id || session.role==1){%>
                 <tr>

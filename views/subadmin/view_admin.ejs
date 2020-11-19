@@ -47,74 +47,67 @@
                                     <tbody>
                                         <tr>
                                             <td class="b">Image</td>
-                                            <td><img src="<%= user.image == '' || user.image == null || user.image == '/images/users/' ? '/white_user.jpg' : user.image%>" width="100" height="100" class="img-circle"></td>
+                                            <td><img src="<%= response.image == '' || response.image == null || response.image == '/images/users/' ? '/white_user.jpg' : response.image%>" width="100" height="100" class="img-circle"></td>
                                         </tr>
                                         <tr>
                                             <td class="b">Name</td>
-                                            <td><%= user.name %></span></td>
+                                            <td><%= response.name %></span></td>
                                         </tr>
                                         <tr>
                                             <td class="b">Email</td>
-                                            <td><%= user.email %></span></td>
+                                            <td><%= response.email %></span></td>
                                         </tr>
                                         <tr>
-                                            <td class="b">Address</td>
-                                            <td><%= user.address %></span></td>
+                                            <td class="b">Selected magazines</td>
+                                            <td><%=comma_magazine %></span></td>
+                                        </tr>
+                                        <%
+                                        let s_id= response.module_id.split(",");
+                                       
+                                      %>
+                                        <tr>
+                                            <td class="b">Selected Modules</td>
+                                            <td>
+                                            <% if(s_id.indexOf('1')!= -1){%>
+                                               Users
+                                                <%}%>
+                                                <% if(s_id.indexOf('2')!= -1){%>
+                                                    ,
+                                                    User Plans
+                                                  <%}%>
+                                                  <% if(s_id.indexOf('3')!= -1){%>
+                                                    ,
+                                                    Magazine Brands
+                                                  <%}%>
+                                                  <% if(s_id.indexOf('4')!= -1){%>
+                                                    ,
+                                                    Magazine Management
+                                                  <%}%>
+                                                  <% if(s_id.indexOf('5')!= -1){%>
+                                                    ,
+                                                    Notification to User(s)
+                                                  <%}%>
+                                                  <% if(s_id.indexOf('6')!= -1){%>
+                                                    Magazine Analytics
+                                                  <%}%>
+                                                  ,
+                                                  <% if(s_id.indexOf('7')!= -1){%>
+                                                    Pages
+                                                  <%}%>
+                                                  <% if(s_id.indexOf('8')!= -1){%>
+                                                    ,
+                                                    Sub Admin
+                                                  <%}%>
+                                                </td>
+                                            <!-- <td><%=comma_magazine %></span></td> -->
+                                          
                                         </tr>
                                          
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <h3 style="margin-left: 500px;">Plans buy by the User</h3>
-                        <div class="panel panel-flat">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Plan Type</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if(total_subs > 0 ){%>
-                                        <% for( var i = 0; i < subs.length; i++ ){%>
-                                            <tr>
-                                                <td> <%= i+1%></td>
-                                                <td><%= subs[i].start_date%></td>
-                                                <td><%= subs[i].end_date%></td>
-                                                <td>
-                                                    <%if(subs[i].plan_id == 1 || subs[i].status == 1 ){%>
-                                                        Free    
-                                                    <%} else if(subs[i].plan_id == 2 ) {%>
-                                                        Silver
-                                                        <%} else if(subs[i].plan_id == 3 ){%>
-                                                            Premium    
-                                                        <%}%>
-                                                </td>
-                                                <td>
-                                                    <% 
-                                                        if(subs[i].status == 1) { %>
-                                                            <a style="padding-right: 10px" class="label label-success">Active</a> 
-                                        
-                                                        <%} else { %>
-                                                            <a class="label label-danger">Expired</a> <%
-                                                        }
-                                                    %>
-                                                </td>
-                                            </tr>
-                                        <%}} else {%>
-                                            <tr>
-                                                <td>No Plan buy the user.</td>
-                                            </tr>
-                                            <%}%>  
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                       
                         <% include ../admin_footer.ejs %>
 
                     </div>

@@ -44,7 +44,10 @@ module.exports = {
       let get_all_magazine= await magazines.findAll({
         attributes:['id','name','status'],
         where:{
-          status:1
+          status:1,
+          name: {
+            [Op.ne]: ''
+          }
         },
         order:[
           ['id','desc']
@@ -135,7 +138,10 @@ module.exports = {
       let get_all_magazine= await magazines.findAll({
         attributes:['id','name','status'],
         where:{
-          status:1
+          status:1,
+          name: {
+            [Op.ne]: ''
+          }
         },
         order:[
           ['id','desc']
@@ -230,6 +236,38 @@ module.exports = {
       req.flash('msg', 'Sub Admin updated successfully')
       res.redirect('/admin/sub_admin')
     } catch (error) {
+      throw error
+    }
+  },
+  view_sub_admin:async function(req,res){
+    try{
+        // console.log("hello");return
+        get_all_sub_deail= await admins.findOne({
+          where:{
+            id:req.query.id
+          },
+          raw:true
+        })
+
+      //  console.log(get_all_sub_deail,"get_all_sub_deail");return
+      Array_magazine= get_all_sub_deail.magazine_id.split(',')
+      get_all_magazine= await magazines.findAll({
+        attributes:['id','name'],
+        where:{
+          id:Array_magazine
+        },
+        raw:true
+      })
+       magazinearray=[]
+      for(var i in get_all_magazine){
+        magazinearray.push(get_all_magazine[i].name)
+      }
+
+     
+      comma_magazine= magazinearray.join(',')
+      //console.log(comma_magazine,"comma_magazine");return
+      res.render('subadmin/view_admin', { msg: req.flash('msg'),comma_magazine, title: 'sub_admin', response: get_all_sub_deail, session: req.session })
+    }catch(error){
       throw error
     }
   }

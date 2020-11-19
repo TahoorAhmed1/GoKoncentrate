@@ -93,6 +93,7 @@ module.exports =function(app){
     app.route('/admin/save_sub_admin').post(subAdmin.save_sub_admin);
     app.route('/admin/edit_sub_admin').get(subAdmin.edit_sub_admin);
     app.route('/admin/sub_admin_edit').post(subAdmin.sub_admin_edit);
+    app.route('/admin/view_sub_admin').get(subAdmin.view_sub_admin);
 }
 
 
