@@ -19,16 +19,38 @@ var tables = {
 module.exports = {
   user_index: async function (req, res) {
     try {
+      let admin_get= await admins.findOne({
+        where:{
+          id:req.session.admin_id
+        },
+        raw:true
+      })
+      var brand_array= await admin_get.magazine_id.split(",")
+      if(admin_get.role==1){
 
       get_users_all= await users.findAll({
-        attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT plan_id FROM subscriptions WHERE user_id = users.id)`), 'plan_id']],
+        attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id']],
         order:[
           ['id','desc']
         ],
         raw:true
       })
-     // console.log(get_users_all,"get_users_all");return
-     res.render('users/users', { msg: req.flash('msg'),session: req.session,response:get_users_all, title: 'users' });
+    }else{
+      get_users_all= await users.findAll({
+        attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id']],
+        where:{
+          subscription_id:brand_array
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true
+      })
+    }
+      
+
+    // console.log(admin_get,"admin_get");return
+     res.render('users/users', { msg: req.flash('msg'),admin_get,session: req.session,response:get_users_all, title: 'users' });
     } catch (error) {
       throw error
     }
@@ -37,7 +59,7 @@ module.exports = {
     try{
     //  console.log(req.query.id,"===========");return
     get_users_all= await users.findOne({
-      attributes:['id','name','email','address','image','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT plan_id FROM subscriptions WHERE user_id = users.id)`), 'plan_id']],
+      attributes:['id','name','email','address','image','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id']],
        where:{
          id:req.query.id
        },
@@ -45,12 +67,13 @@ module.exports = {
     })
 
     let get_all_subscription= await subscriptions.findAll({
+      attributes:['id','user_id','start_date','end_date',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id)`), 'plan_id']],
       where:{
         user_id:req.query.id
       },
       raw:true
     })
-   // console.log(get_users_all,"get_users_all");return
+    //console.log(get_users_all,"get_users_all");
    res.render('users/view_user', { msg: req.flash('msg'),total_subs:get_all_subscription,session: req.session,user:get_users_all, title: 'users' });
     }catch(error){
       throw error
@@ -195,13 +218,33 @@ module.exports = {
   get_filter_age_gender:async function(req,res){
     try{
          // console.log(req.body,"hello");return
-         temp_obc={}
+         var get_admim_data= await admins.findOne({
+          where:{
+            id:req.session.admin_id
+          },
+          raw:true
+        })
+        temp_obc={}
+        var brand_array= await get_admim_data.magazine_id.split(",")
+        if(get_admim_data.role==1){
+        
          if(req.body.age_value && req.body.age_value!=''){
           temp_obc.age=req.body.age_value
          }
          if(req.body.gender_value && req.body.gender_value!=''){
           temp_obc.gender=req.body.gender_value
          }
+        }else{
+          if(req.body.age_value && req.body.age_value!=''){
+            temp_obc.age=req.body.age_value
+            temp_obc.subscription_id=brand_array
+           }
+           if(req.body.gender_value && req.body.gender_value!=''){
+            temp_obc.gender=req.body.gender_value
+            temp_obc.subscription_id=brand_array
+           }
+        }
+         
          get_users_all= await users.findAll({
           attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT plan_id FROM subscriptions WHERE user_id = users.id)`), 'plan_id']],
           where:temp_obc,

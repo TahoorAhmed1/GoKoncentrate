@@ -6,6 +6,7 @@ const subscriptions = db.subscriptions
 const magazinesBrand = db.magazinesBrand
 const magazines = db.magazines
 const pages = db.pages
+const magazineIssues = db.magazineIssues
 var crypto = require('crypto');
 // const { contained } = require("sequelize/types/lib/operators")
 var path = require('path');
@@ -16,12 +17,17 @@ module.exports = {
   index: async function (req, res) {
     try {
 
-      let get_all_magazines = await magazinesBrand.findAll({
+
+      var get_all_magazines = await magazinesBrand.findAll({
         order: [
           ['id', 'desc']
         ],
         raw: true
       })
+
+      //  console.log(get_magazine,"get_magazine");return
+
+
       res.render('magazines_brand/magazines_brand', { msg: req.flash('msg'), response: get_all_magazines, title: 'magazines_brand', session: req.session });
       //  console.log("hello");return
     } catch (error) {
@@ -56,7 +62,7 @@ module.exports = {
         });
         image_user_url = `/images/users/${fileimage}`
       }
-      
+
       let create_magazine_brand = await magazinesBrand.create({
         name: req.body.name,
         image: image_user_url
@@ -84,9 +90,9 @@ module.exports = {
         where: {
           brand_id: req.query.id
         },
-       order:[
-         ['id','desc']
-       ],
+        order: [
+          ['id', 'desc']
+        ],
         raw: true
       })
       res.render('magazines_brand/view_magazine_brand', { msg: req.flash('msg'), magazine_brand: get_all_magazines, title: 'magazines_brand', magazines: get_all_magazines_daat, session: req.session });
@@ -169,30 +175,62 @@ module.exports = {
     try {
 
       // console.log("hello");return
-
-      var get_all_magazine = await magazines.findAll({
-
-        order: [
-          ['id', 'desc']
-        ],
+      let get_admin_data = await admins.findOne({
+        where: {
+          id: req.session.admin_id
+        },
         raw: true
       })
+    //  console.log(get_admin_data.role,"get_admin_data");return
+      if (get_admin_data.role==2) {
 
-      for(var i in get_all_magazine){
+        var brand_array = await get_admin_data.magazine_id.split(",")
+        //console.log(brand_array,"brand_array");return
+        var get_all_magazine = await magazines.findAll({
+
+          order: [
+            ['id', 'desc']
+          ],
+          where: {
+            brand_id: brand_array
+          },
+          raw: true
+        })
+
+      } else {
+        var get_all_magazine = await magazines.findAll({
+
+          order: [
+            ['id', 'desc']
+          ],
+          raw: true
+        })
+      }
+
+
+       // console.log(get_all_magazine,"get_all_magazine");return
+
+      for (var i in get_all_magazine) {
         // for 12 hr
-        if(get_all_magazine[i].launch_date!=''){
+        if (get_all_magazine[i].launch_date != '') {
           get_all_magazine[i].start_time = moment.unix(get_all_magazine[i].launch_date).format("YYYY-MM-DD");
-         
-        }else{
-          get_all_magazine[i].start_time='Not Available'
+
+        } else {
+          get_all_magazine[i].start_time = 'Not Available'
         }
-       // for 24 hr
-       // var start_time = moment.unix(slots[i].startTime).format("YYYY-MM-DD H:mm:ss");
-    }
+        // for 24 hr
+        // var start_time = moment.unix(slots[i].startTime).format("YYYY-MM-DD H:mm:ss");
+      }
+      let get_admin_magazine = await admins.findOne({
+        attributes: ['id', 'magazine_id'],
+        where: {
+          id: req.session.admin_id
+        },
+        raw: true
+      })
+      //  console.log(get_all_magazine,"get_all_magazine");return
 
-   //  console.log(get_all_magazine,"get_all_magazine");return
-
-      res.render('magazines/magazines', { msg: req.flash('msg'), magazines: get_all_magazine, title: 'magazines', session: req.session });
+      res.render('magazines/magazines', { msg: req.flash('msg'), magazines: get_all_magazine, get_admin_magazine, title: 'magazines', session: req.session });
     } catch (error) {
       throw error
     }
@@ -206,23 +244,62 @@ module.exports = {
         raw: true
       })
       get_all_magazine.start_time = moment.unix(get_all_magazine.launch_date).format("YYYY-MM-DD");
-      var get_all_magazine_brands = await magazinesBrand.findAll({
-        attributes: ['id', 'name', 'image', 'delete_status', 'status'],
-        where:{
-          status:1
-        },
-        order: [
-          ['id', 'desc']
-        ],
-        raw: true
-      })
+      // var get_all_magazine_brands = await magazinesBrand.findAll({
+      //   attributes: ['id', 'name', 'image', 'delete_status', 'status'],
+      //   where: {
+      //     status: 1
+      //   },
+      //   order: [
+      //     ['id', 'desc']
+      //   ],
+      //   raw: true
+      // })
+      if (req.session.role == 1) {
+        var get_all_magazine_brands = await magazinesBrand.findAll({
+          attributes: ['id', 'name', 'image', 'delete_status', 'status'],
+          where: {
+            status: 1,
+
+          },
+          order: [
+            ['id', 'desc']
+          ],
+          raw: true
+        })
+
+      } else {
+
+
+        var get_magazine_data = await admins.findOne({
+          attributes: ['id', 'magazine_id'],
+          where: {
+            id: req.session.admin_id
+          },
+          raw: true
+        })
+        var nameArr = get_magazine_data.magazine_id.split(',');
+        var get_all_magazine_brands = await magazinesBrand.findAll({
+          attributes: ['id', 'name', 'image', 'delete_status', 'status'],
+          where: {
+            status: 1,
+            id: nameArr
+
+          },
+          order: [
+            ['id', 'desc']
+          ],
+          raw: true
+        })
+
+        // console.log(nameArr,"nameArr");return
+      }
       //console.log(get_all_magazine_brands,"get_all_magazine_brands");return
       var get_all_magazine_page = await pages.findAll({
         where: {
           magazine_id: req.query.id
         },
-        order:[
-          ['id','desc']
+        order: [
+          ['id', 'desc']
         ],
         raw: true
       })
@@ -260,12 +337,12 @@ module.exports = {
       } else {
         image_user_url = get_last_image.image
       }
-      var timestampdate = new Date(req.body.date).getTime()/1000
+      var timestampdate = new Date(req.body.date).getTime() / 1000
       let update_magazine_data = await magazines.update({
         image: image_user_url,
         brand_id: req.body.brand,
         name: req.body.name,
-        launch_date:timestampdate
+        launch_date: timestampdate
       }, {
         where: {
           id: req.body.id
@@ -300,8 +377,8 @@ module.exports = {
         where: {
           id: req.query.id
         },
-        order:[
-          ['id','desc']
+        order: [
+          ['id', 'desc']
         ],
         raw: true
       })
@@ -330,12 +407,12 @@ module.exports = {
   view_magazine: async function (req, res) {
     try {
       var get_all_magazine = await magazines.findOne({
-        attributes: ['id', 'name', 'image','launch_date', [sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = magazines.brand_id)`), 'brand_name']],
+        attributes: ['id', 'name', 'image', 'launch_date', [sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = magazines.brand_id)`), 'brand_name']],
         where: {
           id: req.query.id
         },
-        order:[
-          ['id','desc']
+        order: [
+          ['id', 'desc']
         ],
         raw: true
       })
@@ -345,8 +422,8 @@ module.exports = {
         where: {
           magazine_id: req.query.id
         },
-        order:[
-          ['id','desc']
+        order: [
+          ['id', 'desc']
         ],
         raw: true
       })
@@ -362,8 +439,8 @@ module.exports = {
         where: {
           id: req.query.id
         },
-        order:[
-          ['id','desc']
+        order: [
+          ['id', 'desc']
         ],
         raw: true
       })
@@ -375,16 +452,47 @@ module.exports = {
   },
   add_magazine: async function (req, res) {
     try {
-      var get_all_magazine_brands = await magazinesBrand.findAll({
-        attributes: ['id', 'name', 'image', 'delete_status', 'status'],
-        where:{
-          status:1
-        },
-        order: [
-          ['id', 'desc']
-        ],
-        raw: true
-      })
+
+      if (req.session.role == 1) {
+        var get_all_magazine_brands = await magazinesBrand.findAll({
+          attributes: ['id', 'name', 'image', 'delete_status', 'status'],
+          where: {
+            status: 1,
+
+          },
+          order: [
+            ['id', 'desc']
+          ],
+          raw: true
+        })
+
+      } else {
+
+
+        var get_magazine_data = await admins.findOne({
+          attributes: ['id', 'magazine_id'],
+          where: {
+            id: req.session.admin_id
+          },
+          raw: true
+        })
+        var nameArr = get_magazine_data.magazine_id.split(',');
+        var get_all_magazine_brands = await magazinesBrand.findAll({
+          attributes: ['id', 'name', 'image', 'delete_status', 'status'],
+          where: {
+            status: 1,
+            id: nameArr
+
+          },
+          order: [
+            ['id', 'desc']
+          ],
+          raw: true
+        })
+
+        // console.log(nameArr,"nameArr");return
+      }
+
       //console.log(get_all_magazine_brands,"get_all_magazine_brands");return
       res.render('magazines/add_magazine', { msg: req.flash('msg'), magazine_brands: get_all_magazine_brands, title: 'magazines', session: req.session });
     } catch (error) {
@@ -410,13 +518,13 @@ module.exports = {
         image_user_url = `/images/users/${fileimage}`
       }
       //  console.log(req.body.date,"req.body.date");return
-      var timestampdate = new Date(req.body.date).getTime()/1000
-     // console.log(timestampdate,"timestampdate");return
+      var timestampdate = new Date(req.body.date).getTime() / 1000
+      // console.log(timestampdate,"timestampdate");return
       let create_magazine = await magazines.create({
         name: req.body.name,
         image: image_user_url,
         brand_id: req.body.brand,
-        launch_date:timestampdate
+        launch_date: timestampdate
       })
       req.flash('msg', 'Magazine added successfully')
       res.redirect('/admin/magazines')
@@ -424,28 +532,62 @@ module.exports = {
       throw error
     }
   },
-  delete_magazine_data:async function(req,res){
-    try{
+  delete_magazine_data: async function (req, res) {
+    try {
 
-      let get_magazine_data= await magazines.findOne({
-        where:{
-          brand_id:req.body.id
+      let get_magazine_data = await magazines.findOne({
+        where: {
+          brand_id: req.body.id
         },
-        raw:true
+        raw: true
       })
-     // console.log(get_magazine_data,"get_magazine_data");return
-      if(get_magazine_data){
+      // console.log(get_magazine_data,"get_magazine_data");return
+      if (get_magazine_data) {
         res.json(2)
-      }else{
-      let destroy_all_data= await magazines.destroy({
-        where:{
-          id:req.body.id
-        }
-     });
-     res.json(1)
-    }
+      } else {
+        let destroy_all_data = await magazines.destroy({
+          where: {
+            id: req.body.id
+          }
+        });
+        res.json(1)
+      }
 
-    }catch(error){
+    } catch (error) {
+      throw error
+    }
+  },
+  // magazine issues route
+  issuesindex: async function (req, res) {
+    try {
+      // console.log("hello");return
+      res.render('magazines_issues/magazines_issues', { msg: req.flash('msg'), magazines: '', title: 'magazineissue', session: req.session });
+    } catch (error) {
+      throw error
+    }
+  },
+  add_magazine_issues: async function (req, res) {
+    try {
+
+      let get_all_magzines = await magazines.findAll({
+        where: {
+          status: 1
+        },
+        raw: true,
+        order: [
+          ['id', 'desc']
+        ]
+      })
+      //  console.log(get_all_magzines,"get_all_magzines");return
+      res.render('magazines_issues/add_magazine_issues', { msg: req.flash('msg'), get_all_magzines: get_all_magzines, title: 'magazineissue', session: req.session });
+    } catch (error) {
+      throw error
+    }
+  },
+  save_magazine_issues: async function (req, res) {
+    try {
+
+    } catch (error) {
       throw error
     }
   }

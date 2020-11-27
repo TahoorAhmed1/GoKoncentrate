@@ -17,13 +17,35 @@ module.exports = {
   index: async function (req, res) {
     try {
     //console.log("hello");return
+    var get_admim_data= await admins.findOne({
+      where:{
+        id:req.session.admin_id
+      },
+      raw:true
+    })
+    var brand_array= await get_admim_data.magazine_id.split(",")
+   //console.log(brand_array,"brand_array");return
+    if(get_admim_data.role==1){
     get_users_all= await users.findAll({
-      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT plan_id FROM subscriptions WHERE user_id = users.id)`), 'plan_id']],
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal('(SELECT name FROM magazines_brand where id=users.subscription_id)'), 'planName']],
+      
       order:[
         ['id','desc']
       ],
       raw:true
     })
+  }else{
+    get_users_all= await users.findAll({
+      ttributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal('(SELECT name FROM magazines_brand where id=users.subscription_id)'), 'planName']],
+      order:[
+        ['id','desc']
+      ],
+      where:{
+        subscription_id:brand_array
+      },
+      raw:true
+    })
+  }
    // console.log(get_users_all,"get_users_all");return
    res.render('notifications/notifications', { msg: req.flash('msg'),session: req.session,response:get_users_all, title: 'notifications' });
     } catch (error) {

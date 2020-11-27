@@ -96,14 +96,14 @@
                   <div class="col-lg-9"><label id="brand-error" class="error" for="brand"></label></div>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label class="col-lg-3 control-label">Select Launch date:</label>
                   <div class="col-lg-9 input-group">
                     <span class="input-group-addon"><i class="fas fa-calendar"></i></span>
                     <input type="date" name="date" id="txtDate" value="<%= magazine.start_time %>" class="form-control" required>
                   </div>
                  
-                </div>
+                </div> -->
 
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Image:</label>
@@ -146,8 +146,7 @@
                                     </textarea>
                 </div>
                 <div class="add_page_error" style="display: none;">This field is required !</div>
-                <!-- <div class="col-lg-3"></div>
-                                    <div class="col-lg-9"><label id="page-error" class="error" for="page"></label></div> -->
+               
                 <input type="hidden" name="id" value="<%= magazine.id %>">
                 <div class="text-right">
                   <button type="submit" class="btn btn-primary">Submit <i
@@ -281,8 +280,8 @@
                                 </table>
                             </div>
                         </div>
-                        <%} else {%>
-                <div class="panel panel-flat">
+                        <%} else {%> -->
+                <!-- <div class="panel panel-flat">
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
@@ -464,21 +463,21 @@
 
 
       })
-//       $(function(){
-//     var dtToday = new Date();
+      $(function(){
+    var dtToday = new Date();
     
-//     var month = dtToday.getMonth() + 1;
-//     var day = dtToday.getDate();
-//     var year = dtToday.getFullYear();
-//     if(month < 10)
-//         month = '0' + month.toString();
-//     if(day < 10)
-//         day = '0' + day.toString();
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
     
-//     var maxDate = year + '-' + month + '-' + day;
-//    // alert(maxDate);
-//     $('#txtDate').attr('min', maxDate);
-// });
+    var maxDate = year + '-' + month + '-' + day;
+   // alert(maxDate);
+    $('#txtDate').attr('min', maxDate);
+});
     </script>
 
 </body>

@@ -68,33 +68,82 @@ module.exports = {
     }
   },
   admin_dashboard: async function (req, res) {
-    var get_total_user = await users.count({
+    // var get_total_user = await users.count({
 
+    // })
+    var admin_get= await admins.findOne({
+      where:{
+        id:req.session.admin_id
+      },
+      raw:true
     })
-    var get_all_mgazinebrand_count= await magazinesBrand.count({
+    if(admin_get.role==2){
 
+    var brand_array= await admin_get.magazine_id.split(",")
+    get_total_user= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+      having: { 'plan_iddd': brand_array},
+      raw:true
+    })
+ //    console.log(get_total_user,"get_total_user");return
+    // let admin_get= await admins.findOne({
+    //   where:{
+    //     id:req.session.admin_id
+    //   },
+    //   raw:true
+    // })
+    var get_all_mgazinebrand_count= await magazinesBrand.count({
+      // where:{
+      //   id:brand_array
+      // }
     })
     var get_all_mgazine_count= await magazines.count({
+      where:{
+        brand_id:brand_array
+      }
        
     })
-    var active_user_count= await users.count({
+    var active_user_count= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+      having: { 'plan_iddd': brand_array},
+      raw:true,
       where:{
         status:1
       }
        
     })
-    var inactive_user_count= await users.count({
+    var inactive_user_count= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+      having: { 'plan_iddd': brand_array},
+      raw:true,
       where:{
         status:0
       }
        
     })
 
-    var subscribed_user_count= await subscriptions.count({
+    var subscribed_user_count= await users.count({
       
-       
+       where:{
+        subscription_id:brand_array
+       }
     })
     get_user_all= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+      having: { 'plan_iddd': brand_array},
+      raw:true,
       order:[
         ['id','desc']
       ],
@@ -102,9 +151,25 @@ module.exports = {
       limit:5
     })
 
-    get_user_subscriber= await subscriptions.findAll({
+    // get_user_subscriber= await subscriptions.findAll({
 
-      attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM plans WHERE id = subscriptions.plan_id)'), 'planName']],
+    //   attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id)'), 'planName']],
+    //   where:{
+    //     plan_id:brand_array
+    //   },
+    //   order:[
+    //     ['id','desc']
+    //   ],
+    //   raw:true,
+    //   limit:5
+    // })
+    get_user_subscriber= await users.findAll({
+
+      // attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id)'), 'planName']],
+      attributes:['id','name','email',[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = users.subscription_id)'), 'planName']],
+      where:{
+        subscription_id:brand_array
+      },
       order:[
         ['id','desc']
       ],
@@ -112,21 +177,135 @@ module.exports = {
       limit:5
     })
     get_latest_magazine= await userVisit.findAll({
-      attributes:['id','user_id','magazine_id','time_spent',[sequelize.literal('(SELECT name FROM magazines WHERE id = userVisit.magazine_id)'), 'magazineName'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandName'],[sequelize.literal('(SELECT name FROM users WHERE id = userVisit.user_id)'), 'userName']],
+      attributes:['id','user_id','magazine_id','time_spent',[sequelize.literal('(SELECT name FROM magazines WHERE id = userVisit.magazine_id)'), 'magazineName'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandName'],[sequelize.literal('(SELECT name FROM users WHERE id = userVisit.user_id)'), 'userName'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandId']],
       order:[
         ['time_spent','desc']
       ],
+      having: { 'brandId': brand_array},
       limit:5,
       raw:true
     })
+  }else{
+    // var brand_array= await admin_get.magazine_id.split(",")
+    get_total_user= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+    //  having: { 'plan_iddd': brand_array},
+      raw:true
+    })
+ //   console.log(get_total_user,"get_total_user");return
+    // let admin_get= await admins.findOne({
+    //   where:{
+    //     id:req.session.admin_id
+    //   },
+    //   raw:true
+    // })
+    var get_all_mgazinebrand_count= await magazinesBrand.count({
+      // where:{
+      //   id:brand_array
+      // }
+    })
+    
+    var get_all_mgazine_count= await magazines.count({
+      // where:{
+      //   brand_id:brand_array
+      // }
+       
+    })
+   
+    var active_user_count= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+     // having: { 'plan_iddd': brand_array},
+      raw:true,
+      where:{
+        status:1
+      }
+       
+    })
+  
+    var inactive_user_count= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+     // having: { 'plan_iddd': brand_array},
+      raw:true,
+      where:{
+        status:0
+      }
+       
+    })
+   
+    var subscribed_user_count= await users.count({
+      
+       where:{
+      //  subscription_id:brand_array
+       }
+    })
+   // console.log(subscribed_user_count,"subscribed_user_count");return
+    get_user_all= await users.findAll({
+      attributes:['id','name','email','address','subscription','subscription_id','delete_status','status','image',[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id'],[sequelize.literal(`(SELECT id FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_iddd']],
+      order:[
+        ['id','desc']
+      ],
+      //having: { 'plan_iddd': brand_array},
+      raw:true,
+      order:[
+        ['id','desc']
+      ],
+      raw:true,
+      limit:5
+    })
+
+    // get_user_subscriber= await subscriptions.findAll({
+
+    //   attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id)'), 'planName']],
+    //   // where:{
+    //   //    id:brand_array
+    //   // },
+    //   order:[
+    //     ['id','desc']
+    //   ],
+    //   raw:true,
+    //   limit:5
+    // })
+    get_user_subscriber= await users.findAll({
+
+      // attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id)'), 'planName']],
+      attributes:['id','name','email',[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = users.subscription_id)'), 'planName']],
+      // where:{
+      //   subscription_id:brand_array
+      // },
+      order:[
+        ['id','desc']
+      ],
+      raw:true,
+      limit:5
+    })
+    get_latest_magazine= await userVisit.findAll({
+      attributes:['id','user_id','magazine_id','time_spent',[sequelize.literal('(SELECT name FROM magazines WHERE id = userVisit.magazine_id)'), 'magazineName'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandName'],[sequelize.literal('(SELECT name FROM users WHERE id = userVisit.user_id)'), 'userName'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandId']],
+      order:[
+        ['time_spent','desc']
+      ],
+    //  having: { 'brandId': brand_array},
+      limit:5,
+      raw:true
+    })
+  }
  // console.log(get_latest_magazine,"get_latest_magazine");return
     response={
-      'get_total_user':get_total_user,
+      'get_total_user':get_total_user.length,
       'get_all_mgazinebrand_count':get_all_mgazinebrand_count,
       'get_all_mgazine_count':get_all_mgazine_count,
-      'active_user_count':active_user_count,
-      'inactive_user_count':inactive_user_count,
-      'subscribed_user_count':subscribed_user_count
+      'active_user_count':active_user_count.length,
+      'inactive_user_count':inactive_user_count.length,
+      'subscribed_user_count':subscribed_user_count,
+      'admin_get':admin_get
       
     }
      //console.log(response.get_total_user,"response=======");return
@@ -271,16 +450,37 @@ module.exports = {
   },
   magazine_analytics:async function(req,res){
     try{
-
-      let get_magazine_analytics= await magazineAnalytics.findAll({
-        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount']],
+      var get_admim_data= await admins.findOne({
+        where:{
+          id:req.session.admin_id
+        },
+        raw:true
+      })
+      var brand_array= await get_admim_data.magazine_id.split(",")
+     // console.log(brand_array,"brand_array");return
+      if(get_admim_data.role==1){
+      var get_magazine_analytics= await magazineAnalytics.findAll({
+        attributes:['id','magazineId','userId','pageId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM magazines WHERE id= magazineAnalytics.actual_magazine_id)'), 'ActualMagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazine_analytics where magazine_id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount']],
         order:[
           ['id','desc']
         ],
         raw:true,
         group:['magazineId'],
       })
-    //  console.log(get_magazine_analytics,"get_magazine_analytics");return
+    }else{
+      var get_magazine_analytics= await magazineAnalytics.findAll({
+        attributes:['id','magazineId','userId','pageId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM magazines WHERE id= magazineAnalytics.actual_magazine_id)'), 'ActualMagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazine_analytics where magazine_id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount']],
+        where:{
+          magazineId:brand_array,
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true,
+        group:['magazineId'],
+      })
+    }
+      //console.log(get_magazine_analytics,"get_magazine_analytics");return
     res.render('magazine_analytics/magazines_analytics', { msg: req.flash('msg'), response: get_magazine_analytics, title: 'magazine_analytics', session: req.session }) 
     }catch(error){
       throw error
@@ -293,9 +493,18 @@ module.exports = {
       var min_date = new Date(req.body.minId).getTime()/1000
    
       var max_date = new Date(req.body.maxId).getTime()/1000
+      var get_admim_data= await admins.findOne({
+        where:{
+          id:req.session.admin_id
+        },
+        raw:true
+      })
+      var brand_array= await get_admim_data.magazine_id.split(",")
+     // console.log(brand_array,"brand_array");return
+      if(get_admim_data.role==1){
 
-      let get_magazine_analytics= await magazineAnalytics.findAll({
-        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount']],
+      var get_magazine_analytics= await magazineAnalytics.findAll({
+        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount']],
         where:{
            created:{
             [Op.between]: [min_date, max_date]
@@ -308,7 +517,26 @@ module.exports = {
       
         raw:true
       })
-     // console.log(get_magazine_analytics,"get_magazine_analytics");return
+    }else{
+      var get_magazine_analytics= await magazineAnalytics.findAll({
+        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount'],[sequelize.literal('(SELECT id FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'brandId']],
+        where:{
+           created:{
+            [Op.between]: [min_date, max_date]
+           },
+           
+        },
+        having: { 'brandId': brand_array},
+        order:[
+          ['id','desc']
+        ],
+        group:['magazineId'],
+      
+        raw:true
+      })
+ //     console.log(get_magazine_analytics,"get_magazine_analytics");return
+    }
+  
     res.send(get_magazine_analytics)
     }catch(error){
       throw error
@@ -332,11 +560,14 @@ module.exports = {
   get_magazines_pages_couunt:async function(req,res){
     try{
 
-      let get_user_visit= await userVisit.findAll({
-        attributes:['id','user_id','magazine_id','page_id','time_spent','created',[sequelize.literal('(SELECT name FROM users WHERE id =userVisit.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =userVisit.user_id )'), 'userEmail']],
+      let get_user_visit= await magazineAnalytics.findAll({
+        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename']],
         order:[
           ['time_spent','desc']
         ],
+        where:{
+          magazine_id:req.query.id
+        },
         raw:true
       })
 
@@ -347,9 +578,9 @@ module.exports = {
         var start_time = moment.unix(get_user_visit[i].created).format("YYYY-MM-DD h:mm:ss");
         get_user_visit[i].start_time=start_time
     }
-
+   // console.log(get_user_visit,"get_user_visit");return
       res.render('magazine_analytics/user_visit', { msg: req.flash('msg'), response: get_user_visit, title: 'magazine_analytics', session: req.session }) 
-    ///  console.log(get_user_visit,"time_spent");return
+    ///  
        
     }catch(error){
       throw error
@@ -361,18 +592,54 @@ module.exports = {
       var min_date = new Date(req.body.minId).getTime()/1000
       var max_date = new Date(req.body.maxId).getTime()/1000
 
-      let get_user_visit= await userVisit.findAll({
-        attributes:['id','user_id','magazine_id','page_id','time_spent','created',[sequelize.literal('(SELECT name FROM users WHERE id =userVisit.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =userVisit.user_id )'), 'userEmail']],
+      // let get_user_visit= await userVisit.findAll({
+      //   attributes:['id','user_id','magazine_id','page_id','time_spent','created',[sequelize.literal('(SELECT name FROM users WHERE id =userVisit.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =userVisit.user_id )'), 'userEmail']],
+      //   order:[
+      //     ['time_spent','desc']
+      //   ],
+      //   where:{
+      //     created:{
+      //       [Op.between]: [min_date, max_date]
+      //      }
+      //   },
+      //   raw:true
+      // })
+      var get_admim_data= await admins.findOne({
+        where:{
+          id:req.session.admin_id
+        },
+        raw:true
+      })
+      var brand_array= await get_admim_data.magazine_id.split(",")
+     // console.log(brand_array,"brand_array");return
+      if(get_admim_data.role==1){
+      var get_user_visit= await magazineAnalytics.findAll({
+        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename']],
         order:[
           ['time_spent','desc']
         ],
         where:{
-          created:{
+            created:{
             [Op.between]: [min_date, max_date]
            }
         },
         raw:true
       })
+    }else{
+      var get_user_visit= await magazineAnalytics.findAll({
+        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename']],
+        order:[
+          ['time_spent','desc']
+        ],
+        where:{
+            created:{
+            [Op.between]: [min_date, max_date]
+           },
+           magazine_id:brand_array
+        },
+        raw:true
+      })
+    }
 
       for(var i in get_user_visit){
         // for 12 hr
@@ -404,6 +671,15 @@ module.exports = {
     // })
     var min_date = new Date(req.body.minId).getTime()/1000
     var max_date = new Date(req.body.maxId).getTime()/1000
+
+    let get_admim_data= await admins.findOne({
+      where:{
+        id:req.session.admin_id
+      },
+      raw:true
+    })
+    let brand_array= await get_admim_data.magazine_id.split(",")
+    if(get_admim_data.role==1){
     var total_users = await database.query(`select *,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att from users having created_att between ${min_date} and ${max_date}`, {
 
       model: users,
@@ -447,7 +723,7 @@ module.exports = {
 
     get_user_subscriber= await subscriptions.findAll({
 
-      attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM plans WHERE id = subscriptions.plan_id)'), 'planName']],
+      attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id)'), 'planName']],
       order:[
         ['id','desc']
       ],
@@ -455,18 +731,18 @@ module.exports = {
       limit:5
     })
 
-    var get_user_subscriber = await database.query(`select id,user_id,plan_id,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att,(SELECT name FROM users WHERE id = subscriptions.user_id) as name,(SELECT email FROM users WHERE id = subscriptions.user_id) as email,(SELECT name FROM plans WHERE id = subscriptions.plan_id) as planName from subscriptions having created_att between ${min_date} and ${max_date} limit 5`, {
+    // var get_user_subscriber = await database.query(`select id,user_id,plan_id,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att,(SELECT name FROM users WHERE id = subscriptions.user_id) as name,(SELECT email FROM users WHERE id = subscriptions.user_id) as email,(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id) as planName from subscriptions having created_att between ${min_date} and ${max_date} limit 5`, {
 
-      model: subscriptions,
-      mapToModel: true,
-      type: database.QueryTypes.SELECT
-    });
+    //   model: subscriptions,
+    //   mapToModel: true,
+    //   type: database.QueryTypes.SELECT
+    // });
 
-    if (get_user_subscriber) {
-      get_user_subscriber = get_user_subscriber.map(value => {
-        return value.toJSON();
-      });
-    }
+    // if (get_user_subscriber) {
+    //   get_user_subscriber = get_user_subscriber.map(value => {
+    //     return value.toJSON();
+    //   });
+    // }
 
     // get_active_user= await users.count({
     //   where:{
@@ -515,7 +791,128 @@ module.exports = {
     }
 
   //console.log(get_user_subscriber,"get_user_subscriber");return
+  }else{
+    var total_users = await database.query(`select *,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att from users having created_att between ${min_date} and ${max_date} and subscription_id in(${brand_array})`, {
 
+      model: users,
+      mapToModel: true,
+      type: database.QueryTypes.SELECT
+    });
+
+    if (total_users) {
+      total_users = total_users.map(value => {
+        return value.toJSON();
+      });
+    }
+
+    get_latest_magazine= await userVisit.findAll({
+      attributes:['id','user_id','magazine_id','time_spent',[sequelize.literal('(SELECT name FROM magazines WHERE id = userVisit.magazine_id)'), 'magazineName'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandName'],[sequelize.literal('(SELECT name FROM users WHERE id = userVisit.user_id)'), 'userName'],[sequelize.literal('(SELECT id FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandId']],
+      order:[
+        ['time_spent','desc']
+      ],
+
+      where:{
+        created:{
+          [Op.between]: [min_date, max_date]
+         }
+      },
+      having:{
+        brandId:brand_array
+      },
+      limit:5,
+      raw:true
+    })
+
+    get_least_magazine= await userVisit.findAll({
+      attributes:['id','user_id','magazine_id','time_spent',[sequelize.literal('(SELECT name FROM magazines WHERE id = userVisit.magazine_id)'), 'magazineName'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandName'],[sequelize.literal('(SELECT name FROM users WHERE id = userVisit.user_id)'), 'userName'],[sequelize.literal('(SELECT id FROM magazines_brand WHERE id = userVisit.magazine_id)'), 'brandId']],
+      order:[
+        ['time_spent','asc']
+      ],
+      where:{
+        created:{
+          [Op.between]: [min_date, max_date]
+         }
+      },
+      having:{
+        brandId:brand_array
+      },
+      limit:5,
+      raw:true
+    })
+
+    get_user_subscriber= await users.findAll({
+
+      // attributes:['id','user_id','plan_id',[sequelize.literal('(SELECT name FROM users WHERE id = subscriptions.user_id)'), 'name'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT email FROM users WHERE id = subscriptions.user_id)'), 'email'],[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id)'), 'planName']],
+      attributes:['id','name','email','subscription_id',[sequelize.literal('(SELECT name FROM magazines_brand WHERE id = users.subscription_id)'), 'planName']],
+      where:{
+        subscription_id:brand_array
+      },
+      order:[
+        ['id','desc']
+      ],
+      raw:true,
+      limit:5
+    })
+
+    // var get_user_subscriber = await database.query(`select id,user_id,plan_id,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att,(SELECT name FROM users WHERE id = subscriptions.user_id) as name,(SELECT email FROM users WHERE id = subscriptions.user_id) as email,(SELECT name FROM magazines_brand WHERE id = subscriptions.plan_id) as planName from subscriptions having created_att between ${min_date} and ${max_date} limit 5`, {
+
+    //   model: subscriptions,
+    //   mapToModel: true,
+    //   type: database.QueryTypes.SELECT
+    // });
+
+    // if (get_user_subscriber) {
+    //   get_user_subscriber = get_user_subscriber.map(value => {
+    //     return value.toJSON();
+    //   });
+    // }
+
+    // get_active_user= await users.count({
+    //   where:{
+    //     status:1,
+    //     created:{
+    //       [Op.between]: [min_date, max_date]
+    //      }
+    //   }
+    // })
+    var get_active_user = await database.query(`select id,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att from users where status=1 and subscription_id in(${brand_array}) having created_att between ${min_date} and ${max_date}`, {
+
+      model: subscriptions,
+      mapToModel: true,
+      type: database.QueryTypes.SELECT
+    });
+
+    if (get_active_user) {
+      get_active_user = get_active_user.map(value => {
+        return value.toJSON();
+      });
+    }
+    var get_total_user = await database.query(`select id,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att from users where subscription_id in(${brand_array}) having created_att between ${min_date} and ${max_date}`, {
+
+      model: subscriptions,
+      mapToModel: true,
+      type: database.QueryTypes.SELECT
+    });
+
+    if (get_total_user) {
+      get_total_user = get_total_user.map(value => {
+        return value.toJSON();
+      });
+    }
+
+    var get_inactive_user = await database.query(`select id,UNIX_TIMESTAMP(STR_TO_DATE(created_at, '%Y-%m-%d %H:%i:%s')) as created_att from users where status=0 and subscription_id in(${brand_array}) having created_att between ${min_date} and ${max_date}`, {
+
+      model: subscriptions,
+      mapToModel: true,
+      type: database.QueryTypes.SELECT
+    });
+
+    if (get_inactive_user) {
+      get_inactive_user = get_inactive_user.map(value => {
+        return value.toJSON();
+      });
+    }
+  }
  res.send({response:total_users,latest_magazine:get_latest_magazine,least_magazine:get_least_magazine,latest_subscriber:get_user_subscriber,active_user:get_active_user,total_user:get_total_user,inactive_user:get_inactive_user})
     
 
@@ -526,25 +923,71 @@ module.exports = {
   },
   get_count:async function(req,res){
     try{
-
+      var admin_get= await admins.findOne({
+        where:{
+          id:req.session.admin_id
+        },
+        raw:true
+      })
+      if(admin_get.role==2){
+  
+      
+      var brand_array= await admin_get.magazine_id.split(",")
       get_active_user= await users.count({
         where:{
-          status:1
+          status:1,
+          subscription_id:brand_array
         }
       })
       get_total_user= await users.count({
-       
+        where:{
+         
+          subscription_id:brand_array
+        }
       })
 
       get_inactive_user= await users.count({
         where:{
-          status:0
+          status:0,
+          subscription_id:brand_array
         }
       })
 
       get_subscriptions_user= await subscriptions.count({
-       
+        where:{
+        //  status:1,
+          id:brand_array
+        }
       })
+    }else{
+      var brand_array= await admin_get.magazine_id.split(",")
+      get_active_user= await users.count({
+        where:{
+          status:1,
+        //  subscription_id:brand_array
+        }
+      })
+      get_total_user= await users.count({
+        where:{
+         
+         // subscription_id:brand_array
+        }
+      })
+
+      get_inactive_user= await users.count({
+        where:{
+          status:0,
+         // subscription_id:brand_array
+        }
+      })
+
+      get_subscriptions_user= await subscriptions.count({
+        where:{
+        //  status:1,
+         // id:brand_array
+        }
+      })
+    }
       res.send({data:get_active_user,total:get_total_user,inactive:get_inactive_user,subscribed:get_subscriptions_user})
 
     }catch(error){
@@ -574,13 +1017,26 @@ module.exports = {
         var fromDate = getYear + "-" + day + "-01";
   
         var endDate = getYear + "-" + day + "-30";
+        var admin_get= await admins.findOne({
+          where:{
+            id:req.session.admin_id
+          },
+          raw:true
+        })
+        if(admin_get.role==2){
+    
+        
+        var brand_array= await admin_get.magazine_id.split(",")
   
+        var userquery = "select COUNT(*) as total from users where created_at between '" + fromDate + "' and '" + endDate + "' and subscription_id in("+brand_array+")";
   
-        var userquery = "select COUNT(*) as total from users where created_at between '" + fromDate + "' and '" + endDate + "'";
+        var subscriberquery = "select COUNT(*) as total from users where created_at between '" + fromDate + "' and '" + endDate + "' and subscription_id in("+brand_array+")";
   
-        var subscriberquery = "select COUNT(*) as total from subscriptions where created_at between '" + fromDate + "' and '" + endDate + "'";
+        }else{
+          var userquery = "select COUNT(*) as total from users where created_at between '" + fromDate + "' and '" + endDate + "' and subscription_id=0";
   
-  
+        var subscriberquery = "select COUNT(*) as total from users where created_at between '" + fromDate + "' and '" + endDate + "' and subscription_id!=0";
+        }
         var [getUserCount] = await Sequelize.query(userquery);
   
         var [getSubscriberCount] = await Sequelize.query(subscriberquery);

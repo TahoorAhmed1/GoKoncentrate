@@ -64,14 +64,8 @@
                                     </tr>
                                     <tr>
                                         <td class="b">Plan</td>
-                                        <!-- <td><%= user.address %></span></td> -->
-                                        <%if(user.plan_id == 1 || user.plan_id == 0){%>
-                                        <td>Free</span></td>
-                                        <%} else if(user.plan_id == 2 ) {%>
-                                        <td>Silver</span></td>
-                                        <%} else if(user.plan_id == 3 ){%>
-                                        <td>Premium</span></td>
-                                        <%}%>
+                                        <td><%= user.plan_id %></span></td>
+                                       
                                         </tr>
                                         <tr>
                                             <td class="b">Status</td>
@@ -87,7 +81,7 @@
                                 </table>
                             </div>
                         </div>
-                        <h3 style="margin-left: 0px;">Plans buy by the User</h3>
+                        <!-- <h3 style="margin-left: 0px;">Magazine Subscribe by the User</h3>
                         <div class="panel panel-flat">
                             <div class="table-responsive">
                                 <table class="table">
@@ -96,29 +90,22 @@
                                             <th>S.No</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
-                                            <th>Plan Type</th>
+                                            <th>Magazine Subscribe</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if(total_subs > 0 ){%>
-                                        <% for( var i = 0; i < subs.length; i++ ){%>
+                                        <!-- <%console.log(total_subs.length>0 ,"total_subs")%> -->
+                                        <% if(total_subs.length > 0 ){%>
+                                        <% for( var i = 0; i < total_subs.length; i++ ){%>
                                     <tr>
                                         <td> <%= i+1%></td>
-                                        <td><%= subs[i].start_date%></td>
-                                        <td><%= subs[i].end_date%></td>
-                                        <td>
-                                            <%if(subs[i].plan_id == 1 || subs[i].status == 1 ){%>
-                                            Free
-                                            <%} else if(subs[i].plan_id == 2 ) {%>
-                                            Silver
-                                            <%} else if(subs[i].plan_id == 3 ){%>
-                                            Premium
-                                            <%}%>
-                                                </td>
+                                        <td><%= total_subs[i].start_date%></td>
+                                        <td><%= total_subs[i].end_date%></td>
+                                        <td><%= total_subs[i].plan_id%></td>
                                                 <td>
                                                     <% 
-                                                        if(subs[i].status == 1) { %>
+                                                        if(total_subs[i].status == 1) { %>
                                             <a style="padding-right: 10px" class="label label-success">Active</a>
 
                                             <%} else { %>
@@ -135,7 +122,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div> -->
                         <% include ../admin_footer.ejs %>
 
                         </div>

@@ -41,7 +41,7 @@ module.exports = {
   },
   add_subadmin: async function (req, res) {
     try {
-      let get_all_magazine= await magazines.findAll({
+      let get_all_magazine= await magazinesBrand.findAll({
         attributes:['id','name','status'],
         where:{
           status:1,
@@ -135,7 +135,7 @@ module.exports = {
         },
         raw: true
       })
-      let get_all_magazine= await magazines.findAll({
+      let get_all_magazine= await magazinesBrand.findAll({
         attributes:['id','name','status'],
         where:{
           status:1,
@@ -251,7 +251,7 @@ module.exports = {
 
       //  console.log(get_all_sub_deail,"get_all_sub_deail");return
       Array_magazine= get_all_sub_deail.magazine_id.split(',')
-      get_all_magazine= await magazines.findAll({
+      get_all_magazine= await magazinesBrand.findAll({
         attributes:['id','name'],
         where:{
           id:Array_magazine

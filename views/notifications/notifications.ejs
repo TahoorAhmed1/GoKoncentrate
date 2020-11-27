@@ -67,15 +67,7 @@
                       width="80" height="80" class="img-circle"></td>
                   <td><%= response[i].name %></td>
                   <td><%= response[i].email %></td>
-                  <td>
-                    <%if(response[i].plan_id == 1 ){%>
-                    Free
-                    <%} else if(response[i].plan_id == 2 ) {%>
-                    Silver
-                    <%} else if(response[i].plan_id == 3 ){%>
-                    Premium
-                    <%}%>
-                                        </td>
+                  <td><%= response[i].planName %></td>
                                     </tr>
                                     <%}%>
               </tbody>

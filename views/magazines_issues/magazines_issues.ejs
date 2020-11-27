@@ -20,20 +20,30 @@
         <div class="page-header page-header-default">
           <div class="page-header-content">
             <div class="page-title">
-              <h4> <span class="text-semibold">Users</h4>
+              <h4> <span class="text-semibold">Magazines Issues</span>
+              
+                  <a href="/admin/add_magazine_issues" class="btn btn-primary float_right">Add magazine Edition</a>
+             
+              </h4>
             </div>
 
             <!-- <div class="heading-elements">
-                                <div class="heading-btn-group">
-                                    <a href="/admin/add_magazine_brand" class="btn btn-primary">Add</a>
-                                </div>
-                            </div> -->
+              <div class="heading-btn-group">
+                <%if(session.role==1){%>
+                <a href="/admin/add_magazine" class="btn btn-primary">Add</a>
+                <%}%>
+              </div>
+            </div> -->
           </div>
-
+        <%var magazine_data=[]%>
+          <%if(session.magazine_id!=''){%>
+            <%var magazine_data= session.magazine_id.split(',');%>
+            <%console.log(magazine_data,"magazine_id=============")%>
+            <%}%>
           <div class="breadcrumb-line">
             <ul class="breadcrumb">
               <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-              <li class="active">Users</li>
+              <li class="active">Magazine Management</li>
             </ul>
 
             <ul class="breadcrumb-elements">
@@ -44,68 +54,41 @@
 
         <div class="content">
           <div class="panel panel-flat">
-            <div class="col-md-12">
-              <div class="row">
-              <div class="col-lg-3">
-                <label for="sel1">Select gender</label>
-                <select class="form-control" onchange="filterfunction()" id="sel1">
-                  <option value="">Please Select</option>
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
-
-                </select>
-              </div>
-              <div class="col-lg-3">
-                <label for="age">Enter age</label>
-                <input type="number" name="age" id="age" onchange="filterfunction()" class="form-control"
-                  placeholder="Enter age">
-              </div>
-            </div>
-          </div>
-          <%var magazine_data=[]%>
-          <%if(admin_get.magazine_id!=''){%>
-            <%var magazine_data= admin_get.magazine_id.split(',');%>
-            <%console.log(magazine_data,"magazine_id=============")%>
-            <%}%>
-          <div class="table-responsive db">
+            <div class="table-responsive db">
             <table class="table table-bordered" id="myTable">
               <thead>
                 <tr>
-                  <!-- <th class="b"><input type="checkbox" id="select_all"></th> -->
-                  <th class="b">S.No.</th>
-                  <th class="b">Image</th>
-                  <th class="b">Name</th>
-                  <th class="b">Email</th>
-                  <th class="b">Address</th>
-                  <th class="b">Subscribe to magazine Brand</th>
+                  <th class="b">S.No</th>
+                  <th class="b">Magazine Picture</th>
+                  <th class="b">Magazine Name</th>
+                  <th class="b">Launch Date</th>
                   <th class="b">Status</th>
                   <th class="b">Actions</th>
                 </tr>
               </thead>
-              <tbody id="filtuser">
-                <% for( var i = 0; i < response.length; i++ ){%>
-             
+              <tbody>
+                <% for( var i in  magazines){%>
+                 
+                   
+                  <%if(magazine_data.includes(String(magazines[i].id)) || session.role==1){%>
                 <tr>
-                  <td><%= i+1 %></td>
-                   <td><a target="_blank" href="<%=response[i].image%>"><img
-                      src="<%= response[i].image == '' || response[i].image == null || response[i].image == '/images/users/' ? '/white_user.jpg' : response[i].image%>"
-                      width="80" height="80" target="_blank"  class="img-circle"></a></td>
-                  <td><%= response[i].name %></td>
-                  <td><%= response[i].email %></td>
-                  <td><%= response[i].address %></td>
-                  <td><%= response[i].plan_id %></td>
-                                        <td>
-                                            <% 
-                                                if(response[i].status == 1) { %>
+                  <td> <%=parseInt(i)+1%></td>
+                  <td><img
+                      src="<%= magazines[i].image == '' || magazines[i].image == null || magazines[i].image == '/images/users/' ? '/white_user.jpg' : magazines[i].image%>"
+                      width="80" height="80" class="img-circle"></td>
+                  <td><%= magazines[i].name%></td>
+                  <td><%= magazines[i].start_time%></td>
+                  <td>
+                    <% 
+                                                        if(magazines[i].status == 1) { %>
                     <a href="javascript:void(0)"> <span class="label label-success change_status custom_label"
-                        id="<%= response[i].id %>" table="users">Active</span></a>
+                        id="<%= magazines[i].id %>" table="magazines">Active</span> </a>
 
-
-                    <%} else if(response[i].status == 0) { %>
+                    <%} else { %>
                     <a href="javascript:void(0)"> <span class="label label-danger change_status custom_label"
-                        id="<%= response[i].id %>" table="users">InActive</span></a> <%
-                                                }
-                                            %>
+                        id="<%= magazines[i].id %>" table="magazines">InActive</span></a> <%
+                                                        }
+                                                    %>
                   </td>
                   <td class="text-center">
                     <ul class="icons-list">
@@ -113,36 +96,43 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                           <i class="icon-menu9"></i>
                         </a>
-
+                        
+                          
+                          
                         <ul class="dropdown-menu dropdown-menu-right">
+                         
+                           
                           <li>
-                            <a href="/admin/edit_user?id=<%=response[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="/admin/edit_magazine?id=<%=magazines[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                          </li>
+                         
+                          <li>
+                            <a href="/admin/view_magazine?id=<%=magazines[i].id%>"><i class="fas fa-eye"></i>View</a>
                           </li>
                           <li>
-                            <a href="/admin/view_user?id=<%=response[i].id%>"><i class="fas fa-eye"></i>View</a>
-                          </li>
-                          <li>
-                            <a class="delete" table="users" rel="<%= response[i].id %>"><i
+                            <a class="delete" table="magazines" rel="<%= magazines[i].id %>"><i
                                 class="fas fa-trash-alt"></i>Delete</a>
                           </li>
                         </ul>
+                      
+                       
                       </li>
                     </ul>
                   </td>
                 </tr>
                 <%}%>
-              
+               
+                <%}%>
                                 </tbody>
                             </table>
                         </div>
                       </div>
-
                         <div class="col-md-12">
                             <!-- <h4><b><span id="selected_user_count">0</span> Users selected</b></h4> -->
 
                             <!-- <button class="btn btn-primary" id="send_advertisement">Send an advertisement</button>
-                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button>
-                            <button class="btn btn-warning" id="send_email">Send an email</button> -->
+                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button> -->
+                            <!-- <button class="btn btn-info" id="send_email" style="margin-left: 500px;">Send an email</button>  -->
                         </div>
                         <br>
                         <br>
@@ -155,36 +145,20 @@
         </div>
       </div>
     </div>
-   
-  
 
     <script>
-  //     $(document).ready(function () {
-  //       // $('#myTable').DataTable({
-  //       //   'columnDefs': [{
-  //       //     'targets': [1, 6, 7], /* column index */
-  //       //     'orderable': false, /* true or false */
-  //       //   }]
-  //       // })
-  
-  //   //   var table = $('#myTable').DataTable({
-  //   //     dom: 'Bfrtip',
-  //   //     buttons: [
-  //   //         'copyHtml5',
-  //   //         'excelHtml5',
-  //   //         'csvHtml5',
-  //   //         'pdfHtml5'
-  //   //     ]
-  //   // });
-  // })
+      $(document).ready(function () {
+        // $('#myTable').DataTable({
+        //   'columnDefs': [{
+        //     'targets': [1, 3, 4], /* column index */
+        //     'orderable': false, /* true or false */
+        //   }]
+        // })
+      })
     </script>
 
     <script>
       $(document).ready(function () {
-//         $('#example').dataTable( {
-// serverSide: true,
-// searching: false,
-//         })
         var selected_user_ids = [];
 
         $("#select_all").click(function () {
@@ -335,7 +309,32 @@
                 if (willDelete) {
                   selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
                   // window.location.replace("/admin/send_email/from_users/0/"+selected_user_ids);
-                  window.location.replace("/admin/select_email/" + selected_user_ids);
+                  //window.location.replace("/admin/select_email/"+selected_user_ids);
+                  $.ajax({
+                    type: "POST",
+                    url: "/admin/send_email",
+                    data: {
+                      id: selected_user_ids
+                    },
+                    success: function (response) {
+                      // consle.log(response);
+                      if (response == 1) {
+                        swal("Email successfully sent!", {
+                          icon: "success",
+                        }).then(function () {
+                          // location.reload();
+                          window.location.href = "/admin/notifications";
+                        });
+                      } else {
+                        swal("Email not sent. Please try again!", {
+                          icon: "error",
+                        }).then(function () {
+                          // location.reload();
+                          window.location.href = "/admin/notifications";
+                        });
+                      }
+                    }
+                  })
                 } else {
                   swal("Cancelled", {
                     icon: "error",
@@ -404,152 +403,6 @@
           })
         })
       });
-      function filterfunction() {
-        let age_value = document.getElementById("age").value
-        let gender_value = document.getElementById("sel1").value
-        userhtml = ''
-        // alert(gender_value)
-        $.ajax({
-          type: "post",
-          url: "/get_filter_age_gender",
-          data: { age_value, gender_value },
-          success: function (data) {
-            latest_user = data.response
-            // console.log(user_data,"user_data")
-            if (latest_user.length > 0) {
-              for (var i in latest_user) {
-                userhtml += `<tr>`
-                userhtml += `<td>${[i] + 1}</td>`
-                userhtml += `<td><img src=${latest_user[i].image} == '' || ${latest_user[i].image} == null ||${latest_user[i].image} == '/images/users/' ? '/white_user.jpg' : ${latest_user[i].image}" width="80" height="80" class="img-circle"></td>`
-                userhtml += `<td>${latest_user[i].name}</td>`
-                userhtml += `<td>${latest_user[i].email}</td>`
-                userhtml += `<td>${latest_user[i].address}</td>`
-                userhtml += `<td>${latest_user[i].planName}</td>`
-                if(latest_user[i].status == 1){
-                userhtml += '<td><a href="javascript:void(0)"> <span class="label label-success change_status custom_label"   id="'+latest_user[i].id+'" table="users">Active</span></a></td>'
-                } else {
-                  userhtml += '<td><a href="javascript:void(0)"> <span class="label label-danger change_status custom_label"  id="'+latest_user[i].id+'" table="users">Inactive</span></a></td>'
-                }
-              //  userhtml += 
-
-                userhtml+= `<td class="text-center"><ul class="icons-list"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i></a><ul class="dropdown-menu dropdown-menu-right"><li><a href="/admin/edit_user?id=${latest_user[i].id}"><i class="fas fa-edit"></i>Edit</a></li><li><a href="/admin/view_user?id=${latest_user[i].id}"><i class="fas fa-eye"></i>View</a></li><li><a class="delete" table="users" rel="${latest_user[i].id}"><i class="fas fa-trash-alt"></i>Delete</a></li></ul></li></ul></td>`
-                userhtml += `</tr>`
-
-
-              }
-
-            }
-            $('#filtuser').html(userhtml)
-            $('.change_status').on('click', function () {
-            let _this=$(this);
-            let _id= _this.attr('id'); 
-            // let id = $(this).attr('rel');
-            let table = _this.attr('table'); 
-            
-            $.ajax({
-                type: "POST",
-                url: "/admin/update_status",
-                data: {
-                    "id":_id,
-                    "table":table
-                },
-                success: function(data) {
-                    // alert(data);
-                    /**if(data == 0) {
-                        _this.removeClass('label label-success');
-                        _this.addClass('label label-danger');
-                        _this.text('Inactive');
-                    } else if (data == 1) {
-                        _this.removeClass('label label-danger');
-                        _this.addClass('label label-success');
-                        _this.text('Active');
-                    } else {
-
-                    }**/
-                    window.location.reload();
-
-                },error(error){
-                console.error(error);
-                }
-            });
-        });
-        $('.delete').on('click', function () {
-            let _this=$(this);
-            let _id= _this.attr('rel'); 
-            var table = _this.attr('table'); 
-            //alert(_id);
-            //var username = _this.attr("username");
-
-            if(table == "magazines_brand") {
-                var text = "You want to delete this account";
-            } else if(table == "magazines"){
-                var text = "You want to delete this magazine";
-            } else if(table == "categories") {
-                var text = "You want to delete this category";
-            } else if(table == "ads") {
-                var text = "You want to delete this advertisement";
-            } else if(table == "notifications") {
-                var text = "You want to delete this notification";
-            } else if(table == "helps" || table == "emails") {
-                var text = "You want to delete this entry";
-            } else if(table == "posts") {
-                var text = "You want to delete this posts and its comments";
-            } else if(table == "admin") {
-                var text = "You want to delete this sub-admin";
-            } else if(table == "keywords") {
-                var text = "You want to delete this keyword";
-            } else if(table == "reservation_content") {
-                var text = "You want to delete this content";
-            } else {
-                var text = "You want to delete this "+table;
-            }
-            
-            swal({
-                title: "Are you sure?",
-                text: text,
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((data) => {
-                if (data) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/admin/delete_data",
-                        data: {
-                            "id":_id,
-                            "table":table,
-                        },
-    
-                        success: function(data) {
-                            if(data == 1) {
-                                _this.parents('tr').remove();
-                                swal("Your data has been deleted!", {
-                                    icon: "success",
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                swal("Error", "Please try again");
-                            }
-                            // setTimeout(function () { location.reload(1); }, 1000);
-
-                        },error(error){
-                        console.error(error);
-                        }
-                    });
-                }
-            });
-        });
-
-
-
-          }
-        });
-      }
-     
-
-
     </script>
 
     <style>
