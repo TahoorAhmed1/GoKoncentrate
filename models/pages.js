@@ -19,6 +19,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			field: 'magazine_id'
 		},
+		page_no: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+			field: 'page_no'
+		},
 		delete_status: {
 			type: DataTypes.INTEGER(11),
 			allowNull: true,

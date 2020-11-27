@@ -93,7 +93,11 @@
                   <td><%= response[i].name %></td>
                   <td><%= response[i].email %></td>
                   <td><%= response[i].address %></td>
-                  <td><%= response[i].plan_id %></td>
+                  <%if(response[i].plan_id=='' || response[i].plan_id==null){%>
+                  <td>Free</td>
+                  <%}else{%>
+                    <td><%= response[i].plan_id %></td>
+                    <%}%>
                                         <td>
                                             <% 
                                                 if(response[i].status == 1) { %>

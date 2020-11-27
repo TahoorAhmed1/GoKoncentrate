@@ -69,7 +69,7 @@
                   <th class="b">User Name</th>
                   <th class="b">User Email</th>
                   <th class="b">Magazine Edition</th>
-                  <th class="b">Page Unique Id</th>
+                  <th class="b">Page No</th>
                   <th class="b">Time Spent(in hour)</th>
                   <th class="b">First time visit time</th>
                 </tr>
@@ -82,7 +82,7 @@
                   <td><%= response[i].userName%></td>
                   <td><%= response[i].userEmail%></td>
                   <td><%= response[i].actualmagazinename%></td>
-                  <td><%= response[i].pageId%></td>
+                  <td><%= response[i].page_no%></td>
                   <td><%= response[i].time_spent%></td>
                  
                   <td><%= response[i].start_time%></td>
@@ -150,7 +150,7 @@
                   userhtml += `<td>`+data[k].userName+ `</td>`
                   userhtml += `<td>` + data[k].userEmail + `</td>`
                   userhtml += `<td>` + data[k].actualmagazinename + `</td>`
-                  userhtml += `<td>` + data[k].pageId + `</td>`
+                  userhtml += `<td>` + data[k].page_no + `</td>`
                   userhtml += `<td>` + data[k].time_spent + `</td>`
                    userhtml += `<td>` + data[k].start_time + `</td>`
                 //   userhtml+= `<td><a href="/admin/get_magazines_pages?id=${data[k].magazineId}">${data[k].magazinecount}</a></td>`

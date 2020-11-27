@@ -504,7 +504,7 @@ module.exports = {
       if(get_admim_data.role==1){
 
       var get_magazine_analytics= await magazineAnalytics.findAll({
-        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount']],
+        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount'],[sequelize.literal('(SELECT name FROM magazines WHERE id= magazineAnalytics.actual_magazine_id)'), 'ActualMagazineName']],
         where:{
            created:{
             [Op.between]: [min_date, max_date]
@@ -519,7 +519,7 @@ module.exports = {
       })
     }else{
       var get_magazine_analytics= await magazineAnalytics.findAll({
-        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount'],[sequelize.literal('(SELECT id FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'brandId']],
+        attributes:['id','magazineId','userId', [sequelize.literal('(SELECT name FROM magazines_brand WHERE id= magazineAnalytics.magazine_id)'), 'MagazineName'],[sequelize.literal('(SELECT name FROM users WHERE id= magazineAnalytics.user_id)'), 'userName'],[sequelize.literal('(SELECT count(*) FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'magazinevisit'],[sequelize.literal('(SELECT count(*) FROM pages where magazine_id=magazineAnalytics.magazine_id)'), 'magazinecount'],[sequelize.literal('(SELECT id FROM magazines_brand where id=magazineAnalytics.magazine_id)'), 'brandId'],[sequelize.literal('(SELECT name FROM magazines WHERE id= magazineAnalytics.actual_magazine_id)'), 'ActualMagazineName']],
         where:{
            created:{
             [Op.between]: [min_date, max_date]
@@ -561,7 +561,7 @@ module.exports = {
     try{
 
       let get_user_visit= await magazineAnalytics.findAll({
-        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename']],
+        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename'],[sequelize.literal('(SELECT page_no FROM pages WHERE id =magazineAnalytics.page_id )'), 'page_no']],
         order:[
           ['time_spent','desc']
         ],
@@ -614,7 +614,7 @@ module.exports = {
      // console.log(brand_array,"brand_array");return
       if(get_admim_data.role==1){
       var get_user_visit= await magazineAnalytics.findAll({
-        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename']],
+        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename'],[sequelize.literal('(SELECT page_no FROM pages WHERE id =magazineAnalytics.page_id )'), 'page_no']],
         order:[
           ['time_spent','desc']
         ],
@@ -627,7 +627,7 @@ module.exports = {
       })
     }else{
       var get_user_visit= await magazineAnalytics.findAll({
-        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename']],
+        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename'],[sequelize.literal('(SELECT page_no FROM pages WHERE id =magazineAnalytics.page_id )'), 'page_no']],
         order:[
           ['time_spent','desc']
         ],

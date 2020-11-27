@@ -359,10 +359,24 @@ module.exports = {
   },
   add_page_magazine: async function (req, res) {
     try {
-
+          var get_magazine_data= await pages.findOne({
+            attributes:['id','magazine_id','page_no'],
+            where:{
+              magazine_id: req.body.id
+            },
+            raw:true
+          })
+         // console.log(get_magazine_data,"get_magazine_data");return
+         if(get_magazine_data){
+           pageno=1+get_magazine_data.page_no
+         }else{
+          pageno=1
+         }
+        // console.log(pageno,"pageno");return
       let create_magazine_pages = await pages.create({
         content: req.body.page,
-        magazine_id: req.body.id
+        magazine_id: req.body.id,
+        page_no:pageno
       })
       req.flash('msg', 'Magazine page added successfully')
       res.redirect('/admin/magazines')

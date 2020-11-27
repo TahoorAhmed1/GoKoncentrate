@@ -67,7 +67,9 @@
                 <tr>
                   <th class="b">S.No</th>
                   <th class="b">User Name</th>
+                 
                   <th class="b">Magazine Brand Name</th>
+                  <th class="b">Magazine Name</th>
                   <th class="b">Peoples Visit</th>
                   
                   <!-- <th class="b">Total Magazine page</th> -->
@@ -79,7 +81,9 @@
                 <tr>
                   <td> <%= i+1%></td>
                   <td><%= response[i].userName%></td>
+                  
                   <td><%= response[i].MagazineName%></td>
+                  <td><%= response[i].ActualMagazineName%></td>
                   <td> <a
                       href="/admin/get_magazines_pages_couunt?id=<%=response[i].magazineId%>"><%= response[i].magazinevisit%></a>
                   </td>
@@ -172,6 +176,7 @@
                 userhtml += `<td>` + k + 1 + `</td>`
                 userhtml += `<td>` + data[k].userName + `</td>`
                 userhtml += `<td>` + data[k].MagazineName + `</td>`
+                userhtml += `<td>` + data[k].ActualMagazineName + `</td>`
                 // userhtml += `<td>` + data[k].magazinevisit + `</td>`
                 // userhtml += `<td>` + data[k].magazinecount + `</td>`
                 userhtml += `<td><a href="/admin/get_magazines_pages_couunt?id=${data[k].magazineId}">${data[k].magazinevisit}</a></td>`

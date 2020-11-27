@@ -49,7 +49,7 @@ module.exports = {
     }
       
 
-    // console.log(admin_get,"admin_get");return
+    // console.log(get_users_all,"get_users_all");return
      res.render('users/users', { msg: req.flash('msg'),admin_get,session: req.session,response:get_users_all, title: 'users' });
     } catch (error) {
       throw error

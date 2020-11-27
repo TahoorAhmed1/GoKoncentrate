@@ -1,5 +1,6 @@
 const db = require('../models');
 const sequelize = require('sequelize');
+const Op = sequelize.Op;
 const admins = db.admin
 const users = db.users
 const subscriptions = db.subscriptions
@@ -79,6 +80,85 @@ transporter.sendMail(mailOptions, function(error, info){
   }
 });
 res.json(1)
+    }catch(error){
+      throw error
+    }
+  },
+  getusers_list:async function(req,res){
+    try{
+      // console.log(req.body.id==1,"req.body");return
+      var get_admim_data= await admins.findOne({
+        where:{
+          id:req.session.admin_id
+        },
+        raw:true
+      })
+      var brand_array= await get_admim_data.magazine_id.split(",")
+     //console.log(brand_array,"brand_array");return
+      if(get_admim_data.role==1){
+      if(req.body.id==1){
+         var get_users=await users.findAll({
+           attributes:['id','name'],
+           where:{
+             subscription_id:0
+           },
+           raw:true
+         })
+      }else if(req.body.id==2){
+        var get_users=await users.findAll({
+          attributes:['id','name'],
+          where:{
+            subscription_id: {
+              [Op.ne]: 0
+            }
+          },
+          raw:true
+        })
+      }else{
+        var get_users=await users.findAll({
+          attributes:['id','name'],
+          raw:true
+        })
+      }
+    }else{
+      if(req.body.id==1){
+        var get_users=await users.findAll({
+          attributes:['id','name'],
+          where:{
+            subscription_id:0
+          },
+          raw:true
+        })
+     }else if(req.body.id==2){
+       var get_users=await users.findAll({
+         attributes:['id','name'],
+         where:{
+           subscription_id: {
+             [Op.ne]: 0
+           },
+           subscription_id:brand_array
+         },
+         raw:true
+       })
+     }else{
+       var get_users=await users.findAll({
+         attributes:['id','name'],
+         where:{
+          subscription_id:brand_array
+         },
+         raw:true
+       })
+     }
+    }
+     res.send(get_users)
+    }catch(error){
+      throw error
+    }
+  },
+  send_notification:async function(req,res){
+    try{
+      req.flash('msg', 'Notification sent successfully')
+      res.redirect('/admin/notifications')
     }catch(error){
       throw error
     }

@@ -80,7 +80,9 @@ module.exports =function(app){
     //  notification controller  
     app.route('/admin/notifications').get(notification.index);
     app.route('/admin/send_email').post(notification.send_email_user);
-
+    app.route('/getusers_list').post(notification.getusers_list);
+    app.route('/admin/send_notification').post(notification.send_notification);
+    
     // content controller
     app.route('/admin/privacy_policy').get(content.privacy_policy);
     app.route('/admin/update_privacy_policy').post(content.update_privacy_policy);
