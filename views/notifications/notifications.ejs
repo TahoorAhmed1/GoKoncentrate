@@ -9,13 +9,14 @@
 		color: black !important;
 	}
 
-  .s1l span.select2 {
+ 
+.s1l span.select2 {
     float: left;
-    width: 102% !important;
+    width: 98% !important;
     margin-bottom: 15px;
     margin-top: 10px;
-    /* margin-left: 0px !important; */
-    margin-left: -12px !important;
+    margin-left: 0px !important;
+    /* margin-left: -9px !important; */
 }
 
 	textarea#description {
@@ -33,7 +34,7 @@
     border-radius: 4px;
     padding: 10px 10px;
     box-sizing: border-box;
-    width: 100%;
+    width: 98%;
 }
 .not .form-group {
     margin: 0 0 10px -8px !important;
@@ -43,18 +44,17 @@
     
 } */
 input#checkboxs {
-    margin-left: -9px;
+    margin-left: 1px !important;
     margin-top: 0px;
 }
-/* .select2-container--default.select2-container--focus .select2-selection--multiple {
-    border: solid black 1px;
-    outline: 0;
-    margin-left: -12px !important;
-} */
+div#txtbtmn {
+    margin-left: 70px;
+}
 .select2-container--default.select2-container--focus .select2-selection--multiple {
     border: solid black 1px;
     outline: 0;
     margin-left: 0px !important;
+    width:100% !important;
 }
 select#usertype {
     width: 98% !important;
@@ -122,21 +122,44 @@ select#usertype {
                 </div>
               </div>
               </div>
-             
+<!--              
                 <div class="col-md-7 s1l">
                     <div class="form-group slet">					
                       <input type="checkbox" id="checkboxs"> <span>Select All Users </span>
                     </div>
                         <select class="select2  form-control" id="optionid" data-show-subtext="true" data-live-search="true"
                         name="name" multiple >
+                      
                         <%for(var i in response){%>
                         <option name="illness_id" value="<%=response[i].id%>"><%=response[i].name%></option>
                         
                      <%}%>
                             </select>
                       
-                        </div>
+                        </div> -->
                         <div class="col-md-7 s1l">
+
+                          <div class="row">
+                            <input type="checkbox" id="checkboxs"> <span>Select All Users </span>
+                
+                          <div class="form-group">					
+                              <select class="select2  form-control" data-show-subtext="true" data-live-search="true"
+                              name="name" multiple >
+                
+                              <%  
+                                      if(response && response.length>0){ 
+                                      for(var i in response){ 
+                                     %>
+                
+                              <option name="illness_id" value="<%=response[i].id%>"><%=response[i].name%></option>
+                
+                              <%}
+                                    }%>    
+                                  </select>
+                                </div>	
+                              </div>
+                              </div>
+                        <div class="col-md-7 s2l">
                           <div class="row">
                         <div class="form-group">
                           <label for="message">Enter Message</label>
@@ -149,30 +172,15 @@ select#usertype {
     
   </div>
                
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Send <i
-                      class="icon-arrow-right14 position-right"></i></button>
+                <div class="text-center" id="txtbtmn">
+                  <button type="submit" id="btnsubmit" class="btn btn-primary">Send <i
+                      class="icon-arrow-right14 position-center"></i></button>
                 </div>
               </div>
 
             </div>
           </form>
-
-          <% include ../admin_footer.ejs %>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-
- 
-
-</body>
-
-</html>
-
-
+          
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script>
@@ -214,3 +222,18 @@ select#usertype {
             });
         });
 </script>
+
+          <% include ../admin_footer.ejs %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+ 
+
+</body>
+
+</html>
+
