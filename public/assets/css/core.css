@@ -6552,7 +6552,17 @@ h6.panel-title,
 }
 
 }
-
+.col-lg-9.input-group.s {
+  position: relative;
+}
+label.error {
+  color: red;
+  padding-bottom: 10px;
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+  bottom: -37px;
+}
 
 
 a.btn.btn-primary.float_right {
