@@ -135,7 +135,23 @@
 
             </div>
           </form>
-          <h3 style="margin-left: 500px;"> Add Page Content</h3>
+          <label for="cars">Choose a page type:</label>
+          <form action='/admin/add_pages_new' enctype="multipart/form-data" method="POST" role="form">
+<select name="pages" class="form-control" id="pages" required>
+   <option value="">Please select a Page type</option>
+  <a href="/video_page"><option value="1">Video Page</option></a>
+  <a href="/music_page"><option value="4">Music Page</option></a>
+  <!-- <a href="/photo_page"><option value="2">Photo Page</option></a> -->
+  <a href="/article_page"><option value="3">Article Page</option></a>
+  
+</select>
+<input type="hidden" name="magazineid" value="<%= magazine.id %>">
+<div class="text-right">
+  <button type="submit" class="btn btn-primary">Add page <i
+      class="icon-arrow-right14 position-right"></i></button>
+</div>
+</form>
+          <!-- <h3 style="margin-left: 500px;"> Add Page Content</h3>
           <form enctype="multipart/form-data" method="POST" action="/admin/add_page" id="add_summer_page"
             onsubmit="return check(this)">
             <div class="panel panel-flat">
@@ -146,8 +162,7 @@
                                     </textarea>
                 </div>
                 <div class="add_page_error" style="display: none;">This field is required !</div>
-                <!-- <div class="col-lg-3"></div>
-                                    <div class="col-lg-9"><label id="page-error" class="error" for="page"></label></div> -->
+         
                 <input type="hidden" name="id" value="<%= magazine.id %>">
                 <div class="text-right">
                   <button type="submit" class="btn btn-primary">Submit <i
@@ -156,7 +171,7 @@
               </div>
             </div>
 
-          </form>
+          </form> -->
         </div>
         <!-- <form action = '/admin/add_magazine_page'  enctype="multipart/form-data"  method="POST" role="form" id="add_magazine_page">
                             <div class="panel panel-flat">
@@ -243,25 +258,25 @@
                             </div>
                         </form> -->
 
-        <h3 style="margin-left: 500px;">Magazine Pages Content</h3>
-        <% if(pages.length > 0 ){%>
+        <h3 style="margin-left: 500px;">Video Pages Content</h3>
+       
         <div class="panel panel-flat" style="margin-bottom: 80px;">
           <div class="table-responsive" style="padding: 50px;">
             <table class="table">
               <thead>
                 <tr>
                   <th>S.No</th>
-                  <th>Page Unique Id</th>
+                  <th>Title</th>
                   <th>Page No</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <%for( var i = 0; i < pages.length; i++ ){%>
+                <%for(var i in get_all_video_page){%>
                 <tr>
-                  <td><%= i+1 %></td>
-                  <td><%= pages[i].id%></td>
-                  <td><%= pages[i].page_no%></td>
+                  <td><%=parseInt(i)+1%></td>
+                  <td><%=get_all_video_page[i].title%></td>
+                  <td><%=get_all_video_page[i].pageNo%></td>
                   
                   <td class="text-center">
                     <ul class="icons-list">
@@ -272,39 +287,106 @@
 
                         <ul class="dropdown-menu dropdown-menu-right">
                           <li>
-                            <a href="/admin/edit_page?id=<%=pages[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="/admin/edit_page?id=<%=get_all_video_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
                           </li>
                         </ul>
                       </li>
                     </ul>
                   </td>
                 </tr>
-                <%}%>
+              <%}%>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <%} else {%>
-                <div class="panel panel-flat">
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>S.No</th>
-                          <th>Page No</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <td></td>
-                        <td style="text-align: center;">No Page Added</td>
-                        <td></td>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                       
 
-                <%}%>
+
+                        <h3 style="margin-left: 500px;">Music Pages Content</h3>
+       
+        <div class="panel panel-flat" style="margin-bottom: 80px;">
+          <div class="table-responsive" style="padding: 50px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Title</th>
+                  <th>Page No</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%for(var i in get_all_music_page){%>
+                <tr>
+                  <td><%=parseInt(i)+1%></td>
+                  <td><%=get_all_music_page[i].title%></td>
+                  <td><%=get_all_music_page[i].pageNo%></td>
+                  
+                  <td class="text-center">
+                    <ul class="icons-list">
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          <i class="icon-menu9"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li>
+                            <a href="/admin/edit_music?id=<%=get_all_music_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              <%}%>
+              
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <h3 style="margin-left: 500px;">Article Pages Content</h3>
+       
+                        <div class="panel panel-flat" style="margin-bottom: 80px;">
+                          <div class="table-responsive" style="padding: 50px;">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>S.No</th>
+                                  <th>Title</th>
+                                  <th>Page No</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <%for(var i in get_all_article_page){%>
+                                <tr>
+                                  <td><%=parseInt(i)+1%></td>
+                                  <td><%=get_all_article_page[i].title%></td>
+                                  <td><%=get_all_article_page[i].pageNo%></td>
+                                  
+                                  <td class="text-center">
+                                    <ul class="icons-list">
+                                      <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                          <i class="icon-menu9"></i>
+                                        </a>
+                
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                          <li>
+                                            <a href="/admin/edit_articlepage?id=<%=get_all_article_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                                          </li>
+                                        </ul>
+                                      </li>
+                                    </ul>
+                                  </td>
+                                </tr>
+                              <%}%>
+                              
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+               
                         <% include ../admin_footer.ejs %>
 
           </div>

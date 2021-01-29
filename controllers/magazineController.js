@@ -7,6 +7,10 @@ const magazinesBrand = db.magazinesBrand
 const magazines = db.magazines
 const pages = db.pages
 const magazineIssues = db.magazineIssues
+const videoPage = db.videoPage
+const musicPage = db.musicPage
+const articlePage = db.articlePage
+const articlePhotos = db.articlePhotos
 var crypto = require('crypto');
 // const { contained } = require("sequelize/types/lib/operators")
 var path = require('path');
@@ -28,7 +32,12 @@ module.exports = {
       //  console.log(get_magazine,"get_magazine");return
 
 
-      res.render('magazines_brand/magazines_brand', { msg: req.flash('msg'), response: get_all_magazines, title: 'magazines_brand', session: req.session });
+      res.render('magazines_brand/magazines_brand', {
+        msg: req.flash('msg'),
+        response: get_all_magazines,
+        title: 'magazines_brand',
+        session: req.session
+      });
       //  console.log("hello");return
     } catch (error) {
       throw error
@@ -36,7 +45,11 @@ module.exports = {
   },
   add_magazine_brand: async function (req, res) {
     try {
-      res.render('magazines_brand/add_magazine_brand', { msg: req.flash('msg'), title: 'magazines_brand', session: req.session });
+      res.render('magazines_brand/add_magazine_brand', {
+        msg: req.flash('msg'),
+        title: 'magazines_brand',
+        session: req.session
+      });
 
     } catch (error) {
       throw error
@@ -95,7 +108,13 @@ module.exports = {
         ],
         raw: true
       })
-      res.render('magazines_brand/view_magazine_brand', { msg: req.flash('msg'), magazine_brand: get_all_magazines, title: 'magazines_brand', magazines: get_all_magazines_daat, session: req.session });
+      res.render('magazines_brand/view_magazine_brand', {
+        msg: req.flash('msg'),
+        magazine_brand: get_all_magazines,
+        title: 'magazines_brand',
+        magazines: get_all_magazines_daat,
+        session: req.session
+      });
       //  console.log("hello");return
     } catch (error) {
       throw error
@@ -117,7 +136,12 @@ module.exports = {
       //   },
       //   raw:true
       // })
-      res.render('magazines_brand/edit_magazine_brand', { msg: req.flash('msg'), magazine_brand: get_all_magazines, title: 'magazines_brand', session: req.session });
+      res.render('magazines_brand/edit_magazine_brand', {
+        msg: req.flash('msg'),
+        magazine_brand: get_all_magazines,
+        title: 'magazines_brand',
+        session: req.session
+      });
       //  console.log("hello");return
     } catch (error) {
       throw error
@@ -181,8 +205,8 @@ module.exports = {
         },
         raw: true
       })
-    //  console.log(get_admin_data.role,"get_admin_data");return
-      if (get_admin_data.role==2) {
+      //  console.log(get_admin_data.role,"get_admin_data");return
+      if (get_admin_data.role == 2) {
 
         var brand_array = await get_admin_data.magazine_id.split(",")
         //console.log(brand_array,"brand_array");return
@@ -208,7 +232,7 @@ module.exports = {
       }
 
 
-       // console.log(get_all_magazine,"get_all_magazine");return
+      // console.log(get_all_magazine,"get_all_magazine");return
 
       for (var i in get_all_magazine) {
         // for 12 hr
@@ -230,13 +254,20 @@ module.exports = {
       })
       //  console.log(get_all_magazine,"get_all_magazine");return
 
-      res.render('magazines/magazines', { msg: req.flash('msg'), magazines: get_all_magazine, get_admin_magazine, title: 'magazines', session: req.session });
+      res.render('magazines/magazines', {
+        msg: req.flash('msg'),
+        magazines: get_all_magazine,
+        get_admin_magazine,
+        title: 'magazines',
+        session: req.session
+      });
     } catch (error) {
       throw error
     }
   },
   edit_magazine: async function (req, res) {
     try {
+      //console.log("hello");return
       var get_all_magazine = await magazines.findOne({
         where: {
           id: req.query.id
@@ -244,16 +275,7 @@ module.exports = {
         raw: true
       })
       get_all_magazine.start_time = moment.unix(get_all_magazine.launch_date).format("YYYY-MM-DD");
-      // var get_all_magazine_brands = await magazinesBrand.findAll({
-      //   attributes: ['id', 'name', 'image', 'delete_status', 'status'],
-      //   where: {
-      //     status: 1
-      //   },
-      //   order: [
-      //     ['id', 'desc']
-      //   ],
-      //   raw: true
-      // })
+
       if (req.session.role == 1) {
         var get_all_magazine_brands = await magazinesBrand.findAll({
           attributes: ['id', 'name', 'image', 'delete_status', 'status'],
@@ -268,7 +290,6 @@ module.exports = {
         })
 
       } else {
-
 
         var get_magazine_data = await admins.findOne({
           attributes: ['id', 'magazine_id'],
@@ -303,7 +324,47 @@ module.exports = {
         ],
         raw: true
       })
-      res.render('magazines/edit_magazine', { msg: req.flash('msg'), magazine: get_all_magazine, magazine_brands: get_all_magazine_brands, pages: get_all_magazine_page, title: 'magazines', session: req.session });
+
+      var get_all_video_page = await videoPage.findAll({
+        where: {
+          magazineId: req.query.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      });
+
+      var get_all_music_page = await musicPage.findAll({
+        where: {
+          magazineId: req.query.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      });
+      var get_all_article_page = await articlePage.findAll({
+        where: {
+          magazineId: req.query.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      });
+      // console.log(get_all_article_page,"get_all_article_page");return
+      res.render('magazines/edit_magazine', {
+        msg: req.flash('msg'),
+        magazine: get_all_magazine,
+        magazine_brands: get_all_magazine_brands,
+        pages: get_all_magazine_page,
+        get_all_video_page,
+        get_all_music_page,
+        get_all_article_page,
+        title: 'magazines',
+        session: req.session
+      });
     } catch (error) {
       throw error
     }
@@ -359,24 +420,24 @@ module.exports = {
   },
   add_page_magazine: async function (req, res) {
     try {
-          var get_magazine_data= await pages.findOne({
-            attributes:['id','magazine_id','page_no'],
-            where:{
-              magazine_id: req.body.id
-            },
-            raw:true
-          })
-         // console.log(get_magazine_data,"get_magazine_data");return
-         if(get_magazine_data){
-           pageno=1+get_magazine_data.page_no
-         }else{
-          pageno=1
-         }
-        // console.log(pageno,"pageno");return
+      var get_magazine_data = await pages.findOne({
+        attributes: ['id', 'magazine_id', 'page_no'],
+        where: {
+          magazine_id: req.body.id
+        },
+        raw: true
+      })
+      // console.log(get_magazine_data,"get_magazine_data");return
+      if (get_magazine_data) {
+        pageno = 1 + get_magazine_data.page_no
+      } else {
+        pageno = 1
+      }
+      // console.log(pageno,"pageno");return
       let create_magazine_pages = await pages.create({
         content: req.body.page,
         magazine_id: req.body.id,
-        page_no:pageno
+        page_no: pageno
       })
       req.flash('msg', 'Magazine page added successfully')
       res.redirect('/admin/magazines')
@@ -387,7 +448,7 @@ module.exports = {
   },
   edit_page_magazine: async function (req, res) {
     try {
-      let get_page = await pages.findOne({
+      let get_page = await videoPage.findOne({
         where: {
           id: req.query.id
         },
@@ -397,7 +458,12 @@ module.exports = {
         raw: true
       })
       //  console.log(get_page,"get_page");return
-      res.render('magazines/edit_magazine_page', { msg: req.flash('msg'), response: get_page, title: 'magazines', session: req.session });
+      res.render('magazines/edit_video_page', {
+        msg: req.flash('msg'),
+        response: get_page,
+        title: 'magazines',
+        session: req.session
+      });
     } catch (error) {
       throw error
     }
@@ -441,7 +507,13 @@ module.exports = {
         ],
         raw: true
       })
-      res.render('magazines/view_magazine', { msg: req.flash('msg'), magazine: get_all_magazine, pages: get_all_magazine_page, title: 'magazines', session: req.session });
+      res.render('magazines/view_magazine', {
+        msg: req.flash('msg'),
+        magazine: get_all_magazine,
+        pages: get_all_magazine_page,
+        title: 'magazines',
+        session: req.session
+      });
 
     } catch (error) {
       throw error
@@ -459,7 +531,12 @@ module.exports = {
         raw: true
       })
       //  console.log(get_page,"get_page");return
-      res.render('magazines/view_magazine_page', { msg: req.flash('msg'), response: get_page, title: 'magazines', session: req.session });
+      res.render('magazines/view_magazine_page', {
+        msg: req.flash('msg'),
+        response: get_page,
+        title: 'magazines',
+        session: req.session
+      });
     } catch (error) {
       throw error
     }
@@ -508,7 +585,12 @@ module.exports = {
       }
 
       //console.log(get_all_magazine_brands,"get_all_magazine_brands");return
-      res.render('magazines/add_magazine', { msg: req.flash('msg'), magazine_brands: get_all_magazine_brands, title: 'magazines', session: req.session });
+      res.render('magazines/add_magazine', {
+        msg: req.flash('msg'),
+        magazine_brands: get_all_magazine_brands,
+        title: 'magazines',
+        session: req.session
+      });
     } catch (error) {
       throw error
     }
@@ -527,8 +609,7 @@ module.exports = {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
         var fileimage = uuid() + extension;
-        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
-        });
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {});
         image_user_url = `/images/users/${fileimage}`
       }
       //  console.log(req.body.date,"req.body.date");return
@@ -575,7 +656,12 @@ module.exports = {
   issuesindex: async function (req, res) {
     try {
       // console.log("hello");return
-      res.render('magazines_issues/magazines_issues', { msg: req.flash('msg'), magazines: '', title: 'magazineissue', session: req.session });
+      res.render('magazines_issues/magazines_issues', {
+        msg: req.flash('msg'),
+        magazines: '',
+        title: 'magazineissue',
+        session: req.session
+      });
     } catch (error) {
       throw error
     }
@@ -593,7 +679,12 @@ module.exports = {
         ]
       })
       //  console.log(get_all_magzines,"get_all_magzines");return
-      res.render('magazines_issues/add_magazine_issues', { msg: req.flash('msg'), get_all_magzines: get_all_magzines, title: 'magazineissue', session: req.session });
+      res.render('magazines_issues/add_magazine_issues', {
+        msg: req.flash('msg'),
+        get_all_magzines: get_all_magzines,
+        title: 'magazineissue',
+        session: req.session
+      });
     } catch (error) {
       throw error
     }
@@ -604,5 +695,441 @@ module.exports = {
     } catch (error) {
       throw error
     }
+  },
+  add_pages: async function (req, res) {
+    try {
+      //  console.log("hello");return
+      //  console.log(req.body,"re.body=============");return
+      magazineId = req.body.magazineid
+      if (req.body.pages == 1) {
+        res.render('magazines/video_page', {
+          msg: req.flash('msg'),
+          title: 'magazines',
+          magazineId,
+          session: req.session
+        });
+      } else if (req.body.pages == 4) {
+        res.render('magazines/music_page', {
+          msg: req.flash('msg'),
+          title: 'magazines',
+          magazineId,
+          session: req.session
+        });
+      } else if (req.body.pages == 3) {
+        res.render('magazines/article_page', {
+          msg: req.flash('msg'),
+          title: 'magazines',
+          magazineId,
+          session: req.session
+        });
+      }
+    } catch (error) {
+      throw error
+    }
+  },
+  add_video_page: async function (req, res) {
+    try {
+      //  console.log(req.body,"hello");return
+
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = ''
+      }
+      // console.log(req.files.video,"video");return
+      if (req.files && req.files.video) {
+        let video = req.files.video
+
+        var extension = path.extname(video.name);
+        var filevideo = uuid() + extension;
+        video.mv(process.cwd() + '/public/images/users/' + filevideo, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        video_user_url = `/images/users/${filevideo}`
+      } else {
+        video_user_url = ''
+      }
+      let get_page_no = await videoPage.findOne({
+        where: {
+          magazineId: req.body.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      })
+      // console.log(get_page_no,"get_page_no");return;
+      if (get_page_no == null) {
+        pageNo = 1
+      } else {
+        pageNo = (get_page_no.pageNo) + (1)
+      }
+      let create_magazine = await videoPage.create({
+        magazineId: req.body.id,
+        image: image_user_url,
+        video: video_user_url,
+        videoLink: req.body.videolink,
+        title: req.body.title,
+        pageNo: pageNo
+      });
+      req.flash('msg', 'Video page added successfully')
+      res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
+    } catch (error) {
+      throw error
+    }
+  },
+  add_music_page: async function (req, res) {
+    try {
+      // console.log(req.body,"req.body===")
+      // console.log(req.files,"req.files===");return
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = ''
+      }
+      // console.log(req.files.video,"video");return
+      if (req.files && req.files.audio) {
+        let audio = req.files.audio
+
+        var extension = path.extname(audio.name);
+        var fileaudio = uuid() + extension;
+        audio.mv(process.cwd() + '/public/images/users/' + fileaudio, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        audio_user_url = `/images/users/${fileaudio}`
+      } else {
+        audio_user_url = ''
+      }
+      if (req.files && req.files.cover_photo) {
+        let cover_photo = req.files.cover_photo
+
+        var extension = path.extname(cover_photo.name);
+        var filecover = uuid() + extension;
+        cover_photo.mv(process.cwd() + '/public/images/users/' + filecover, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        cover_user_url = `/images/users/${filecover}`
+      } else {
+        cover_user_url = ''
+      }
+      if (req.files && req.files.artist_photo) {
+        let artist_photo = req.files.artist_photo
+
+        var extension = path.extname(artist_photo.name);
+        var fileartist = uuid() + extension;
+        artist_photo.mv(process.cwd() + '/public/images/users/' + fileartist, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        artist_user_url = `/images/users/${fileartist}`
+      } else {
+        artist_user_url = ''
+      }
+      let get_page_no = await musicPage.findOne({
+        where: {
+          magazineId: req.body.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      })
+      // console.log(get_page_no,"get_page_no");return;
+      if (get_page_no == null) {
+        pageNo = 1
+      } else {
+        pageNo = (get_page_no.pageNo) + (1)
+      }
+      let create_music = await musicPage.create({
+        magazineId: req.body.id,
+        image: image_user_url,
+        music: audio_user_url,
+        musicLink: req.body.musiclink,
+        title: req.body.title,
+        pageNo: pageNo,
+        artistPhoto: artist_user_url,
+        albumCoverPhoto: cover_user_url,
+        artistBio: req.body.artist_bio
+
+      });
+      req.flash('msg', 'Music page added successfully')
+      res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
+    } catch (error) {
+      throw error
+    }
+  },
+  edit_video_page: async function (req, res) {
+    try {
+      // console.log("innnnnnnnnnnnnnnnnn");return
+      let get_video_page = await videoPage.findOne({
+        where: {
+          id: req.body.id
+        },
+        raw: true
+      })
+
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = get_video_page.image
+      }
+      // console.log(req.files.video,"video");return
+      if (req.files && req.files.video) {
+        let video = req.files.video
+
+        var extension = path.extname(video.name);
+        var filevideo = uuid() + extension;
+        video.mv(process.cwd() + '/public/images/users/' + filevideo, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        video_user_url = `/images/users/${filevideo}`
+      } else {
+        video_user_url = get_video_page.video
+      }
+
+
+
+      let update_magazine = await videoPage.update({
+        image: image_user_url,
+        video: video_user_url,
+        videoLink: req.body.videolink,
+        title: req.body.title,
+      }, {
+        where: {
+          id: req.body.id
+        }
+      })
+      req.flash('msg', 'Video page updated successfully')
+      res.redirect(`/admin/edit_magazine?id=${req.body.magazineId}`)
+
+    } catch (error) {
+      throw error
+    }
+  },
+  edit_music: async function (req, res) {
+    try {
+      let get_page = await musicPage.findOne({
+        where: {
+          id: req.query.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      })
+      //  console.log(get_page,"get_page");return
+      res.render('magazines/edit_music_page', {
+        msg: req.flash('msg'),
+        response: get_page,
+        title: 'magazines',
+        session: req.session
+      });
+    } catch (error) {
+      throw error
+    }
+  },
+  edit_music_pageno: async function (req, res) {
+    try {
+
+      let get_all_page = await musicPage.findOne({
+        where: {
+          id: req.body.id
+        },
+        raw: true
+      });
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = get_all_page.image
+      }
+      // console.log(req.files.video,"video");return
+      if (req.files && req.files.audio) {
+        let audio = req.files.audio
+
+        var extension = path.extname(audio.name);
+        var fileaudio = uuid() + extension;
+        audio.mv(process.cwd() + '/public/images/users/' + fileaudio, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        audio_user_url = `/images/users/${fileaudio}`
+      } else {
+        audio_user_url = get_all_page.music
+      }
+      if (req.files && req.files.cover_photo) {
+        let cover_photo = req.files.cover_photo
+
+        var extension = path.extname(cover_photo.name);
+        var filecover = uuid() + extension;
+        cover_photo.mv(process.cwd() + '/public/images/users/' + filecover, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        cover_user_url = `/images/users/${filecover}`
+      } else {
+        cover_user_url = get_all_page.albumCoverPhoto
+      }
+      if (req.files && req.files.artist_photo) {
+        let artist_photo = req.files.artist_photo
+
+        var extension = path.extname(artist_photo.name);
+        var fileartist = uuid() + extension;
+        artist_photo.mv(process.cwd() + '/public/images/users/' + fileartist, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        artist_user_url = `/images/users/${fileartist}`
+      } else {
+        artist_user_url = get_all_page.artistPhoto
+      }
+
+
+
+      let update_music = await musicPage.update({
+
+        image: image_user_url,
+        music: audio_user_url,
+        musicLink: req.body.musiclink,
+        title: req.body.title,
+        artistPhoto: artist_user_url,
+        albumCoverPhoto: cover_user_url,
+        artistBio: req.body.artist_bio
+      }, {
+        where: {
+          id: req.body.id
+        }
+      })
+      req.flash('msg', 'Music page updated successfully')
+      res.redirect(`/admin/edit_magazine?id=${req.body.magazineId}`)
+    } catch (error) {
+      throw error
+    }
+  },
+  add_article_page_admin: async function (req, res) {
+    try {
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = ''
+      }
+
+      let get_page_no = await articlePage.findOne({
+        where: {
+          magazineId: req.body.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      })
+      // console.log(get_page_no,"get_page_no");return;
+      if (get_page_no == null) {
+        pageNo = 1
+      } else {
+        pageNo = (get_page_no.pageNo) + (1)
+      }
+
+      var create_article_page = await articlePage.create({
+        magazineId: req.body.id,
+        title: req.body.title,
+        articleDescription: req.body.article_description,
+        image: image_user_url,
+        pageNo:pageNo
+      })
+
+      // let image = req.files.image_file
+      //  console.log(image,"image")
+      if (req.files && req.files.image_file) {
+        if (Array.isArray(req.files.image_file) === true) {
+
+          await Promise.all(req.files.image_file.map(async c => {
+            var extension = path.extname(c.name);
+            var fileimage = uuid() + extension;
+            c.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+              if (err)
+                console.log(err);
+            });
+            article_user_url = `/public/images/users/${fileimage}`
+            let create_article_photots = await articlePhotos.create({
+              articleId: create_article_page.id,
+              image: article_user_url
+            })
+
+          }));
+
+        } else {
+          var image=req.files.image_file
+          var extension = path.extname(image.name);
+          var fileimage = uuid() + extension;
+          image.mv(process.cwd() + '/images/users/' + fileimage, function (err) {
+            if (err)
+              console.log(err);
+          });
+          article_user_url = `/images/users/${fileimage}`
+          let create_article_photots = await articlePhotos.create({
+            articleId: create_article_page.id,
+            image: article_user_url
+          })
+
+        }
+      }
+      req.flash('msg', 'Article  page added successfully')
+      res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
+    } catch (error) {
+      throw error
+    }
   }
+
 }

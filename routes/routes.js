@@ -102,6 +102,22 @@ module.exports =function(app){
     app.route('/admin/edit_sub_admin').get(subAdmin.edit_sub_admin);
     app.route('/admin/sub_admin_edit').post(subAdmin.sub_admin_edit);
     app.route('/admin/view_sub_admin').get(subAdmin.view_sub_admin);
+
+    /// magazine_pages
+
+   
+   // app.route('/video_page').get(magazine.video_page);
+    app.route('/admin/add_pages_new').post(magazine.add_pages);
+    app.route('/admin/add_video_page').post(magazine.add_video_page);
+    app.route('/admin/add_music_page').post(magazine.add_music_page);
+
+    app.route('/admin/edit_video_page').post(magazine.edit_video_page);
+    app.route('/admin/edit_music').get(magazine.edit_music);
+    app.route('/admin/edit_music_pageno').post(magazine.edit_music_pageno);
+
+
+    //// article page 
+    app.route('/admin/add_article_page_admin').post(magazine.add_article_page_admin);
 }
 
 
