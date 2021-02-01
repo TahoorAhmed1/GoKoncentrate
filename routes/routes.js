@@ -105,6 +105,8 @@ module.exports =function(app){
 
     /// magazine_pages
 
+
+
    
    // app.route('/video_page').get(magazine.video_page);
     app.route('/admin/add_pages_new').post(magazine.add_pages);
@@ -118,6 +120,20 @@ module.exports =function(app){
 
     //// article page 
     app.route('/admin/add_article_page_admin').post(magazine.add_article_page_admin);
+    app.route('/admin/edit_articlepage').get(magazine.edit_articlepage);
+    app.route('/admin/edit_article_page_admin').post(magazine.edit_article_page_admin);
+    app.route('/admin/edit_article_photos').get(magazine.edit_article_photos);
+    app.route('/edit_article_photos').get(magazine.edit_article_photosadmin);
+    app.route('/admin/edit_article_pic').post(magazine.edit_article_pic);
+
+    /////////// photo page
+
+    app.route('/admin/add_photo_page_admin').post(magazine.add_photo_page_admin);
+    app.route('/admin/editphotopage').get(magazine.editphotopage);
+    app.route('/admin/edit_photo_page_admin').post(magazine.edit_photo_page_admin);
+    app.route('/admin/edit_page_photos').get(magazine.edit_page_photos);
+    app.route('/edit_page_photosadmin').get(magazine.edit_page_photosadmin);
+    app.route('/admin/edit_photopage_pic').post(magazine.edit_photopage_pic);
 }
 
 

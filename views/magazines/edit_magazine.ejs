@@ -141,7 +141,7 @@
    <option value="">Please select a Page type</option>
   <a href="/video_page"><option value="1">Video Page</option></a>
   <a href="/music_page"><option value="4">Music Page</option></a>
-  <!-- <a href="/photo_page"><option value="2">Photo Page</option></a> -->
+  <a href="/photo_page"><option value="2">Photo Page</option></a>
   <a href="/article_page"><option value="3">Article Page</option></a>
   
 </select>
@@ -375,6 +375,55 @@
                                           <li>
                                             <a href="/admin/edit_articlepage?id=<%=get_all_article_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
                                           </li>
+                                          <li>
+                                              <a href="/admin/edit_article_photos?id=<%=get_all_article_page[i].id%>"><i class="fas fa-edit"></i>Edit Article Photo</a>
+                                            </li>
+                                        </ul>
+                                      </li>
+                                    </ul>
+                                  </td>
+                                </tr>
+                              <%}%>
+                              
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <h3 style="margin-left: 500px;">Photo Pages Content</h3>
+       
+                        <div class="panel panel-flat" style="margin-bottom: 80px;">
+                          <div class="table-responsive" style="padding: 50px;">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>S.No</th>
+                                  <th>Title</th>
+                                  <th>Page No</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <%for(var i in get_all_photo_page){%>
+                                <tr>
+                                  <td><%=parseInt(i)+1%></td>
+                                  <td><%=get_all_photo_page[i].title%></td>
+                                  <td><%=get_all_photo_page[i].pageNo%></td>
+                                  
+                                  <td class="text-center">
+                                    <ul class="icons-list">
+                                      <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                          <i class="icon-menu9"></i>
+                                        </a>
+                
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                          <li>
+                                            <a href="/admin/editphotopage?id=<%=get_all_photo_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                                          </li>
+                                          <li>
+                                              <a href="/admin/edit_page_photos?id=<%=get_all_photo_page[i].id%>"><i class="fas fa-edit"></i>Edit Photos</a>
+                                            </li>
                                         </ul>
                                       </li>
                                     </ul>

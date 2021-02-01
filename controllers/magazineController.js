@@ -11,6 +11,8 @@ const videoPage = db.videoPage
 const musicPage = db.musicPage
 const articlePage = db.articlePage
 const articlePhotos = db.articlePhotos
+const photoPage = db.photoPage
+const photoPageImages = db.photoPageImages
 var crypto = require('crypto');
 // const { contained } = require("sequelize/types/lib/operators")
 var path = require('path');
@@ -297,7 +299,7 @@ module.exports = {
             id: req.session.admin_id
           },
           raw: true
-        })
+        });
         var nameArr = get_magazine_data.magazine_id.split(',');
         var get_all_magazine_brands = await magazinesBrand.findAll({
           attributes: ['id', 'name', 'image', 'delete_status', 'status'],
@@ -323,7 +325,7 @@ module.exports = {
           ['id', 'desc']
         ],
         raw: true
-      })
+      });
 
       var get_all_video_page = await videoPage.findAll({
         where: {
@@ -353,6 +355,16 @@ module.exports = {
         ],
         raw: true
       });
+
+      var get_all_photo_page = await photoPage.findAll({
+        where: {
+          magazineId: req.query.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      });
       // console.log(get_all_article_page,"get_all_article_page");return
       res.render('magazines/edit_magazine', {
         msg: req.flash('msg'),
@@ -362,6 +374,7 @@ module.exports = {
         get_all_video_page,
         get_all_music_page,
         get_all_article_page,
+        get_all_photo_page,
         title: 'magazines',
         session: req.session
       });
@@ -717,6 +730,13 @@ module.exports = {
         });
       } else if (req.body.pages == 3) {
         res.render('magazines/article_page', {
+          msg: req.flash('msg'),
+          title: 'magazines',
+          magazineId,
+          session: req.session
+        });
+      }else{
+        res.render('magazines/photo_page', {
           msg: req.flash('msg'),
           title: 'magazines',
           magazineId,
@@ -1087,7 +1107,7 @@ module.exports = {
         articleDescription: req.body.article_description,
         image: image_user_url,
         pageNo:pageNo
-      })
+      });
 
       // let image = req.files.image_file
       //  console.log(image,"image")
@@ -1101,7 +1121,7 @@ module.exports = {
               if (err)
                 console.log(err);
             });
-            article_user_url = `/public/images/users/${fileimage}`
+            article_user_url = `/images/users/${fileimage}`
             let create_article_photots = await articlePhotos.create({
               articleId: create_article_page.id,
               image: article_user_url
@@ -1128,6 +1148,374 @@ module.exports = {
       req.flash('msg', 'Article  page added successfully')
       res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
     } catch (error) {
+      throw error
+    }
+  },
+  edit_articlepage:async function(req,res){
+    try{
+        var get_all_article_page= await articlePage.findOne({
+          attributes:['id','magazineId','title','articleDescription','image','pageNo'],
+          where:{
+            id:req.query.id
+          },
+          raw:true
+        });
+
+       // console.log(get_all_article_page,"get_all_article_page");return
+
+       var get_all_articlepics= await articlePhotos.findAll({
+         attributes:['id','articleId','image'],
+         where:{
+           articleId:req.query.id
+         },
+         raw:true
+       });
+     //  console.log(get_all_articlepics,"get_all_articlepics");return
+     res.render('magazines/edit_article', {
+      msg: req.flash('msg'),
+      response: get_all_article_page,
+      get_all_articlepics,
+      title: 'magazines',
+      session: req.session
+    });
+    }catch(error){
+      throw error
+    }
+  },
+  edit_article_page_admin:async function(req,res){
+    try{
+      var get_last_image= await articlePage.findOne({
+        attributes:['id','image','magazineId'],
+        where:{
+          id:req.body.id
+        },
+        raw:true
+      });
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = get_last_image.image
+      }
+          let edit_article_page= await articlePage.update({
+            title: req.body.title,
+            articleDescription: req.body.article_description,
+            image: image_user_url,
+           
+          },{
+             where:{
+               id:req.body.id
+             }
+          });
+          req.flash('msg', 'Article  page updated successfully')
+          res.redirect(`/admin/edit_magazine?id=${get_last_image.magazineId}`)
+    }catch(error){
+      throw error
+    }
+  },
+  edit_article_photos:async function(req,res){
+    try{
+      // console.log("hello");return
+
+      let get_all_article_photos= await articlePhotos.findAll({
+        attributes:['id','article_id','image'],
+        where:{
+          articleId:req.query.id
+        },
+        raw:true
+      });
+      res.render('magazines/edit_artice_photo', {
+        msg: req.flash('msg'),
+        response: get_all_article_photos,
+        title: 'magazines',
+        session: req.session
+      });
+      //console.log(get_all_article_photos,"get_all_article_photos");return
+    }catch(error){
+      throw error
+    }
+  },
+  edit_article_photosadmin:async function(req,res){
+    try{
+      // console.log("hello");return
+      let get_article_photos= await articlePhotos.findOne({
+        attributes:['id','article_id','image'],
+        where:{
+          id:req.query.id
+        },
+        raw:true
+      });
+      res.render('magazines/article_image_edit', {
+        msg: req.flash('msg'),
+        response: get_article_photos,
+        title: 'magazines',
+        session: req.session
+      });
+    }catch(error){
+      throw error
+    }
+  },
+  edit_article_pic:async function(req,res){
+    try{
+       //console.log("helo");return
+       var get_last_image= await articlePhotos.findOne({
+        attributes:['id','articleId','image'],
+        where:{
+          id:req.body.id
+        },
+        raw:true
+      });
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = get_last_image.image
+      }
+
+      let update_article_photos= await articlePhotos.update({
+          image:image_user_url
+      },{
+         where:{
+           id:req.body.id
+         }
+      });
+
+      req.flash('msg', 'Article  photo updated successfully')
+      res.redirect(`/admin/edit_article_photos?id=${get_last_image.articleId}`)
+    }catch(error){
+      throw error
+    }
+  },
+  add_photo_page_admin:async function(req,res){
+    try{
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = ''
+      }
+      var get_page_no = await photoPage.findOne({
+        where: {
+          magazineId: req.body.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      })
+      // console.log(get_page_no,"get_page_no");return;
+      if (get_page_no == null) {
+        pageNo = 1
+      } else {
+        pageNo = (get_page_no.pageNo) + (1)
+      }
+      var create_photopage= await photoPage.create({
+        title:req.body.title,
+        image:image_user_url,
+        pageNo:pageNo,
+        magazineId:req.body.id
+      });
+      if (req.files && req.files.image_file) {
+        if (Array.isArray(req.files.image_file) === true) {
+
+          await Promise.all(req.files.image_file.map(async c => {
+            var extension = path.extname(c.name);
+            var fileimage = uuid() + extension;
+            c.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+              if (err)
+                console.log(err);
+            });
+            article_user_url = `/images/users/${fileimage}`
+            let create_page_photots = await photoPageImages.create({
+              photoPageId: create_photopage.id,
+              image: article_user_url
+            })
+
+          }));
+
+        } else {
+          var image=req.files.image_file
+          var extension = path.extname(image.name);
+          var fileimage = uuid() + extension;
+          image.mv(process.cwd() + '/images/users/' + fileimage, function (err) {
+            if (err)
+              console.log(err);
+          });
+          article_user_url = `/images/users/${fileimage}`
+          let create_page_photots = await photoPageImages.create({
+            photoPageId: create_photopage.id,
+            image: article_user_url
+          })
+
+        }
+      }
+
+      req.flash('msg', 'Photo  page added successfully')
+      res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
+    }catch(error){
+      throw error
+    }
+  },
+  editphotopage:async  function(req,res){
+     try{
+       //console.log("hello");return
+       var get_page_no = await photoPage.findOne({
+        where: {
+          id: req.query.id
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      })
+      //console.log(get_page_no,"get_page_no");return
+      res.render('magazines/edit_photo_page', {
+        msg: req.flash('msg'),
+        response: get_page_no,
+        title: 'magazines',
+        session: req.session
+      });
+     }catch(error){
+       throw error
+     }
+  },
+  edit_photo_page_admin:async function(req,res){
+    try{
+      //  console.log("hello");return
+      let get_lastimage= await photoPage.findOne({
+        where:{
+          id:req.body.id
+        }
+      })
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = get_lastimage.image
+      }
+
+     
+
+      let update_photopage= await photoPage.update({
+        title: req.body.title,
+        image: image_user_url,
+      },{
+         where:{
+           id:req.body.id
+         }
+      });
+
+      
+      req.flash('msg', 'Photo  page updated successfully')
+      res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
+    }catch(error){
+      throw error
+    }
+  },
+  edit_page_photos:async function(req,res){
+    try{
+         //console.log(req.query.id,"helloo");return
+        let get_all_pages_photos= await photoPageImages.findAll({
+          attributes:['id','photoPageId','image'],
+          where:{
+            photoPageId:req.query.id
+          },
+          raw:true
+        });
+        // console.log(get_all_pages_photos,"get_all_pages_photos");return
+        res.render('magazines/edit_page_photo', {
+          msg: req.flash('msg'),
+          response: get_all_pages_photos,
+          title: 'magazines',
+          session: req.session
+        });
+    }catch(error){
+      throw error
+    }
+  },
+  edit_page_photosadmin:async function(req,res){
+    try{
+         //console.log("hello");return
+         var get_all_pages_photos= await photoPageImages.findOne({
+          attributes:['id','photoPageId','image'],
+          where:{
+            id:req.query.id
+          },
+          raw:true
+        });
+        res.render('magazines/page_image_edit', {
+          msg: req.flash('msg'),
+          response: get_all_pages_photos,
+          title: 'magazines',
+          session: req.session
+        });
+    }catch(error){
+      throw error
+    }
+  },
+  edit_photopage_pic:async function(req,res){
+    try{
+      //    console.log("hello");return
+      var get_last_image= await photoPageImages.findOne({
+        attributes:['id','photoPageId','image'],
+        where:{
+          id:req.body.id
+        },
+        raw:true
+      });
+      if (req.files && req.files.profile_pic) {
+        let image = req.files.profile_pic
+        var extension = path.extname(image.name);
+        var fileimage = uuid() + extension;
+        image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+
+          if (err)
+            console.log(err);
+        });
+        image_user_url = `/images/users/${fileimage}`
+      } else {
+        image_user_url = get_last_image.image
+      }
+
+      let update_article_photos= await photoPageImages.update({
+          image:image_user_url
+      },{
+         where:{
+           id:req.body.id
+         }
+      });
+
+      req.flash('msg', 'Photo updated successfully')
+      res.redirect(`/admin/edit_page_photos?id=${get_last_image.photoPageId}`)
+    }catch(error){
       throw error
     }
   }
