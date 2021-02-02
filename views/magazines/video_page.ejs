@@ -121,7 +121,7 @@
                     <label class="col-lg-3 control-label">Video Link:</label>
                     <div class="col-lg-9 input-group">
                       <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                      <input type="text" name="videolink" class="form-control" placeholder="Enter video link"
+                      <input type="text" name="videolink" id="videolink" class="form-control" placeholder="Enter video link"
                         value="" >
                     </div>
                   </div>
@@ -213,6 +213,8 @@ $(document).ready(function () {
         
     }
       };
+      
+
       </script>
       <script>
         $(document).ready(function(){  function readURL(input) {
@@ -228,10 +230,15 @@ $(document).ready(function () {
         }
       
          $("#video").change(function(){
+           //alert("hello")
         readURL(this);
+      //  var vid = document.getElementById("videolink")
+
+       // console.log(vid,"vid")
         });
         });
         var uploadField = document.getElementById("files");
+        
       </script>
       
    

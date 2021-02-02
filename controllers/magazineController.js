@@ -19,6 +19,11 @@ var path = require('path');
 var uuid = require('uuid');
 const flash = require('connect-flash');
 var moment = require('moment');
+var ffmpeg = require('fluent-ffmpeg');
+var command = ffmpeg();
+var getDimensions = require('get-video-dimensions');
+const ffprobe = require('ffprobe')
+var getPixels = require("get-pixels")
 module.exports = {
   index: async function (req, res) {
     try {
@@ -770,6 +775,18 @@ module.exports = {
         image_user_url = ''
       }
       // console.log(req.files.video,"video");return
+      // getPixels("http://localhost:3191/images/users/5a9daccb-5889-4f73-a7ac-4f75f8c93d3c.jpg", function(err, pixels) {
+      //   if(err) {
+      //     console.log("Bad image path")
+      //     return
+      //   }
+      //   console.log("got pixels", pixels.shape.slice())
+      // })
+      // return
+//       const dimensions = await getDimensions('http://localhost:3191/images/users/6a75b410-d439-4bdb-94c3-c58a25107c34.webm');
+// console.log(dimensions.width);
+// console.log(dimensions.height);return
+
       if (req.files && req.files.video) {
         let video = req.files.video
 
@@ -784,6 +801,10 @@ module.exports = {
       } else {
         video_user_url = ''
       }
+
+      
+    
+      
       let get_page_no = await videoPage.findOne({
         where: {
           magazineId: req.body.id
