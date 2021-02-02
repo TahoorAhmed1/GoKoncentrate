@@ -130,6 +130,17 @@
 
         // read the image file as a data URL.
         reader.readAsDataURL(this.files[0]);
+        const file = Math.round((this.files[0].size / 1024));
+      if(file > 1500){
+      this.value = "";
+      alert("File is too big! Please upload a file less than or equal to 1.5 mb");
+      // this.value = "";
+       document.getElementById("sbmitbtn").disabled = true;
+       return false;
+    }
+    else{
+      document.getElementById("sbmitbtn").disabled = false;
+    }
       };
       </script>
       <script>

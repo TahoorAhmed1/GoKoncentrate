@@ -24,12 +24,12 @@
 
 <body>
   <% if(msg != '' && msg=='Please write something in name') { %>
-    <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-        style="font-size: 16px;"><%= msg %></span></div> <%
+  <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
           } else if(msg != ''){%>
-            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-              style="font-size: 16px;"><%= msg %></span></div>
-            <%}%>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div>
+  <%}%>
 
   <% include ../admin_navbar.ejs %>
 
@@ -51,7 +51,7 @@
           <div class="breadcrumb-line">
             <ul class="breadcrumb">
               <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-              <li class="active">Music  Management</li>
+              <li class="active">Music Management</li>
               <li class="active">Edit</li>
             </ul>
 
@@ -66,202 +66,240 @@
             <div class="panel panel-flat">
               <div class="panel-body">
                 <div class="row">
-                <div class="form-group">
-                  <label class="col-lg-3 control-label">Title:</label>
-                  <div class="col-lg-9 input-group">
-                    <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                    <input type="text" name="title" class="form-control" placeholder="Enter title"
-                      value="<%=response.title%>" required>
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Title:</label>
+                    <div class="col-lg-9 input-group">
+                      <!-- <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                      <input type="text" name="title" class="form-control" placeholder="Enter title"
+                        value="<%=response.title%>" required> -->
+                        <div class="content-group">
+                            <textarea name="title" id="editortitle" rows="4" cols="4" required>
+                                <%=response.title%></textarea>
+                            </div>
+                    </div>
                   </div>
-                </div>
                 </div>
 
 
-              <div class="row">
-                <div class="form-group">
-                  <label class ="col-lg-3 control-label" for="audioname"> Music:</label>
-                 
-                  <div class="col-lg-2">
-                    <audio src="<%=response.music%>" controls  name ="audio_player" id="audio_player"></audio>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label" for="audioname"> Music:</label>
+
+                    <div class="col-lg-2">
+                      <audio src="<%=response.music%>" controls name="audio_player" id="audio_player"></audio>
                     </div>
-                  <div class="col-lg-7 pr-0">
-                  <input type="file" class="file-styled" width ="100" height="100" id="audio_file" name="audio" accept="audio/*" />
-                
-              </div>
-                 
-										</video>
-									 </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group">
-                      <label class="col-lg-3 control-label">Music Link:</label>
-                      <div class="col-lg-9 input-group">
-                        <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                        <input type="text" name="musiclink" class="form-control" placeholder="Enter Music link"
-                          value="<%=response.musicLink%>" >
-                      </div>
+                    <div class="col-lg-7 pr-0">
+                      <input type="file" class="file-styled" width="100" height="100" id="audio_file" name="audio"
+                        accept="audio/*" />
+
                     </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group">
-                        <label class="col-lg-3 control-label">Album Cover Photo:</label>
-                        <div class="col-lg-2">
-                        
-                          <img src="<%=response.albumCoverPhoto%>" width="100" height="100" id="cover_photo" class="img-circle">
-                                                 
-                          <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
-                                                
-                        </div>
-                        <div class="col-lg-7 pr-0">
-                          <input type="file" name="cover_photo" class="file-styled" id="cover_photos" accept="image/*">
-                          <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group">
-                        <label class="col-lg-3 control-label">Artist Photo:</label>
-                        <div class="col-lg-2">
-                        
-                          <img src="<%=response.artistPhoto%>" width="100" height="100" id="artistpic" class="img-circle">
-                                                 
-                          <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
-                                                
-                        </div>
-                        <div class="col-lg-7 pr-0">
-                          <input type="file" name="artist_photo" class="file-styled" id="artist_photo" accept="image/*">
-                          <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
-                        </div>
-                      </div>
-                    </div>
-       
-               <div class="row">
-                <div class="form-group">
-                  <label class="col-lg-3 control-label">Image:</label>
-                  <div class="col-lg-2">
-                  
-                    <img src="<%=response.image%>" width="100" height="100" id="image" class="img-circle">
-                                           
-                    <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
-                                          
-                  </div>
-                  <div class="col-lg-7 pr-0">
-                    <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
-                    <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
+
+                    </video>
                   </div>
                 </div>
-              </div>
-              <!-- <div class="content-group">
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Music Link:</label>
+                    <div class="col-lg-9 input-group">
+                      <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                      <input type="text" name="musiclink" class="form-control" placeholder="Enter Music link"
+                        value="<%=response.musicLink%>">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Album Cover Photo:</label>
+                    <div class="col-lg-2">
+
+                      <img src="<%=response.albumCoverPhoto%>" width="100" height="100" id="cover_photo"
+                        class="img-circle">
+
+                      <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
+
+                    </div>
+                    <div class="col-lg-7 pr-0">
+                      <input type="file" name="cover_photo" class="file-styled" id="cover_photos" accept="image/*">
+                      <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Artist Photo:</label>
+                    <div class="col-lg-2">
+
+                      <img src="<%=response.artistPhoto%>" width="100" height="100" id="artistpic" class="img-circle">
+
+                      <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
+
+                    </div>
+                    <div class="col-lg-7 pr-0">
+                      <input type="file" name="artist_photo" class="file-styled" id="artist_photo" accept="image/*">
+                      <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Image:</label>
+                    <div class="col-lg-2">
+
+                      <img src="<%=response.image%>" width="100" height="100" id="image" class="img-circle">
+
+                      <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
+
+                    </div>
+                    <div class="col-lg-7 pr-0">
+                      <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
+                      <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="content-group">
                 <textarea name="magazine_page" id="editor" rows="4" cols="4">
                    
                 </textarea>
             </div> -->
-            <div class="row">
-              <div class="form-group">
-                <label class="col-lg-3 control-label">Artist Bio:</label>
-                <div class="col-lg-9 input-group">
-                 
-                     <div class="content-group">
-                <textarea name="artist_bio" id="editor" rows="4" cols="4" required>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Artist Bio:</label>
+                    <div class="col-lg-9 input-group">
+
+                      <div class="content-group">
+                        <textarea name="artist_bio" id="editor" rows="4" cols="4" required>
                   <%=response.artistBio%>
                 </textarea>
-            </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              </div>
-             
-                
+
 
                 <input type="hidden" name="id" value="<%=response.id%>">
                 <input type="hidden" name="magazineId" value="<%=response.magazineId%>">
 
                 <div class="text-right">
-                  <button type="submit" class="btn btn-primary">Submit <i
+                  <button type="submit" id="sbmitbtn" class="btn btn-primary">Submit <i
                       class="icon-arrow-right14 position-right"></i></button>
                 </div>
               </div>
 
             </div>
           </form>
-  
-        </div>
-       
-                        <% include ../admin_footer.ejs %>
-
-          </div>
 
         </div>
+
+        <% include ../admin_footer.ejs %>
+
       </div>
+
     </div>
+  </div>
+  </div>
 
-    <style>
-      .control-label {
-        font-weight: 600;
-      }
+  <style>
+    .control-label {
+      font-weight: 600;
+    }
 
-      .text-right .btn.btn-primary {
-        margin-top: 70px;
-      }
+    .text-right .btn.btn-primary {
+      margin-top: 70px;
+    }
 
-      .img-circle {
-        object-fit: cover;
-      }
-    </style>
+    .img-circle {
+      object-fit: cover;
+    }
+  </style>
 
 
-    <script>
-      document.getElementById("files").onchange = function () {
-        var reader = new FileReader();
+  <script>
+    document.getElementById("files").onchange = function () {
+      var reader = new FileReader();
 
-        reader.onload = function (e) {
-          // get loaded data and render thumbnail.
-          document.getElementById("image").src = e.target.result;
-        };
-
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
+      reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
       };
-      </script>
-      <script>
-         
-        document.getElementById("cover_photos").onchange = function () {
-         // alert("hello")
-          var reader = new FileReader();
-  
-          reader.onload = function (e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("cover_photo").src = e.target.result;
-          };
-  
-          // read the image file as a data URL.
-          reader.readAsDataURL(this.files[0]);
+
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+      const file = Math.round((this.files[0].size / 1024));
+      if (file > 1500) {
+        this.value = "";
+        alert("File is too big! Please upload a file less than or equal to 1.5 mb");
+        // this.value = "";
+        document.getElementById("sbmitbtn").disabled = true;
+        return false;
+      }
+      else {
+        document.getElementById("sbmitbtn").disabled = false;
+      }
+      var _URL = window.URL;
+    var filedata, img;
+    if ((filedata = this.files[0])) {
+        img = new Image();
+        console.log(this.width,"------------this.width[0]---");
+        img.onload = function () {
+            //alert("Width:" + this.width + "   Height: " + this.height);
+            if(this.height<2000 && this.width<1335){
+          // alert(this.width,"width");
+          this.value=""
+          alert("Please Select a image of minmum resolution of 2000 x 1335");
+          document.getElementById("sbmitbtn").disabled = true;
+          return false
+        }else{
+          document.getElementById("sbmitbtn").disabled = false;
+        }
         };
-        document.getElementById("artist_photo").onchange = function () {
-         // alert("hello")
-          var reader = new FileReader();
-  
-          reader.onload = function (e) {
-            // get loaded data and render artist_photothumbnail.
-            document.getElementById("artistpic").src = e.target.result;
-          };
-  
-          // read the image file as a data URL.
-          reader.readAsDataURL(this.files[0]);
-        };
-        $(document).ready(function() {
-            $('#editor').summernote('code');
-          });
-        </script>
-      
-       <script>
-      audio_file.onchange = function(){
-    var files = this.files;
-    var file = URL.createObjectURL(files[0]); 
-    audio_player.src = file; 
-};
-      </script>
-      
-   
+        img.src = _URL.createObjectURL(filedata);
+        
+    }
+    };
+  </script>
+  <script>
+
+    document.getElementById("cover_photos").onchange = function () {
+      // alert("hello")
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("cover_photo").src = e.target.result;
+      };
+
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+    };
+    document.getElementById("artist_photo").onchange = function () {
+      // alert("hello")
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        // get loaded data and render artist_photothumbnail.
+        document.getElementById("artistpic").src = e.target.result;
+      };
+
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+    };
+    $(document).ready(function () {
+      $('#editor').summernote('code');
+      $('#editortitle').summernote('code');
+    });
+    
+  </script>
+
+  <script>
+    audio_file.onchange = function () {
+      var files = this.files;
+      var file = URL.createObjectURL(files[0]);
+      audio_player.src = file;
+    };
+  </script>
+
+
 
 </body>
 

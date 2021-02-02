@@ -711,36 +711,41 @@ module.exports = {
   },
   add_pages: async function (req, res) {
     try {
-      //  console.log("hello");return
-      //  console.log(req.body,"re.body=============");return
-      magazineId = req.body.magazineid
-      if (req.body.pages == 1) {
+       // console.log("hello");return
+        //console.log(req.query,"re.body=============");return
+      magazineId = req.query.magazineid
+      pageName=req.query.pagename
+      if (req.query.pages == 1) {
         res.render('magazines/video_page', {
           msg: req.flash('msg'),
           title: 'magazines',
           magazineId,
-          session: req.session
+          session: req.session,
+          pageName
         });
-      } else if (req.body.pages == 4) {
+      } else if (req.query.pages == 4) {
         res.render('magazines/music_page', {
           msg: req.flash('msg'),
           title: 'magazines',
           magazineId,
-          session: req.session
+          session: req.session,
+          pageName
         });
-      } else if (req.body.pages == 3) {
+      } else if (req.query.pages == 3) {
         res.render('magazines/article_page', {
           msg: req.flash('msg'),
           title: 'magazines',
           magazineId,
-          session: req.session
+          session: req.session,
+          pageName
         });
       }else{
         res.render('magazines/photo_page', {
           msg: req.flash('msg'),
           title: 'magazines',
           magazineId,
-          session: req.session
+          session: req.session,
+          pageName
         });
       }
     } catch (error) {
@@ -800,7 +805,8 @@ module.exports = {
         video: video_user_url,
         videoLink: req.body.videolink,
         title: req.body.title,
-        pageNo: pageNo
+        pageNo: pageNo,
+        name:pageName
       });
       req.flash('msg', 'Video page added successfully')
       res.redirect(`/admin/edit_magazine?id=${req.body.id}`)
@@ -892,7 +898,8 @@ module.exports = {
         pageNo: pageNo,
         artistPhoto: artist_user_url,
         albumCoverPhoto: cover_user_url,
-        artistBio: req.body.artist_bio
+        artistBio: req.body.artist_bio,
+        name:pageName
 
       });
       req.flash('msg', 'Music page added successfully')
@@ -1106,7 +1113,8 @@ module.exports = {
         title: req.body.title,
         articleDescription: req.body.article_description,
         image: image_user_url,
-        pageNo:pageNo
+        pageNo:pageNo,
+        name:pageName
       });
 
       // let image = req.files.image_file
@@ -1133,7 +1141,7 @@ module.exports = {
           var image=req.files.image_file
           var extension = path.extname(image.name);
           var fileimage = uuid() + extension;
-          image.mv(process.cwd() + '/images/users/' + fileimage, function (err) {
+          image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
             if (err)
               console.log(err);
           });
@@ -1334,7 +1342,8 @@ module.exports = {
         title:req.body.title,
         image:image_user_url,
         pageNo:pageNo,
-        magazineId:req.body.id
+        magazineId:req.body.id,
+        name:pageName
       });
       if (req.files && req.files.image_file) {
         if (Array.isArray(req.files.image_file) === true) {
@@ -1358,7 +1367,7 @@ module.exports = {
           var image=req.files.image_file
           var extension = path.extname(image.name);
           var fileimage = uuid() + extension;
-          image.mv(process.cwd() + '/images/users/' + fileimage, function (err) {
+          image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
             if (err)
               console.log(err);
           });

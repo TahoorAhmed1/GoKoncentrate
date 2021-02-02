@@ -69,9 +69,13 @@
                 <div class="form-group">
                   <label class="col-lg-3 control-label">Title:</label>
                   <div class="col-lg-9 input-group">
-                    <span class="input-group-addon"><i class="fas fa-user"></i></span>
-                    <input type="text" name="title" class="form-control" placeholder="Enter title"
-                      value="" required>
+                    <!-- <span class="input-group-addon"><i class="fas fa-user"></i></span> -->
+                    <!-- <input type="text" name="title" class="form-control" placeholder="Enter title"
+                      value="" required> -->
+                      <div class="content-group">
+                          <textarea name="title" id="editortitle" rows="4" cols="4" required>
+                            </textarea>
+                          </div>
                   </div>
                 </div>
                 </div>
@@ -173,9 +177,9 @@
                 
 
                 <input type="hidden" name="id" value="<%=magazineId%>">
-
+                <input type="hidden" name="pageName" value="<%=pageName%>">
                 <div class="text-right">
-                  <button type="submit" class="btn btn-primary">Submit <i
+                  <button type="submit" id="sbmitbtn" class="btn btn-primary">Submit <i
                       class="icon-arrow-right14 position-right"></i></button>
                 </div>
               </div>
@@ -219,6 +223,37 @@
 
         // read the image file as a data URL.
         reader.readAsDataURL(this.files[0]);
+        const file = Math.round((this.files[0].size / 1024));
+      if(file > 1500){
+      this.value = "";
+      alert("File is too big! Please upload a file less than or equal to 1.5 mb");
+      // this.value = "";
+       document.getElementById("sbmitbtn").disabled = true;
+       return false;
+    }
+    else{
+      document.getElementById("sbmitbtn").disabled = false;
+    }
+    var _URL = window.URL;
+    var filedata, img;
+    if ((filedata = this.files[0])) {
+        img = new Image();
+        console.log(this.width,"------------this.width[0]---");
+        img.onload = function () {
+            //alert("Width:" + this.width + "   Height: " + this.height);
+            if(this.height<2000 && this.width<1335){
+          // alert(this.width,"width");
+          this.value=""
+          alert("Please Select a image of minmum resolution of 2000 x 1335");
+          document.getElementById("sbmitbtn").disabled = true;
+          return false
+        }else{
+          document.getElementById("sbmitbtn").disabled = false;
+        }
+        };
+        img.src = _URL.createObjectURL(filedata);
+        
+    }
       };
       </script>
       <script>
@@ -249,7 +284,9 @@
         };
         $(document).ready(function() {
             $('#editor').summernote('code');
+            $('#editortitle').summernote('code');
           });
+          
         </script>
       
        <script>

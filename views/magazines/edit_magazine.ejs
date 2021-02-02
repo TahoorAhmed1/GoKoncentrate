@@ -136,15 +136,23 @@
             </div>
           </form>
           <label for="cars">Choose a page type:</label>
-          <form action='/admin/add_pages_new' enctype="multipart/form-data" method="POST" role="form">
+          <form action='/admin/add_pages_new' enctype="multipart/form-data" method="get" role="form">
 <select name="pages" class="form-control" id="pages" required>
    <option value="">Please select a Page type</option>
-  <a href="/video_page"><option value="1">Video Page</option></a>
-  <a href="/music_page"><option value="4">Music Page</option></a>
-  <a href="/photo_page"><option value="2">Photo Page</option></a>
-  <a href="/article_page"><option value="3">Article Page</option></a>
+  <a href="/video_page?pages=1"><option value="1">Video Page</option></a>
+  <a href="/music_page?pages=2"><option value="4">Music Page</option></a>
+  <a href="/photo_page?pages=3"><option value="2">Photo Page</option></a>
+  <a href="/article_page?pages=4"><option value="3">Article Page</option></a>
   
 </select>
+<div class="form-group">
+  <label>Page Name:</label>
+  <div class="col-lg-9 input-group">
+    <span class="input-group-addon"><i class="fas fa-user"></i></span>
+    <input type="text" name="pagename" id="pagename" value="" class="form-control" required>
+  </div>
+ 
+</div>
 <input type="hidden" name="magazineid" value="<%= magazine.id %>">
 <div class="text-right">
   <button type="submit" class="btn btn-primary">Add page <i
@@ -266,6 +274,7 @@
               <thead>
                 <tr>
                   <th>S.No</th>
+                  <th>Page Name</th>
                   <th>Title</th>
                   <th>Page No</th>
                   <th>Action</th>
@@ -275,7 +284,8 @@
                 <%for(var i in get_all_video_page){%>
                 <tr>
                   <td><%=parseInt(i)+1%></td>
-                  <td><%=get_all_video_page[i].title%></td>
+                  <td><%-get_all_video_page[i].name%></td>
+                  <td><%-get_all_video_page[i].title%></td>
                   <td><%=get_all_video_page[i].pageNo%></td>
                   
                   <td class="text-center">
@@ -310,6 +320,7 @@
               <thead>
                 <tr>
                   <th>S.No</th>
+                  <th>Page Name</th>
                   <th>Title</th>
                   <th>Page No</th>
                   <th>Action</th>
@@ -319,7 +330,8 @@
                 <%for(var i in get_all_music_page){%>
                 <tr>
                   <td><%=parseInt(i)+1%></td>
-                  <td><%=get_all_music_page[i].title%></td>
+                  <td><%-get_all_music_page[i].name%></td>
+                  <td><%-get_all_music_page[i].title%></td>
                   <td><%=get_all_music_page[i].pageNo%></td>
                   
                   <td class="text-center">
@@ -352,6 +364,7 @@
                               <thead>
                                 <tr>
                                   <th>S.No</th>
+                                  <th>Page Name</th>
                                   <th>Title</th>
                                   <th>Page No</th>
                                   <th>Action</th>
@@ -361,7 +374,8 @@
                                 <%for(var i in get_all_article_page){%>
                                 <tr>
                                   <td><%=parseInt(i)+1%></td>
-                                  <td><%=get_all_article_page[i].title%></td>
+                                  <td><%-get_all_article_page[i].name%></td>
+                                  <td><%-get_all_article_page[i].title%></td>
                                   <td><%=get_all_article_page[i].pageNo%></td>
                                   
                                   <td class="text-center">
@@ -398,6 +412,7 @@
                               <thead>
                                 <tr>
                                   <th>S.No</th>
+                                  <th>Page Name</th>
                                   <th>Title</th>
                                   <th>Page No</th>
                                   <th>Action</th>
@@ -407,7 +422,8 @@
                                 <%for(var i in get_all_photo_page){%>
                                 <tr>
                                   <td><%=parseInt(i)+1%></td>
-                                  <td><%=get_all_photo_page[i].title%></td>
+                                  <td><%-get_all_photo_page[i].name%></td>
+                                  <td><%-get_all_photo_page[i].title%></td>
                                   <td><%=get_all_photo_page[i].pageNo%></td>
                                   
                                   <td class="text-center">

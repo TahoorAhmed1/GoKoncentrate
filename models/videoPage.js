@@ -13,7 +13,12 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(255),
 			allowNull: true,
 			field: 'title'
-        },
+		},
+		name: {
+			type: DataTypes.STRING(255),
+			allowNull: true,
+			field: 'name'
+		},
         image: {
 			type: DataTypes.STRING(255),
 			allowNull: true,

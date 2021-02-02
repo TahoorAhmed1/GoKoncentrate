@@ -109,7 +109,7 @@ module.exports =function(app){
 
    
    // app.route('/video_page').get(magazine.video_page);
-    app.route('/admin/add_pages_new').post(magazine.add_pages);
+    app.route('/admin/add_pages_new').get(magazine.add_pages);
     app.route('/admin/add_video_page').post(magazine.add_video_page);
     app.route('/admin/add_music_page').post(magazine.add_music_page);
 
