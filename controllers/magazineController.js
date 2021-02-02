@@ -22,8 +22,10 @@ var moment = require('moment');
 var ffmpeg = require('fluent-ffmpeg');
 var command = ffmpeg();
 var getDimensions = require('get-video-dimensions');
-const ffprobe = require('ffprobe')
+//const ffprobe = require('ffprobe')
 var getPixels = require("get-pixels")
+const ffprobe = require('ffprobe')
+const ffprobeStatic = require('ffprobe-static')
 module.exports = {
   index: async function (req, res) {
     try {
@@ -786,7 +788,9 @@ module.exports = {
 //       const dimensions = await getDimensions('http://localhost:3191/images/users/6a75b410-d439-4bdb-94c3-c58a25107c34.webm');
 // console.log(dimensions.width);
 // console.log(dimensions.height);return
-
+//console.log(req.files.video,"req.files.video");return
+// const fileMetaData = await ffprobe('http://localhost:3191/images/users/5cd4ebcc-964c-40ef-ad8e-7a7ea559fa30.mp4', { path: ffprobeStatic.path })
+// console.log(fileMetaData,"fileMetaData");return
       if (req.files && req.files.video) {
         let video = req.files.video
 
