@@ -720,8 +720,14 @@ module.exports = {
     try {
        // console.log("hello");return
         //console.log(req.query,"re.body=============");return
-      magazineId = req.query.magazineid
-      pageName=req.query.pagename
+        magazineId = req.query.magazineid
+        pageName=req.query.pagename
+        if (pageName.indexOf(' ') == 0) {
+          req.flash('msg', 'Please write something in page name')
+          res.redirect(`/admin/edit_magazine?id=${magazineId}`)
+          return
+        }
+   
       if (req.query.pages == 1) {
         res.render('magazines/video_page', {
           msg: req.flash('msg'),
@@ -762,11 +768,11 @@ module.exports = {
   add_video_page: async function (req, res) {
     try {
        // console.log(req.body,"hello");return
-      // if (req.body.title.indexOf(' ') == 0) {
-      //   req.flash('msg', 'Please write something in title')
-      //   res.redirect(`/admin/add_pages_new?pages=1&pagename=${pageName}&magazineid=${req.body.id}`)
-      //   return
-      // }
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/add_pages_new?pages=1&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
+        return
+      }
       if (req.body.videolink.indexOf(' ') == 0) {
         req.flash('msg', 'Please write a video link in a field')
         res.redirect(`/admin/add_pages_new?pages=1&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
@@ -853,6 +859,16 @@ if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160
     try {
       // console.log(req.body,"req.body===")
       // console.log(req.files,"req.files===");return
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/add_pages_new?pages=4&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
+        return
+      }
+      if (req.body.musiclink.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in music link')
+        res.redirect(`/admin/add_pages_new?pages=4&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
+        return
+      }
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
@@ -947,11 +963,13 @@ if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160
     try {
       // console.log("innnnnnnnnnnnnnnnnn");return
 //console.log(req.body.title,"req.body.title");return
-      // if (req.body.title.indexOf(' ') == 0) {
-      //   req.flash('msg', 'Please write something in title')
-      //   res.redirect(`/admin/edit_page?id=${req.body.id}`)
-      //   return
-      // }
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/edit_page?id=${req.body.id}`)
+        return
+      }
+
+      
       if (req.body.videolink.indexOf(' ') == 0) {
         req.flash('msg', 'Please write a video link in a field')
         res.redirect(`/admin/edit_page?id=${req.body.id}`)
@@ -1052,6 +1070,18 @@ if(fileMetaData.streams[0].height < 1080 || fileMetaData.streams[0].height > 216
   edit_music_pageno: async function (req, res) {
     try {
 
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/edit_music?id=${req.body.id}`)
+        return
+      }
+      
+      if (req.body.musiclink.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in music link')
+        res.redirect(`/admin/edit_music?id=${req.body.id}`)
+        return
+      }
+
       let get_all_page = await musicPage.findOne({
         where: {
           id: req.body.id
@@ -1147,6 +1177,11 @@ if(fileMetaData.streams[0].height < 1080 || fileMetaData.streams[0].height > 216
       //     return false;
       //   }
       // }
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/add_pages_new?pages=3&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
+        return
+      }
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
@@ -1262,6 +1297,12 @@ if(fileMetaData.streams[0].height < 1080 || fileMetaData.streams[0].height > 216
   },
   edit_article_page_admin:async function(req,res){
     try{
+
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/edit_articlepage?id=${req.body.id}`)
+        return
+      }
       var get_last_image= await articlePage.findOne({
         attributes:['id','image','magazineId'],
         where:{
@@ -1397,6 +1438,11 @@ if(fileMetaData.streams[0].height < 1080 || fileMetaData.streams[0].height > 216
       //     return false;
       //   }
       // }
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/add_pages_new?pages=2&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
+        return
+      }
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
@@ -1499,6 +1545,11 @@ if(fileMetaData.streams[0].height < 1080 || fileMetaData.streams[0].height > 216
   edit_photo_page_admin:async function(req,res){
     try{
       //  console.log("hello");return
+      if (req.body.title.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in title')
+        res.redirect(`/admin/editphotopage?id=${req.body.id}`)
+        return
+      }
       let get_lastimage= await photoPage.findOne({
         where:{
           id:req.body.id
