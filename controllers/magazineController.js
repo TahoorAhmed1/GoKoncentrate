@@ -1559,7 +1559,7 @@ if(fileMetaData.streams[0].height < 1080 || fileMetaData.streams[0].height > 216
   },
   edit_photo_page_admin:async function(req,res){
     try{
-      //  console.log("hello");return
+       // console.log(req.body,"hello");return
       if (req.body.title.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in title')
         res.redirect(`/admin/editphotopage?id=${req.body.id}`)
