@@ -962,8 +962,8 @@ if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160
   edit_video_page: async function (req, res) {
     try {
       // console.log("innnnnnnnnnnnnnnnnn");return
-//console.log(req.body.title,"req.body.title");return
-if(req.body.videolink=='' && req.files.video==undefined){
+//console.log((req.files && req.files.video==undefined) ,"req.body.video");return
+if(req.body.videolink=='' && req.files && req.files.video==undefined ){
   req.flash('msg', 'Please add video or video link')
   res.redirect(`/admin/edit_page?id=${req.body.id}`)
   return

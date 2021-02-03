@@ -190,26 +190,26 @@
     else{
       document.getElementById("sbmitbtn").disabled = false;
     }
-    var _URL = window.URL;
-    var filedata, img;
-    if ((filedata = this.files[0])) {
-        img = new Image();
-        console.log(this.width,"------------this.width[0]---");
-        img.onload = function () {
-            //alert("Width:" + this.width + "   Height: " + this.height);
-            if(this.height<2000 && this.width<1335){
-          // alert(this.width,"width");
-          this.value=""
-          alert("Please Select a image of minmum resolution of 2000 x 1335");
-          document.getElementById("sbmitbtn").disabled = true;
-          return false
-        }else{
-          document.getElementById("sbmitbtn").disabled = false;
-        }
-        };
-        img.src = _URL.createObjectURL(filedata);
+    // var _URL = window.URL;
+    // var filedata, img;
+    // if ((filedata = this.files[0])) {
+    //     img = new Image();
+    //     console.log(this.width,"------------this.width[0]---");
+    //     img.onload = function () {
+    //         //alert("Width:" + this.width + "   Height: " + this.height);
+    //         if(this.height<2000 && this.width<1335){
+    //       // alert(this.width,"width");
+    //       this.value=""
+    //       alert("Please Select a image of minmum resolution of 2000 x 1335");
+    //       document.getElementById("sbmitbtn").disabled = true;
+    //       return false
+    //     }else{
+    //       document.getElementById("sbmitbtn").disabled = false;
+    //     }
+    //     };
+    //     img.src = _URL.createObjectURL(filedata);
         
-    }
+    // }
       };
       </script>
       <script>
