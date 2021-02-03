@@ -767,7 +767,12 @@ module.exports = {
   },
   add_video_page: async function (req, res) {
     try {
-       // console.log(req.body,"hello");return
+        // console.log(req.body.videolink,"hello");
+        // console.log(req.files.video,"hello");return
+        if(req.body.videolink=='' && files.video==undefined){
+          req.flash('msg', 'Please add video or video link')
+          res.redirect(`/admin/add_pages_new?pages=1&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
+        }
       if (req.body.title.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in title')
         res.redirect(`/admin/add_pages_new?pages=1&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
@@ -794,20 +799,15 @@ module.exports = {
       }
       // console.log(req.files.video,"video");return
       
-const fileMetaData = await ffprobe(req.files.video.tempFilePath, { path: ffprobeStatic.path })
-//console.log(fileMetaData.streams[0].height,"height");
-//console.log(fileMetaData.streams[0].width,"width");return
-// if(fileMetaData.streams[0].width < 1920 || fileMetaData.streams[0].height < 1080){
-//   req.flash('msg', 'please upload a HD or 4k video')
-//   res.redirect(`/admin/add_pages_new?pages=1&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
-//   return false;
-// }
+
+      if (req.files && req.files.video) {
+        const fileMetaData = await ffprobe(req.files.video.tempFilePath, { path: ffprobeStatic.path })
+
 if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160){
   req.flash('msg', 'please upload a HD or 4k video')
   res.redirect(`/admin/add_pages_new?pages=1&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
   return false;
 }
-      if (req.files && req.files.video) {
         let video = req.files.video
 
         var extension = path.extname(video.name);
@@ -963,6 +963,11 @@ if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160
     try {
       // console.log("innnnnnnnnnnnnnnnnn");return
 //console.log(req.body.title,"req.body.title");return
+if(req.body.videolink=='' && files.video==undefined){
+  req.flash('msg', 'Please add video or video link')
+  res.redirect(`/admin/edit_page?id=${req.body.id}`)
+  return
+}
       if (req.body.title.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in title')
         res.redirect(`/admin/edit_page?id=${req.body.id}`)
