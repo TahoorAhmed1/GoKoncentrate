@@ -859,6 +859,11 @@ if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160
     try {
       // console.log(req.body,"req.body===")
       // console.log(req.files,"req.files===");return
+      if(req.body.musiclink=='' && req.files.audio==undefined ){
+        req.flash('msg', 'Please add music or music link')
+        res.redirect(`/admin/add_pages_new?pages=4&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
+        return
+      }
       if (req.body.title.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in title')
         res.redirect(`/admin/add_pages_new?pages=4&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
@@ -1074,6 +1079,11 @@ if(fileMetaData.streams[0].height < 1080 || fileMetaData.streams[0].height > 216
   },
   edit_music_pageno: async function (req, res) {
     try {
+      if(req.body.musiclink=='' && req.files && req.files.audio==undefined ){
+        req.flash('msg', 'Please add music or music link')
+        res.redirect(`/admin/edit_music?id=${req.body.id}`)
+        return
+      }
 
       if (req.body.title.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in title')
