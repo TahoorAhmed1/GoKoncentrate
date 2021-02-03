@@ -23,13 +23,11 @@
 </style>
 
 <body>
-  <% if(msg != '' && msg=='Please write something in name') { %>
+  <% if(msg != '') { %>
     <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
         style="font-size: 16px;"><%= msg %></span></div> <%
-          } else if(msg != ''){%>
-            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-              style="font-size: 16px;"><%= msg %></span></div>
-            <%}%>
+          }%>
+            
 
   <% include ../admin_navbar.ejs %>
 
@@ -42,8 +40,8 @@
         <div class="page-header page-header-default">
           <div class="page-header-content">
             <div class="page-title">
-              <a href="/admin/magazines"><i class="fas fa-arrow-left"></i></a>
-              <h4> <span class="text-semibold"></span>Add Video Page</h4>
+              <a href="/admin/edit_magazine?id=<%=response.magazineId%>"><i class="fas fa-arrow-left"></i></a>
+              <h4> <span class="text-semibold"></span>Edit Video Page</h4>
             </div>
 
           </div>
@@ -91,7 +89,7 @@
                       
                     </div>
                   <div class="col-lg-7 pr-0">
-                  <input type="file" class="file-styled" id="video" name="video" >
+                  <input type="file" class="file-styled" id="video" name="video" accept="video/*" >
                 
               </div>
                  

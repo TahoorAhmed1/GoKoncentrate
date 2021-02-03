@@ -47,7 +47,7 @@
         <div class="page-header page-header-default">
           <div class="page-header-content">
             <div class="page-title">
-              <a href="/admin/magazines"><i class="fas fa-arrow-left"></i></a>
+              <a href="/admin/edit_magazine?id=<%=magazineId%>"><i class="fas fa-arrow-left"></i></a>
               <h4> <span class="text-semibold"></span>Add Photo Page</h4>
             </div>
 
@@ -95,7 +95,7 @@
                     </div>
                     <div class="col-lg-7 pr-0">
                       <input type="file" id="files"  class="file-styled"
-                        name="image_file" multiple>
+                        name="image_file" multiple accept="image/*" required>
                       <br><output id="list"></output>
 
                     </div>
@@ -111,7 +111,7 @@
                                           
                   </div>
                   <div class="col-lg-7 pr-0">
-                    <input type="file" name="profile_pic" class="file-styled" id="filesdata" accept="image/*">
+                    <input type="file" name="profile_pic" class="file-styled" id="filesdata" accept="image/*" required>
                     <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
                   </div>
                 </div>
@@ -168,6 +168,7 @@
     $(function () {
 
       function handleFileSelect(evt) {
+        $("#list").html("");
         var $fileUpload = $("input#files[type='file']");
          var filedata = document.getElementById('files');
        // console.log(filedata,"filedata==============");return

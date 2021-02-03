@@ -23,13 +23,11 @@
 </style>
 
 <body>
-  <% if(msg != '' && msg=='Please write something in name') { %>
+  <% if(msg != '') { %>
     <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
         style="font-size: 16px;"><%= msg %></span></div> <%
-          } else if(msg != ''){%>
-            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-              style="font-size: 16px;"><%= msg %></span></div>
-            <%}%>
+          }%>
+            
 
   <% include ../admin_navbar.ejs %>
 
@@ -42,7 +40,7 @@
         <div class="page-header page-header-default">
           <div class="page-header-content">
             <div class="page-title">
-              <a href="/admin/magazines"><i class="fas fa-arrow-left"></i></a>
+              <a href="/admin/edit_magazine?id=<%=magazineId%>"><i class="fas fa-arrow-left"></i></a>
               <h4> <span class="text-semibold"></span>Add Video Page</h4>
             </div>
 
@@ -91,7 +89,7 @@
                       
                     </div>
                   <div class="col-lg-7 pr-0">
-                  <input type="file" class="file-styled" id="video" name="video" >
+                  <input type="file" class="file-styled" id="video" name="video" accept="video/*" >
                 
               </div>
                  
@@ -111,7 +109,7 @@
                                           
                   </div>
                   <div class="col-lg-7 pr-0">
-                    <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
+                    <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*" required>
                     <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
                   </div>
                 </div>
@@ -192,26 +190,26 @@ $(document).ready(function () {
     else{
       document.getElementById("sbmitbtn").disabled = false;
     }
-    // var _URL = window.URL;
-    // var filedata, img;
-    // if ((filedata = this.files[0])) {
-    //     img = new Image();
-    //     console.log(this.width,"------------this.width[0]---");
-    //     img.onload = function () {
-    //         //alert("Width:" + this.width + "   Height: " + this.height);
-    //         if(this.height<2000 && this.width<1335){
-    //       // alert(this.width,"width");
-    //       this.value=""
-    //       alert("Please Select a image of minmum resolution of 2000 x 1335");
-    //       document.getElementById("sbmitbtn").disabled = true;
-    //       return false
-    //     }else{
-    //       document.getElementById("sbmitbtn").disabled = false;
-    //     }
-    //     };
-    //     img.src = _URL.createObjectURL(filedata);
+    var _URL = window.URL;
+    var filedata, img;
+    if ((filedata = this.files[0])) {
+        img = new Image();
+        console.log(this.width,"------------this.width[0]---");
+        img.onload = function () {
+            //alert("Width:" + this.width + "   Height: " + this.height);
+            if(this.height<2000 && this.width<1335){
+          // alert(this.width,"width");
+          this.value=""
+          alert("Please Select a image of minmum resolution of 2000 x 1335");
+          document.getElementById("sbmitbtn").disabled = true;
+          return false
+        }else{
+          document.getElementById("sbmitbtn").disabled = false;
+        }
+        };
+        img.src = _URL.createObjectURL(filedata);
         
-    // }
+    }
       };
       
 
