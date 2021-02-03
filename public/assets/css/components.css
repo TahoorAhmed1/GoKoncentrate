@@ -147,6 +147,10 @@ a.badge,
   width: 100%;
   display: none;
 }
+.frm .form-group {
+  float: left;
+  width: 100%;
+}
 @media (min-width: 769px) {
   .sidebar {
     display: table-cell;
