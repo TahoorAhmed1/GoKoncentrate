@@ -769,7 +769,7 @@ module.exports = {
     try {
         // console.log(req.body.videolink,"hello");
         // console.log(req.files.video,"hello");return
-        if(req.body.videolink=='' && files.video==undefined){
+        if(req.body.videolink=='' && req.files.video==undefined){
           req.flash('msg', 'Please add video or video link')
           res.redirect(`/admin/add_pages_new?pages=1&pagename=${req.body.pageName}&magazineid=${req.body.id}`)
         }
@@ -963,7 +963,7 @@ if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160
     try {
       // console.log("innnnnnnnnnnnnnnnnn");return
 //console.log(req.body.title,"req.body.title");return
-if(req.body.videolink=='' && files.video==undefined){
+if(req.body.videolink=='' && req.files.video==undefined){
   req.flash('msg', 'Please add video or video link')
   res.redirect(`/admin/edit_page?id=${req.body.id}`)
   return
