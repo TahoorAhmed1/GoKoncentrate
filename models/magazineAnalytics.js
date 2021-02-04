@@ -23,6 +23,11 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.INTEGER(11),
 			allowNull: true,
 			field: 'actual_magazine_id'
+		},
+		magazineType: {
+			type: DataTypes.STRING(50),
+			allowNull: true,
+			field: 'magazine_type'
         },
         userId: {
 			type: DataTypes.INTEGER(11),

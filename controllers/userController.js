@@ -7,6 +7,7 @@ const magazinesBrand = db.magazinesBrand
 const magazines = db.magazines
 const videoPageVideos = db.videoPageVideos
 const musicPageAudio = db.musicPageAudio
+const articlePhotos = db.articlePhotos
 var crypto = require('crypto');
 // const { contained } = require("sequelize/types/lib/operators")
 var path = require('path');
@@ -20,7 +21,8 @@ var tables = {
   'magazines':magazines,
   'videoPageVideos':videoPageVideos,
   'musicPageAudio':musicPageAudio,
-  'photoPageImages':photoPageImages
+  'photoPageImages':photoPageImages,
+  'articlePhotos':articlePhotos
 };
 
 module.exports = {

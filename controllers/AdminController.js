@@ -561,7 +561,7 @@ module.exports = {
     try{
 
       let get_user_visit= await magazineAnalytics.findAll({
-        attributes:['id','user_id','magazine_id','actual_magazine_id','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename'],[sequelize.literal('(SELECT page_no FROM pages WHERE id =magazineAnalytics.page_id )'), 'page_no']],
+        attributes:['id','user_id','magazine_id','actual_magazine_id','magazineType','time_spent','created','pageId',[sequelize.literal('(SELECT name FROM users WHERE id =magazineAnalytics.user_id )'), 'userName'],[sequelize.literal('(SELECT email FROM users WHERE id =magazineAnalytics.user_id )'), 'userEmail'],[sequelize.literal('(SELECT name FROM magazines WHERE id =magazineAnalytics.actual_magazine_id )'), 'actualmagazinename'],[sequelize.literal('(SELECT page_no FROM pages WHERE id =magazineAnalytics.page_id )'), 'page_no']],
         order:[
           ['time_spent','desc']
         ],

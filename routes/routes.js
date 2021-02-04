@@ -143,6 +143,8 @@ module.exports =function(app){
     app.route('/admin/add_new_single_music').post(magazine.add_new_single_music);
     app.route('/admin/add_singlephotos').get(magazine.add_singlephotos);
     app.route('/admin/add_new_single_photos').post(magazine.add_new_single_photos);
+    app.route('/admin/add_singlearticle_photos').get(magazine.add_singlearticle_photos);
+    app.route('/admin/edit_article_picsingle').post(magazine.edit_article_picsingle);
 }
 ///admin/add_new_single_video
 

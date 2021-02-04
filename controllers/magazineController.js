@@ -1367,11 +1367,14 @@ module.exports = {
     try {
       // console.log("hello");return
 
-      let get_all_article_photos = await articlePhotos.findAll({
+      var get_all_article_photos = await articlePhotos.findAll({
         attributes: ['id', 'article_id', 'image'],
         where: {
           articleId: req.query.id
         },
+        order:[
+          ['id','desc']
+        ],
         raw: true
       });
       var get_magazine_id = await articlePage.findOne({
@@ -1382,10 +1385,12 @@ module.exports = {
         raw: true
       });
       magazineId = get_magazine_id.magazineId
+      articleId = req.query.id
       res.render('magazines/edit_artice_photo', {
         msg: req.flash('msg'),
         response: get_all_article_photos,
         magazineId,
+        articleId,
         title: 'magazines',
         session: req.session
       });
@@ -1768,8 +1773,15 @@ module.exports = {
       }
       if (req.files && req.files.video) {
                 const fileMetaData = await ffprobe(req.files.video.tempFilePath, { path: ffprobeStatic.path })
+                // console.log(fileMetaData.streams[0],"height");
+          //  console.log(fileMetaData.streams[0],"width");return
+        if(fileMetaData.streams[0].width < 1920  || fileMetaData.streams[0].height < 1080 ){
+          req.flash('msg', 'Please upload a HD or 4k video')
+          res.redirect(`/admin/add_singlevideo?id=${req.body.id}`)
+          return false;
+        }
 
-        if(fileMetaData.streams[0].width < 1080 || fileMetaData.streams[0].height > 2160){
+        if(fileMetaData.streams[0].width > 3840  || fileMetaData.streams[0].height > 2160 ){
           req.flash('msg', 'Please upload a HD or 4k video')
           res.redirect(`/admin/add_singlevideo?id=${req.body.id}`)
           return false;
@@ -1928,7 +1940,7 @@ module.exports = {
             if (err)
               console.log(err);
           });
-          article_user_url = `/images/users/${fileimage}`
+          photo_user_url = `/images/users/${fileimage}`
           let create_page_photots = await photoPageImages.create({
             photoPageId: req.body.id,
             image: photo_user_url
@@ -1939,6 +1951,61 @@ module.exports = {
       req.flash('msg', 'Photos added successfully')
       res.redirect(`/admin/edit_page_photos?id=${req.body.id}`)
      
+    }catch(error){
+      throw error
+    }
+  },
+  add_singlearticle_photos:async function(req,res){
+    try{
+      articlePageId = req.query.id
+      res.render('article_page_edit/edit_single_article', {
+        msg: req.flash('msg'),
+        articlePageId,
+        title: 'magazines',
+        session: req.session
+      });
+    }catch(error){
+      throw error
+    }
+  },
+  edit_article_picsingle:async function(req,res){
+    try{
+      if (req.files && req.files.image_file) {
+        if (Array.isArray(req.files.image_file) === true) {
+
+          await Promise.all(req.files.image_file.map(async c => {
+            var extension = path.extname(c.name);
+            var fileimage = uuid() + extension;
+            c.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+              if (err)
+                console.log(err);
+            });
+            photo_user_url = `/images/users/${fileimage}`
+            let create_page_photots = await articlePhotos.create({
+              articleId: req.body.id,
+              image: photo_user_url
+            })
+
+          }));
+
+        } else {
+          var image = req.files.image_file
+          var extension = path.extname(image.name);
+          var fileimage = uuid() + extension;
+          image.mv(process.cwd() + '/public/images/users/' + fileimage, function (err) {
+            if (err)
+              console.log(err);
+          });
+          photo_user_url = `/images/users/${fileimage}`
+          let create_page_photots = await articlePhotos.create({
+            articleId: req.body.id,
+            image: photo_user_url
+          })
+
+        }
+      }
+      req.flash('msg', 'Article Photos added successfully')
+      res.redirect(`/admin/edit_article_photos?id=${req.body.id}`)
     }catch(error){
       throw error
     }

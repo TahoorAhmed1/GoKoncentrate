@@ -77,7 +77,7 @@
                   <th class="b">Name</th>
                   <th class="b">Email</th>
                   <th class="b">Address</th>
-                  <th class="b">Subscribe to magazine Brand</th>
+                  <!-- <th class="b">Subscribe to magazine Brand</th> -->
                   <th class="b">Status</th>
                   <th class="b">Actions</th>
                 </tr>
@@ -93,11 +93,11 @@
                   <td><%= response[i].name %></td>
                   <td><%= response[i].email %></td>
                   <td><%= response[i].address %></td>
-                  <%if(response[i].plan_id=='' || response[i].plan_id==null){%>
+                  <!-- <%if(response[i].plan_id=='' || response[i].plan_id==null){%>
                   <td>Free</td>
                   <%}else{%>
                     <td><%= response[i].plan_id %></td>
-                    <%}%>
+                    <%}%> -->
                                         <td>
                                             <% 
                                                 if(response[i].status == 1) { %>
