@@ -78,7 +78,7 @@
                 </div>
 
 
-              <div class="row">
+              <!-- <div class="row">
                 <div class="form-group">
                   <label class ="col-lg-3 control-label" for="video"> Video:</label>
                   
@@ -94,7 +94,7 @@
                  
 										</video>
 									 </div>
-                  </div>
+                  </div> -->
                   
                 
                <div class="row">
@@ -102,7 +102,7 @@
                   <label class="col-lg-3 control-label">Image<span class="text-danger">*</span></label>
                   <div class="col-lg-2">
                   
-                    <img src="<%=response.image%>" width="100" height="100" id="image" class="img-circle">
+                    <img src="<%=response.image%>" width="100" height="100" id="image" class="img-square">
                                            
                     <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
                                           
@@ -115,6 +115,20 @@
               </div>
               <div class="row">
                   <div class="form-group">
+                    <label class="col-lg-3 control-label">Video Content </label>
+                    <div class="col-lg-9 input-group">
+                      
+                      <!-- <input type="text" name="title" class="form-control" placeholder="Enter title"
+                        value="" required>  -->
+                        <div class="content-group">
+                            <textarea name="videocontent" id="editortitle" rows="4" cols="4" required>
+                                <%=response.content%> </textarea>
+                            </div>
+                    </div>
+                  </div>
+                  </div>
+              <!-- <div class="row">
+                  <div class="form-group">
                     <label class="col-lg-3 control-label">Video Link:</label>
                     <div class="col-lg-9 input-group">
                       <span class="input-group-addon"><i class="fas fa-user"></i></span>
@@ -122,7 +136,7 @@
                         value="<%=response.videoLink%>" >
                     </div>
                   </div>
-                  </div>
+                  </div> -->
                 
 
                 <input type="hidden" name="id" value="<%=response.id%>">

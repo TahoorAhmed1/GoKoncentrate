@@ -15,10 +15,11 @@
       <div class="content-wrapper">
         <div class="page-header page-header-default">
           <div class="page-header-content">
+             
             <div class="page-title">
-        
+                <a href="/admin/add_singlevideo?id=<%=videopageId%>" style="float:right;" class="btn btn-primary"> <b>+</b> Add new video</a>
               <a href="/admin/edit_magazine?id=<%=magazineId%>"><i class="fas fa-arrow-left"></i></a>
-              <h4> <span class="text-semibold"></span>Article photos Detail</h4>
+              <h4> <span class="text-semibold"></span>Video Details</h4>
             </div>
 
             <div class="heading-elements">
@@ -31,8 +32,8 @@
           <div class="breadcrumb-line">
             <ul class="breadcrumb">
               <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-              <li class="active">Article Management</li>
-              <li class="active">View Photos</li>
+              <li class="active">Video Management</li>
+              <li class="active">View Videos</li>
             </ul>
 
             <ul class="breadcrumb-elements">
@@ -50,8 +51,20 @@
                   <tr>
                     <!-- <td class="b">Image</td> -->
                     
-                    <a href="/edit_article_photos?id=<%=response[i].id%>"><img src="<%= response[i].image == '' || response[i].image == null || response[i].image == '/images/users/' ? '/white_user.jpg' : response[i].image%>" width="100" height="100" class="img-square"> <span class="glyphicon glyphicon-pencil"></span> </a>  
-                 
+                    <!-- <td><a href="/edit_article_photos?id=<%=response[i].id%>"><img src="<%= response[i].video == '' || response[i].video == null || response[i].video == '/images/users/' ? '/white_user.jpg' : response[i].video%>" width="100" height="100" class="img-circle"> <span class="glyphicon glyphicon-pencil"></span> </a> </td>  -->
+                    <%if(response[i].video==''){%>
+                    <video width="200" height="200" controls>
+                     
+                        <source src="<%=response[i].videoLink%>" type="video/mp4">
+                       
+                      </video> <span  table="videoPageVideos" style="color:red;" rel="<%=response[i].id%>" class="glyphicon glyphicon-remove delete"></span>
+                      <%}else{%>
+                      <video width="200" height="200" controls>
+                     
+                            <source src="<%=response[i].video%>" type="video/mp4">
+                           
+                          </video> <span table="videoPageVideos"  style="color:red;" rel="<%=response[i].id%>" class="glyphicon glyphicon-remove delete"></span>
+                        <%}%>
                   </tr>
                   <%}%>
                 </tbody>

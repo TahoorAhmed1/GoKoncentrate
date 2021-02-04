@@ -23,7 +23,7 @@
 </style>
 
 <body>
-  <% if(msg != '' && msg=='Please write something in name') { %>
+  <% if(msg != '' && msg=='Please write something in name' || msg=='Please upload a HD or 4k video') { %>
     <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
         style="font-size: 16px;"><%= msg %></span></div> <%
           } else if(msg != ''){%>
@@ -42,8 +42,8 @@
         <div class="page-header page-header-default">
           <div class="page-header-content">
             <div class="page-title">
-              <a href="/admin/edit_article_photos?id=<%=response.article_id%>"><i class="fas fa-arrow-left"></i></a>
-              <h4> <span class="text-semibold"></span>Edit Article Image</h4>
+              <a href='/admin/edit_single_video?id=<%=videoPageId%>'><i class="fas fa-arrow-left"></i></a>
+              <h4> <span class="text-semibold"></span>Video</h4>
             </div>
 
           </div>
@@ -51,7 +51,7 @@
           <div class="breadcrumb-line">
             <ul class="breadcrumb">
               <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-              <li class="active">Article Image  Management</li>
+              <li class="active">Video Management</li>
               <li class="active">Edit</li>
             </ul>
 
@@ -62,28 +62,39 @@
         </div>
 
         <div class="content">
-          <form action='/admin/edit_article_pic' enctype="multipart/form-data" method="POST" role="form">
+          <form action='/admin/add_new_single_video' enctype="multipart/form-data" method="POST" role="form">
             <div class="panel panel-flat">
               <div class="panel-body">
                
-               <div class="row">
-                <div class="form-group">
-                  <label class="col-lg-3 control-label">Image<span class="text-danger">*</span></label>
-                  <div class="col-lg-2">
-                  
-                    <img src="<%=response.image%>" width="100" height="100" id="image" class="img-square">
-                                           
-                    <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
-                                          
-                  </div>
-                  <div class="col-lg-7 pr-0">
-                    <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
-                    <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
-                  </div>
-                </div>
-              </div>
+                  <div class="row">
+                      <div class="form-group">
+                        <label class ="col-lg-3 control-label" for="video"> Video:</label>
+                        
+                        <div class="col-lg-2" style="padding-left:0">
+                          <video width ="100%" height="150" id="blah" name="video" controls>
+                            <source src="" type="video/mp4">
+                            
+                          </div>
+                        <div class="col-lg-7 pr-0">
+                        <input type="file" class="file-styled" id="video" name="video" accept="video/*" >
+                      
+                    </div>
+                       
+                          </video>
+                         </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                              <label class="col-lg-3 control-label">Video Link:</label>
+                              <div class="col-lg-9 input-group">
+                                <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                <input type="text" name="videolink" id="videolink" class="form-control" placeholder="Enter video link"
+                                  value="" >
+                              </div>
+                            </div>
+                            </div>
               
-                <input type="hidden" name="id" value="<%=response.id%>">
+                <input type="hidden" name="id" value="<%=videoPageId%>">
 
                 <div class="text-right">
                   <button type="submit" class="btn btn-primary">Submit <i
@@ -144,23 +155,30 @@
       };
       </script>
       <script>
-        $(document).ready(function(){  function readURL(input) {
-          if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          
-           reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result);
-           }
-          
-          reader.readAsDataURL(input.files[0]);
+          $(document).ready(function(){  function readURL(input) {
+            if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+             reader.onload = function (e) {
+              $('#blah').attr('src', e.target.result);
+             }
+            
+            reader.readAsDataURL(input.files[0]);
+            }
           }
-        }
-      
-         $("#video").change(function(){
-        readURL(this);
-        });
-        });
-      </script>
+        
+           $("#video").change(function(){
+           // $("#blah").src("")
+             //alert("hello")
+          readURL(this);
+        //  var vid = document.getElementById("videolink")
+  
+         // console.log(vid,"vid")
+          });
+          });
+          var uploadField = document.getElementById("files");
+          
+        </script>
       
    
 

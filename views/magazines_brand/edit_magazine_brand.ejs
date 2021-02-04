@@ -13,12 +13,12 @@
 
 <body>
   <% if(msg != '' && msg=='Please write something in name') { %>
-    <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-        style="font-size: 16px;"><%= msg %></span></div> <%
+  <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
           } else if(msg != ''){%>
-            <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-              style="font-size: 16px;"><%= msg %></span></div>
-            <%}%>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div>
+  <%}%>
 
   <% include ../admin_navbar.ejs %>
 
@@ -72,11 +72,11 @@
                     <%
                                                 if(magazine_brand.image == '' || magazine_brand.image == null || magazine_brand.image == '/images/users/')
                                                 { %>
-                    <img src="/user.png" width="100" height="100" id="image" class="img-circle"> <%
+                    <img src="/user1.png" width="100" height="100" id="image" class="img-square"> <%
                                                 }
                                                 else
                                                 { %>
-                    <img src="<%= magazine_brand.image %>" width="100" height="100" id="image" class="img-circle"> <%
+                    <img src="<%= magazine_brand.image %>" width="100" height="100" id="image" class="img-square"> <%
                                                 }
                                             %>
                   </div>

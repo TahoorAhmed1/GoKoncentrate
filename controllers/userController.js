@@ -5,17 +5,24 @@ const users = db.users
 const subscriptions = db.subscriptions
 const magazinesBrand = db.magazinesBrand
 const magazines = db.magazines
+const videoPageVideos = db.videoPageVideos
+const musicPageAudio = db.musicPageAudio
 var crypto = require('crypto');
 // const { contained } = require("sequelize/types/lib/operators")
 var path = require('path');
 var uuid = require('uuid');
 const flash = require('connect-flash');
+const photoPageImages = db.photoPageImages
 var tables = {
 	'admins': admins,
   'users':  users,
   'magazinesBrand':  magazinesBrand,
-  'magazines':magazines
+  'magazines':magazines,
+  'videoPageVideos':videoPageVideos,
+  'musicPageAudio':musicPageAudio,
+  'photoPageImages':photoPageImages
 };
+
 module.exports = {
   user_index: async function (req, res) {
     try {

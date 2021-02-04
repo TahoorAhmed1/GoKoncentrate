@@ -72,9 +72,20 @@
                 var text = "You want to delete this keyword";
             } else if(table == "reservation_content") {
                 var text = "You want to delete this content";
-            } else {
+            } else if(table == "videoPageVideos"){
+                var text = "You want to delete this video"
+            }
+            else if(table=="musicPageAudio"){
+                var text = "You want to delete this music"
+            }
+            else if(table=="photoPageImages"){
+                var text = "You want to delete this photo"
+            }
+            else 
+            {
                 var text = "You want to delete this "+table;
             }
+
             
             swal({
                 title: "Are you sure?",
@@ -103,6 +114,7 @@
                                 });
                             } else {
                                 swal("Error", "Please try again");
+                                
                             }
                             // setTimeout(function () { location.reload(1); }, 1000);
 

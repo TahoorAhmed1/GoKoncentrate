@@ -28,6 +28,11 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(255),
 			allowNull: true,
 			field: 'video'
+		},
+		content: {
+			type: DataTypes.STRING(255),
+			allowNull: true,
+			field: 'content'
         },
         videoLink: {
 			type: DataTypes.STRING(255),

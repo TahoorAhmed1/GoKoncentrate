@@ -134,7 +134,18 @@ module.exports =function(app){
     app.route('/admin/edit_page_photos').get(magazine.edit_page_photos);
     app.route('/edit_page_photosadmin').get(magazine.edit_page_photosadmin);
     app.route('/admin/edit_photopage_pic').post(magazine.edit_photopage_pic);
+
+    app.route('/admin/edit_single_video').get(magazine.edit_single_video);
+    app.route('/admin/add_singlevideo').get(magazine.add_singlevideo);
+    app.route('/admin/add_new_single_video').post(magazine.add_new_single_video);
+    app.route('/admin/add_edit_singlemusic').get(magazine.add_edit_singlemusic);
+    app.route('/admin/add_singlemusic').get(magazine.add_singlemusic);
+    app.route('/admin/add_new_single_music').post(magazine.add_new_single_music);
+    app.route('/admin/add_singlephotos').get(magazine.add_singlephotos);
+    app.route('/admin/add_new_single_photos').post(magazine.add_new_single_photos);
 }
+///admin/add_new_single_video
+
 
 
 // router.post('/authenticate', AuthMiddleware_obj.loginDetails(), function(req, res){})

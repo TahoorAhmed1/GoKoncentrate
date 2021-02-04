@@ -168,7 +168,7 @@
                 <div class="row mx-0">
                   <div class="col-md-9 col-sm-6 col-xs-6">
                     <h3 class="total_numbers"><%=response.get_total_user%></h3>
-                    <span class="total_users">TOTAL USERS</span>
+                    <span class="total_users">TOTAL SUBSCRIBER</span>
                   </div>
                   <div class="col-md-3 col-sm-6  col-xs-6 text-right">
                     <span class="icon_holder"><i class="fas fa-user fa-4x"></i></span>
@@ -370,7 +370,7 @@
                 </div>
 
                 <h3 class="no-margin"><%=response.subscribed_user_count%></h3>
-                <span class="f">Total Subscriber</span>
+                <span class="f">PAID SUBSCRIBER</span>
               </div>
 
               <div class="container-fluid">
@@ -446,7 +446,7 @@
                 </div>
 
                 <h3 class="no-margin"><%=response.active_user_count%></h3>
-                <span class="f">Active Users</span>
+                <span class="f">ACTIVE SUBSCRIBER</span>
               </div>
 
               <div class="container-fluid">
@@ -524,7 +524,7 @@
                   <span class="heading-text badge bg-teal-800 red"><i class="fas fa-users fa-4x"></i></span>
                 </div>
                 <h3 class="no-margin"><%=response.inactive_user_count%></h3>
-                <span class="f">Inactive Users</span>
+                <span class="f">INACTIVE SUBSCRIBER</span>
               </div>
               <div class="container-fluid">
                 <div id="members-online">
@@ -582,7 +582,7 @@
             <% if(s_id.indexOf('1')!= -1){%>
         <div class="col-lg-6">
 
-          <h5>Latest Users</h5>
+          <h5>Latest SUBSCRIBER</h5>
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -612,7 +612,7 @@
                         <%}%>
               <% if(s_id.indexOf('1')!= -1){%>
               <div class="col-lg-6">
-                <h5>Latest subscriber</h5>
+                <h5>LATEST SUBSCRIBER WHO SUBSCRIBE TO MAGAZINE</h5>
                 <table class="table table-bordered">
                   <thead>
                     <tr>
@@ -641,7 +641,7 @@
                           <%}%>
                     <% if(s_id.indexOf('4')!= -1){%>
                     <div class="col-lg-6">
-                      <h5>Most Popular Magazine</h5>
+                      <h5>MOST POPULAR MAGAZINE</h5>
                       <table class="table table-bordered">
                         <thead>
                           <tr>
@@ -670,7 +670,7 @@
                               <%}%>
                           <% if(s_id.indexOf('4')!= -1){%>
                           <div class="col-lg-6">
-                            <h5>Least Popular Magazine</h5>
+                            <h5>LEAST POPULAR MAGAZINE</h5>
                             <table class="table table-bordered">
                               <thead>
                                 <tr>
@@ -761,10 +761,10 @@
             allowPointSelect: true,
             keys: ['name', 'y', 'selected', 'sliced'],
             data: [
-              ['Total Users', total_user, false],
-              ['Active users Bookings', active_user, false],
-              ['Inactive users', inactive_user, false],
-              ['Subscribed users', subscribed_user, false],
+              ['TOTAL SUBSCRIBER', total_user, false],
+               ['ACTIVE SUBSCRIBER', active_user, false],
+              ['INACTIVE SUBSCRIBER', inactive_user, false],
+              // ['Subscribed users', subscribed_user, false],
               // ['Complete Bookings', 5, false],
               // ['Total Users', data.user, false],
               // ['Total Categories', data.category, false],
@@ -870,10 +870,10 @@
             allowPointSelect: true,
             keys: ['name', 'y', 'selected', 'sliced'],
             data: [
-              ['Total Users', total_user, false],
-              ['Active users Bookings', active_user, false],
-              ['Inactive users', inactive_user, false],
-              ['Subscribed users', total_subscribed, false],
+              ['TOTAL  SUBSCRIBER', total_user, false],
+               ['ACTIVE SUBSCRIBER', active_user, false],
+              ['INACTIVE SUBSCRIBER', inactive_user, false],
+              // ['Subscribed users', total_subscribed, false],
 
             ],
             showInLegend: true
@@ -921,7 +921,7 @@
   },
   yAxis: {
     title: {
-      text: 'Users list'
+      text: 'SUBSCRIBERS LIST'
     }
   },
   tooltip: {
@@ -937,10 +937,10 @@
     }
   },
   series: [{
-    name: 'Total users',
+    name: 'TOTAL SUBSCRIBER',
     data: userData
   }, {
-    name: 'Total Subscriber',
+    name: 'Total FREE SUBSCRIBER',
     data:SubscriberData
   }]
 });

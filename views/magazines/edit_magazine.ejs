@@ -111,11 +111,11 @@
                     <%
                                                 if(magazine.image == '' || magazine.image == null || magazine.image == '/images/users/')
                                                 { %>
-                    <img src="/user.png" width="100" height="100" id="image" class="img-circle"> <%
+                    <img src="/user1.png" width="100" height="100" id="image" class="img-square"> <%
                                                 }
                                                 else
                                                 { %>
-                    <img src="<%= magazine.image %>" width="100" height="100" id="image" class="img-circle"> <%
+                    <img src="<%= magazine.image %>" width="100" height="100" id="image" class="img-square"> <%
                                                 }
                                             %>
                   </div>
@@ -297,7 +297,8 @@
 
                         <ul class="dropdown-menu dropdown-menu-right">
                           <li>
-                            <a href="/admin/edit_page?id=<%=get_all_video_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="/admin/edit_page?id=<%=get_all_video_page[i].id%>"><i class="fas fa-edit"></i>Edit content</a>
+                            <a href="/admin/edit_single_video?id=<%=get_all_video_page[i].id%>"><i class="fas fa-edit"></i>Add or edit video</a>
                           </li>
                         </ul>
                       </li>
@@ -343,7 +344,10 @@
 
                         <ul class="dropdown-menu dropdown-menu-right">
                           <li>
-                            <a href="/admin/edit_music?id=<%=get_all_music_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="/admin/edit_music?id=<%=get_all_music_page[i].id%>"><i class="fas fa-edit"></i>Edit content</a>
+                          </li>
+                          <li>
+                            <a href="/admin/add_edit_singlemusic?id=<%=get_all_music_page[i].id%>"><i class="fas fa-edit"></i>Add or edit music</a>
                           </li>
                         </ul>
                       </li>
@@ -435,7 +439,7 @@
                 
                                         <ul class="dropdown-menu dropdown-menu-right">
                                           <li>
-                                            <a href="/admin/editphotopage?id=<%=get_all_photo_page[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                                            <a href="/admin/editphotopage?id=<%=get_all_photo_page[i].id%>"><i class="fas fa-edit"></i>Edit content</a>
                                           </li>
                                           <li>
                                               <a href="/admin/edit_page_photos?id=<%=get_all_photo_page[i].id%>"><i class="fas fa-edit"></i>Edit Photos</a>
