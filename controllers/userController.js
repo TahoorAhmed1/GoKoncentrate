@@ -46,10 +46,20 @@ module.exports = {
           raw: true
         })
       } else {
-        get_users_all = await users.findAll({
-          attributes: ['id', 'name', 'email', 'address', 'subscription', 'subscription_id', 'delete_status', 'status', 'image', [sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id']],
+        // get_users_all = await users.findAll({
+        //   attributes: ['id', 'name', 'email', 'address', 'subscription', 'subscription_id', 'delete_status', 'status', 'image', [sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = users.subscription_id)`), 'plan_id']],
+        //   where: {
+        //     subscription_id: brand_array
+        //   },
+        //   order: [
+        //     ['id', 'desc']
+        //   ],
+        //   raw: true
+        // })
+        get_users_all = await subscriptions.findAll({
+          attributes: ['id','user_id', 'plan_id',[sequelize.literal(`(SELECT name FROM users WHERE id = subscriptions.user_id)`), 'name'],[sequelize.literal(`(SELECT email FROM users WHERE id = subscriptions.user_id)`), 'email'],[sequelize.literal(`(SELECT address FROM users WHERE id = subscriptions.user_id)`), 'address'],[sequelize.literal(`(SELECT subscription_id FROM users WHERE id = subscriptions.user_id)`), 'subscription_id'],[sequelize.literal(`(SELECT delete_status FROM users WHERE id = subscriptions.user_id)`), 'delete_status'],[sequelize.literal(`(SELECT status FROM users WHERE id = subscriptions.user_id)`), 'status'],[sequelize.literal(`(SELECT image FROM users WHERE id = subscriptions.user_id)`), 'image'],[sequelize.literal(`(SELECT name FROM magazines_brand WHERE id = subscription_id)`), 'plan_id']],
           where: {
-            subscription_id: brand_array
+            plan_id: brand_array
           },
           order: [
             ['id', 'desc']

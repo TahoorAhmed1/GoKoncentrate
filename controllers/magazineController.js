@@ -1773,7 +1773,7 @@ module.exports = {
       }
       if (req.files && req.files.video) {
                 const fileMetaData = await ffprobe(req.files.video.tempFilePath, { path: ffprobeStatic.path })
-                // console.log(fileMetaData.streams[0],"height");
+                // console.log(fileMetaData,"fileMetaData");
           //  console.log(fileMetaData.streams[0],"width");return
         if(fileMetaData.streams[0].width < 1920  || fileMetaData.streams[0].height < 1080 ){
           req.flash('msg', 'Please upload a HD or 4k video')
