@@ -161,95 +161,96 @@
                         </a> -->
           <% if(s_id.indexOf('1')!= -1){%>
           <a href="/admin/users">
-
-            <div class="col-md-4">
-              <!-- Members online -->
-              <div class="card counter_card card-body text-white yellow">
-                <div class="row mx-0">
-                  <div class="col-md-9 col-sm-6 col-xs-6">
-                    <h3 class="total_numbers"><%=response.get_total_user%></h3>
-                    <span class="total_users">TOTAL SUBSCRIBER</span>
+            <a href="/admin/users">
+              <div class="col-md-4">
+    
+                <div class="panel bg-teal-800 yellow">
+                  <div class="panel-body">
+                    <div class="heading-elements">
+                      <span class="heading-text badge bg-teal-800 yellow"><i class="fas fa-users fa-4x"></i></span>
+                    </div>
+    
+                    <h3 class="no-margin"><%=response.get_total_user%></h3>
+                    <span class="f">TOTAL SUBSCRIBER</span>
                   </div>
-                  <div class="col-md-3 col-sm-6  col-xs-6 text-right">
-                    <span class="icon_holder"><i class="fas fa-user fa-4x"></i></span>
-                  </div>
+    
                   <div class="container-fluid">
                     <div id="members-online">
                       <svg width="183.328125" height="50">
                         <g width="183.328125">
-                          <rect class="d3-random-bars" width="5.281057098765432" x="2.263310185185185" height="47.5"
-                            y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="9.807677469135802" height="25"
-                            y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="2.263310185185185" height="47.5" y="2.5"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="9.807677469135802" height="25" y="25"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="17.352044753086417" height="47.5"
                             y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="24.896412037037038" height="25"
-                            y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="32.44077932098765" height="47.5"
-                            y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="24.896412037037038" height="25" y="25"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="32.44077932098765" height="47.5" y="2.5"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="39.98514660493827" height="32.5"
                             y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="47.529513888888886" height="50"
-                            y="0" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="47.529513888888886" height="50" y="0"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="55.0738811728395" height="30" y="20"
                             style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="62.61824845679012" height="40"
-                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="62.61824845679012" height="40" y="10"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="70.16261574074075" height="45" y="5"
                             style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="77.70698302469137" height="42.5"
-                            y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="85.25135030864197" height="40"
-                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="92.7957175925926" height="32.5"
-                            y="17.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="100.34008487654322" height="40"
-                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="107.88445216049382" height="45"
-                            y="5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="77.70698302469137" height="42.5" y="7.5"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="85.25135030864197" height="40" y="10"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="92.7957175925926" height="32.5" y="17.5"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="100.34008487654322" height="40" y="10"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="107.88445216049382" height="45" y="5"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="115.42881944444444" height="47.5"
                             y="2.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="122.97318672839506" height="35"
-                            y="15" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="122.97318672839506" height="35" y="15"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="130.51755401234567" height="42.5"
                             y="7.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="138.0619212962963" height="30"
-                            y="20" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="138.0619212962963" height="30" y="20"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="145.6062885802469" height="37.5"
                             y="12.5" style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="153.15065586419755"
                             height="27.500000000000004" y="22.499999999999996" style="fill: rgba(255, 255, 255, 0.5);">
                           </rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="160.69502314814815" height="40"
-                            y="10" style="fill: rgba(255, 255, 255, 0.5);"></rect>
-                          <rect class="d3-random-bars" width="5.281057098765432" x="168.23939043209876" height="25"
-                            y="25" style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="160.69502314814815" height="40" y="10"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
+                          <rect class="d3-random-bars" width="5.281057098765432" x="168.23939043209876" height="25" y="25"
+                            style="fill: rgba(255, 255, 255, 0.5);"></rect>
                           <rect class="d3-random-bars" width="5.281057098765432" x="175.7837577160494" height="45" y="5"
                             style="fill: rgba(255, 255, 255, 0.5);"></rect>
                         </g>
                       </svg>
                     </div>
                   </div>
-
                 </div>
+    
               </div>
-            </div>
-
-          </a>
+            </a>
+            
           <%}%>
           <% if(s_id.indexOf('3')!= -1){%>
           <a href="/admin/magazines_brand">
             <div class="col-md-4">
               <!-- Members online -->
-              <div class="card counter_card card-body text-white blue">
-                <div class="row mx-0">
-                  <div class="col-md-9 col-sm-6 col-xs-6">
-                    <h3 class="total_numbers"><%=response.get_all_mgazinebrand_count%></h3>
-                    <span class="total_users">MAGAZINES BRAND</span>
-                  </div>
-                  <div class="col-md-3 col-sm-6  col-xs-6 text-right">
-                    <span class="icon_holder"><i class="fas fa-user fa-4x"></i></span>
-                  </div>
+              <div class="panel bg-teal-800 blue">
+                  <div class="panel-body">
+                      <div class="heading-elements">
+                        <span class="heading-text badge bg-teal-800 blue"><i class="fas fa-address-book fa-4x"></i></span>
+                      </div>
+      
+                      <h3 class="no-margin"><%=response.get_all_mgazinebrand_count%></h3>
+                      <span class="f">MAGAZINES BRAND</span>
+                    </div>
+                 
                   <div class="container-fluid">
                     <div id="members-online">
                       <svg width="203.328125" height="50">
@@ -312,9 +313,9 @@
                       </svg>
                     </div>
                   </div>
-
                 </div>
-              </div>
+              
+             
             </div>
           </a>
           <%}%>
@@ -322,15 +323,16 @@
           <a href="/admin/magazines">
             <div class="col-md-4">
               <!-- Members online -->
-              <div class="card counter_card card-body text-white green">
-                <div class="row mx-0">
-                  <div class="col-md-9 col-sm-6 col-xs-6">
-                    <h3 class="total_numbers"><%=response.get_all_mgazine_count%></h3>
-                    <span class="total_users">TOTAL MAGAZINES</span>
-                  </div>
-                  <div class="col-md-3 col-sm-6  col-xs-6 text-right">
-                    <span class="icon_holder"><i class="fa fa-address-book fa-4x"></i></span>
-                  </div>
+              <div class="panel bg-teal-800 green">
+                  <div class="panel-body">
+                      <div class="heading-elements">
+                        <span class="heading-text badge bg-teal-800 green"><i class="fa fa-address-book fa-4x"></i></span>
+                      </div>
+      
+                      <h3 class="no-margin"><%=response.get_all_mgazine_count%></h3>
+                      <span class="f">TOTAL MAGAZINES</span>
+                    </div>
+              
                   <div class="container-fluid">
                     <div id="members-online">
                       <svg width="203.328125" height="50">
@@ -350,10 +352,10 @@
                       </svg>
                     </div>
                   </div>
-
                 </div>
-              </div>
-            </div>
+                
+              
+            
         </div>
         </a>
         <%}%>
