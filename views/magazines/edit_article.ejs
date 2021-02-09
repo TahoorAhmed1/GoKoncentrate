@@ -110,6 +110,27 @@
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="form-group">
+                  <label class="col-lg-3 control-label">Please Select an ad</label>
+                  <div class="col-lg-9 input-group">
+
+                    <select class="form-control" name="adId" aria-label="Default select example">
+
+                      <option value="">Please Select an ad</option>
+                      <%for(var i in get_all_ads){%>
+                     
+                      <option value="<%= get_all_ads[i].id %>"
+                        <%=response.adId == get_all_ads[i].id  ? 'selected' : ''; %>>
+                        <%= get_all_ads[i].name %></option>
+
+                      <%}%>
+                            
+                          </select>
+                      
+                    </div>
+                  </div>
+                  </div>
                 <!-- <div class="content-group">
                 <textarea name="magazine_page" id="editor" rows="4" cols="4">
                    

@@ -14,6 +14,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			field: 'magazine_id'
 		},
+		adId: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+			field: 'ad_id'
+		},
 		name: {
 			type: DataTypes.STRING(255),
 			allowNull: true,

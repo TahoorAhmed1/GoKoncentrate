@@ -15,6 +15,7 @@ const photoPage = db.photoPage
 const photoPageImages = db.photoPageImages
 const videoPageVideos = db.videoPageVideos
 const musicPageAudio = db.musicPageAudio
+const ads = db.ads
 var crypto = require('crypto');
 // const { contained } = require("sequelize/types/lib/operators")
 var path = require('path');
@@ -90,7 +91,7 @@ module.exports = {
       let create_magazine_brand = await magazinesBrand.create({
         name: req.body.name,
         image: image_user_url
-      })
+      });
 
       req.flash('msg', 'Magazine added successfully')
       res.redirect('/admin/magazines_brand')
@@ -479,11 +480,21 @@ module.exports = {
         ],
         raw: true
       })
-      //  console.log(get_page,"get_page");return
+      var get_all_ads= await ads.findAll({
+        where:{
+          status:1
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true
+      })
+       // console.log(get_all_ads,"get_all_ads");return
       res.render('magazines/edit_video_page', {
         msg: req.flash('msg'),
         response: get_page,
         title: 'magazines',
+        get_all_ads,
         session: req.session
       });
     } catch (error) {
@@ -724,6 +735,19 @@ module.exports = {
       //console.log(req.query,"re.body=============");return
       magazineId = req.query.magazineid
       pageName = req.query.pagename
+
+      let get_all_pages= await ads.findAll({
+        attributes:['id','name'],
+        where:{
+          status:1
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true
+      })
+      //console.log(get_all_pages,"get_all_pages");return
+      
       if (pageName.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in page name')
         res.redirect(`/admin/edit_magazine?id=${magazineId}`)
@@ -736,6 +760,7 @@ module.exports = {
           title: 'magazines',
           magazineId,
           session: req.session,
+          response:get_all_pages,
           pageName
         });
       } else if (req.query.pages == 4) {
@@ -744,6 +769,7 @@ module.exports = {
           title: 'magazines',
           magazineId,
           session: req.session,
+          response:get_all_pages,
           pageName
         });
       } else if (req.query.pages == 3) {
@@ -752,6 +778,7 @@ module.exports = {
           title: 'magazines',
           magazineId,
           session: req.session,
+          response:get_all_pages,
           pageName
         });
       } else {
@@ -760,6 +787,7 @@ module.exports = {
           title: 'magazines',
           magazineId,
           session: req.session,
+          response:get_all_pages,
           pageName
         });
       }
@@ -850,7 +878,8 @@ module.exports = {
         title: req.body.title,
         pageNo: pageNo,
         name: req.body.pageName,
-        content:req.body.videocontent
+        content:req.body.videocontent,
+        adId:req.body.adId
       });
       // let create_videopages = await videoPageVideos.create({
       //   videoPageId: create_magazine.id,
@@ -963,7 +992,8 @@ module.exports = {
         artistPhoto: artist_user_url,
         albumCoverPhoto: cover_user_url,
         artistBio: req.body.artist_bio,
-        name: req.body.pageName
+        name: req.body.pageName,
+        adId:req.body.adId
 
       });
       req.flash('msg', 'Music page added successfully')
@@ -1051,7 +1081,8 @@ module.exports = {
         // video: video_user_url,
         // videoLink: req.body.videolink,
         title: req.body.title,
-        content:req.body.videocontent
+        content:req.body.videocontent,
+        adId:req.body.adId
       }, {
           where: {
             id: req.body.id
@@ -1075,10 +1106,20 @@ module.exports = {
         ],
         raw: true
       })
+      var get_all_ads= await ads.findAll({
+        where:{
+          status:1
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true
+      })
       //  console.log(get_page,"get_page");return
       res.render('magazines/edit_music_page', {
         msg: req.flash('msg'),
         response: get_page,
+        get_all_ads,
         title: 'magazines',
         session: req.session
       });
@@ -1179,7 +1220,8 @@ module.exports = {
         title: req.body.title,
         artistPhoto: artist_user_url,
         albumCoverPhoto: cover_user_url,
-        artistBio: req.body.artist_bio
+        artistBio: req.body.artist_bio,
+        adId:req.body.adId
       }, {
           where: {
             id: req.body.id
@@ -1242,7 +1284,8 @@ module.exports = {
         articleDescription: req.body.article_description,
         image: image_user_url,
         pageNo: pageNo,
-        name: req.body.pageName
+        name: req.body.pageName,
+        adId:req.body.adId
       });
 
       // let image = req.files.image_file
@@ -1291,7 +1334,7 @@ module.exports = {
   edit_articlepage: async function (req, res) {
     try {
       var get_all_article_page = await articlePage.findOne({
-        attributes: ['id', 'magazineId', 'title', 'articleDescription', 'image', 'pageNo'],
+        attributes: ['id', 'magazineId','adId' ,'title', 'articleDescription', 'image', 'pageNo'],
         where: {
           id: req.query.id
         },
@@ -1307,11 +1350,21 @@ module.exports = {
         },
         raw: true
       });
-      //  console.log(get_all_articlepics,"get_all_articlepics");return
+      var get_all_ads= await ads.findAll({
+        where:{
+          status:1
+        },
+        order:[
+          ['id','desc']
+        ],
+        raw:true
+      })
+        //console.log(get_all_ads,"get_all_ads");return
       res.render('magazines/edit_article', {
         msg: req.flash('msg'),
         response: get_all_article_page,
         get_all_articlepics,
+        get_all_ads,
         title: 'magazines',
         session: req.session
       });
@@ -1351,6 +1404,7 @@ module.exports = {
         title: req.body.title,
         articleDescription: req.body.article_description,
         image: image_user_url,
+        adId:req.body.adId
 
       }, {
           where: {
@@ -1505,7 +1559,8 @@ module.exports = {
         image: image_user_url,
         pageNo: pageNo,
         magazineId: req.body.id,
-        name: req.body.pageName
+        name: req.body.pageName,
+        adId:req.body.adId
       });
       if (req.files && req.files.image_file) {
         if (Array.isArray(req.files.image_file) === true) {
@@ -1560,10 +1615,21 @@ module.exports = {
         ],
         raw: true
       })
+      var get_all_ads = await ads.findAll({
+        where: {
+          status: 1
+        },
+        order: [
+          ['id', 'desc']
+        ],
+        raw: true
+      })
+      
       //console.log(get_page_no,"get_page_no");return
       res.render('magazines/edit_photo_page', {
         msg: req.flash('msg'),
         response: get_page_no,
+        get_all_ads,
         title: 'magazines',
         session: req.session
       });
@@ -1603,6 +1669,7 @@ module.exports = {
       let update_photopage = await photoPage.update({
         title: req.body.title,
         image: image_user_url,
+        adId:req.body.adId
       }, {
           where: {
             id: req.body.id

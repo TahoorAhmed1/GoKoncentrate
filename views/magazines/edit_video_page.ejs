@@ -24,10 +24,10 @@
 
 <body>
   <% if(msg != '') { %>
-    <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
-        style="font-size: 16px;"><%= msg %></span></div> <%
+  <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
           }%>
-            
+
 
   <% include ../admin_navbar.ejs %>
 
@@ -49,7 +49,7 @@
           <div class="breadcrumb-line">
             <ul class="breadcrumb">
               <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-              <li class="active">Video  Management</li>
+              <li class="active">Video Management</li>
               <li class="active">Edit</li>
             </ul>
 
@@ -64,21 +64,21 @@
             <div class="panel panel-flat">
               <div class="panel-body">
                 <div class="row">
-                <div class="form-group">
-                  <label class="col-lg-3 control-label">Title<span class="text-danger">*</span></label>
-                  <div class="col-lg-9 input-group">
-                     <input type="text" name="title" class="form-control" placeholder="Enter title"
-                      value="<%=response.title%>" required> 
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Title<span class="text-danger">*</span></label>
+                    <div class="col-lg-9 input-group">
+                      <input type="text" name="title" class="form-control" placeholder="Enter title"
+                        value="<%=response.title%>" required>
                       <!-- <div class="content-group">
                           <textarea name="title" id="editortitle" rows="4" cols="4" required>
                               <%=response.title%>  </textarea>
                           </div> -->
+                    </div>
                   </div>
                 </div>
-                </div>
 
 
-              <!-- <div class="row">
+                <!-- <div class="row">
                 <div class="form-group">
                   <label class ="col-lg-3 control-label" for="video"> Video:</label>
                   
@@ -95,38 +95,59 @@
 										</video>
 									 </div>
                   </div> -->
-                  
-                
-               <div class="row">
-                <div class="form-group">
-                  <label class="col-lg-3 control-label">Image<span class="text-danger">*</span></label>
-                  <div class="col-lg-2">
-                  
-                    <img src="<%=response.image%>" width="100" height="100" id="image" class="img-square">
-                                           
-                    <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
-                                          
-                  </div>
-                  <div class="col-lg-7 pr-0">
-                    <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
-                    <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
+
+
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Image<span class="text-danger">*</span></label>
+                    <div class="col-lg-2">
+
+                      <img src="<%=response.image%>" width="100" height="100" id="image" class="img-square">
+
+                      <!-- <img src="" width="100" height="100" id="image" class="img-circle">  -->
+
+                    </div>
+                    <div class="col-lg-7 pr-0">
+                      <input type="file" name="profile_pic" class="file-styled" id="files" accept="image/*">
+                      <!-- <div class="col-lg-9"><label id="files-error" class="error" for="files"></label></div> -->
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="row">
+                <div class="row">
                   <div class="form-group">
                     <label class="col-lg-3 control-label">Video Content </label>
                     <div class="col-lg-9 input-group">
-                      
+
                       <!-- <input type="text" name="title" class="form-control" placeholder="Enter title"
                         value="" required>  -->
-                        <div class="content-group">
-                            <textarea name="videocontent" id="editortitle" rows="4" cols="4" required>
+                      <div class="content-group">
+                        <textarea name="videocontent" id="editortitle" rows="4" cols="4" required>
                                 <%=response.content%> </textarea>
-                            </div>
+                      </div>
                     </div>
                   </div>
-                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Please Select an ad</label>
+                    <div class="col-lg-9 input-group">
+
+                      <select class="form-control" name="adId" aria-label="Default select example">
+
+                        <option value="">Please Select an ad</option>
+                        <%for(var i in get_all_ads){%>
+                       
+                        <option value="<%= get_all_ads[i].id %>"
+                          <%=response.adId == get_all_ads[i].id  ? 'selected' : ''; %>>
+                          <%= get_all_ads[i].name %></option>
+  
+                        <%}%>
+                              
+                            </select>
+                        
+                      </div>
+                    </div>
+                    </div>
               <!-- <div class="row">
                   <div class="form-group">
                     <label class="col-lg-3 control-label">Video Link:</label>
@@ -136,8 +157,8 @@
                         value="<%=response.videoLink%>" >
                     </div>
                   </div>
-                  </div> -->
-                
+                </div> -->
+
 
                 <input type="hidden" name="id" value="<%=response.id%>">
 
@@ -151,102 +172,103 @@
 
             </div>
           </form>
-  
-        </div>
-       
-                        <% include ../admin_footer.ejs %>
-
-          </div>
 
         </div>
+
+        <% include ../admin_footer.ejs %>
+
       </div>
+
     </div>
+  </div>
+  </div>
 
-    <style>
-      .control-label {
-        font-weight: 600;
-      }
+  <style>
+    .control-label {
+      font-weight: 600;
+    }
 
-      .text-right .btn.btn-primary {
-        margin-top: 70px;
-      }
+    .text-right .btn.btn-primary {
+      margin-top: 70px;
+    }
 
-      .img-circle {
-        object-fit: cover;
-      }
-    </style>
+    .img-circle {
+      object-fit: cover;
+    }
+  </style>
 
-<script>
+  <script>
     $(document).ready(function () {
-     
+
       $('#editortitle').summernote('code');
-      
+
     });
   </script>
-    <script>
-      document.getElementById("files").onchange = function () {
-        var reader = new FileReader();
+  <script>
+    document.getElementById("files").onchange = function () {
+      var reader = new FileReader();
 
-        reader.onload = function (e) {
-          // get loaded data and render thumbnail.
-          document.getElementById("image").src = e.target.result;
-        };
+      reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+      };
 
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
-        const file = Math.round((this.files[0].size / 1024));
-  //alert(file,"file")
-    if(file > 1500){
-       alert("File is too big! Please upload a file less than or equal to 1.5 mb");
-       this.value = "";
-       document.getElementById("sbmitbtn").disabled = true;
-    }
-    else{
-      document.getElementById("sbmitbtn").disabled = false;
-    }
-    var _URL = window.URL;
-    var filedata, img;
-    if ((filedata = this.files[0])) {
+      // read the image file as a data URL.
+      reader.readAsDataURL(this.files[0]);
+      const file = Math.round((this.files[0].size / 1024));
+      //alert(file,"file")
+      if (file > 1500) {
+        alert("File is too big! Please upload a file less than or equal to 1.5 mb");
+        this.value = "";
+        document.getElementById("sbmitbtn").disabled = true;
+      }
+      else {
+        document.getElementById("sbmitbtn").disabled = false;
+      }
+      var _URL = window.URL;
+      var filedata, img;
+      if ((filedata = this.files[0])) {
         img = new Image();
-        console.log(this.width,"------------this.width[0]---");
+        console.log(this.width, "------------this.width[0]---");
         img.onload = function () {
-            //alert("Width:" + this.width + "   Height: " + this.height);
-            if(this.height<2000 && this.width<1335){
-          // alert(this.width,"width");
-          this.value=""
-          alert("Please Select a image of minmum resolution of 2000 x 1335");
-          document.getElementById("sbmitbtn").disabled = true;
-          return false
-        }else{
-          document.getElementById("sbmitbtn").disabled = false;
-        }
+          //alert("Width:" + this.width + "   Height: " + this.height);
+          if (this.height < 2000 && this.width < 1335) {
+            // alert(this.width,"width");
+            this.value = ""
+            alert("Please Select a image of minmum resolution of 2000 x 1335");
+            document.getElementById("sbmitbtn").disabled = true;
+            return false
+          } else {
+            document.getElementById("sbmitbtn").disabled = false;
+          }
         };
         img.src = _URL.createObjectURL(filedata);
-        
-    }
-      };
-      </script>
-      <script>
-        $(document).ready(function(){  function readURL(input) {
-          if (input.files && input.files[0]) {
+
+      }
+    };
+  </script>
+  <script>
+    $(document).ready(function () {
+      function readURL(input) {
+        if (input.files && input.files[0]) {
           var reader = new FileReader();
-          
-           reader.onload = function (e) {
+
+          reader.onload = function (e) {
             $('#blah').attr('src', e.target.result);
-           }
-          
-          reader.readAsDataURL(input.files[0]);
           }
+
+          reader.readAsDataURL(input.files[0]);
         }
-      
-         $("#video").change(function(){
+      }
+
+      $("#video").change(function () {
         readURL(this);
-        });
-        });
-       
-      </script>
-      
-   
+      });
+    });
+
+  </script>
+
+
 
 </body>
 

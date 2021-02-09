@@ -9,6 +9,11 @@ module.exports = function(sequelize, DataTypes) {
 			autoIncrement: true,
 			field: 'id'
 		},
+		adId: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+			field: 'ad_id'
+		},
 		title: {
 			type: DataTypes.STRING(255),
 			allowNull: true,

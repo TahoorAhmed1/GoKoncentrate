@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../admin_header.ejs %>
+
+<body>
+  <% if(msg != '') { %>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> <%
+        } %>
+
+  <% include ../admin_navbar.ejs %>
+
+  <div class="page-container">
+    <div class="page-content">
+
+      <% include ../sidebar.ejs %>
+
+      <div class="content-wrapper">
+        <div class="page-header page-header-default">
+          <div class="page-header-content">
+            <div class="page-title">
+              <h4> <span class="text-semibold">Ads List</h4>
+            </div>
+
+            <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="/admin/ads_add" class="btn btn-primary">Add ads</a>
+                                </div>
+                            </div>
+          </div>
+
+          <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+              <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+              <li class="active">Ads List</li>
+            </ul>
+
+            <ul class="breadcrumb-elements">
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="panel panel-flat">
+            
+          
+          <div class="table-responsive db">
+            <table class="table table-bordered" id="myTable">
+              <thead>
+                <tr>
+                  <!-- <th class="b"><input type="checkbox" id="select_all"></th> -->
+                  <th class="b">S.No.</th>
+                  
+                  <th class="b">Name</th>
+                  <th class="b">Adverstise Type</th>
+                  <th class="b">Content</th>
+                  <th class="b">Price</th>
+                  <!-- <th class="b">Subscribe to magazine Brand</th> -->
+                  <th class="b">Status</th>
+                  <th class="b">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="filtuser">
+                <% for( var i = 0; i < response.length; i++ ){%>
+             
+                <tr>
+                  <td><%= i+1 %></td>
+                 
+                  <td><%= response[i].name %></td>
+                  <td><%= response[i].advertiserType %></td>
+                  <td><%- response[i].content %></td>
+                  <td><%= response[i].price %></td>
+                  <!-- <%if(response[i].plan_id=='' || response[i].plan_id==null){%>
+                  <td>Free</td>
+                  <%}else{%>
+                    <td><%= response[i].plan_id %></td>
+                    <%}%> -->
+                                        <td>
+                                            <% 
+                                                if(response[i].status == 1) { %>
+                    <a href="javascript:void(0)"> <span class="label label-success change_status custom_label"
+                        id="<%= response[i].id %>" table="ads">Active</span></a>
+
+
+                    <%} else if(response[i].status == 0) { %>
+                    <a href="javascript:void(0)"> <span class="label label-danger change_status custom_label"
+                        id="<%= response[i].id %>" table="ads">InActive</span></a> <%
+                                                }
+                                            %>
+                  </td>
+                  <td class="text-center">
+                    <ul class="icons-list">
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          <i class="icon-menu9"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li>
+                            <a href="/admin/edit_ads?id=<%=response[i].id%>"><i class="fas fa-edit"></i>Edit</a>
+                          </li>
+                          <li>
+                            <a href="/admin/view_ads?id=<%=response[i].id%>"><i class="fas fa-eye"></i>View</a>
+                          </li>
+                          <li>
+                            <a class="delete" table="ads" rel="<%= response[i].id %>"><i
+                                class="fas fa-trash-alt"></i>Delete</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+                <%}%>
+              
+                                </tbody>
+                            </table>
+                        </div>
+                      </div>
+
+                        <div class="col-md-12">
+                            <!-- <h4><b><span id="selected_user_count">0</span> Users selected</b></h4> -->
+
+                            <!-- <button class="btn btn-primary" id="send_advertisement">Send an advertisement</button>
+                            <button class="btn btn-success" id="send_notification">Send a mobile notification</button>
+                            <button class="btn btn-warning" id="send_email">Send an email</button> -->
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+
+                        <% include ../admin_footer.ejs %>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+   
+  
+
+    <script>
+  //     $(document).ready(function () {
+  //       // $('#myTable').DataTable({
+  //       //   'columnDefs': [{
+  //       //     'targets': [1, 6, 7], /* column index */
+  //       //     'orderable': false, /* true or false */
+  //       //   }]
+  //       // })
+  
+  //   //   var table = $('#myTable').DataTable({
+  //   //     dom: 'Bfrtip',
+  //   //     buttons: [
+  //   //         'copyHtml5',
+  //   //         'excelHtml5',
+  //   //         'csvHtml5',
+  //   //         'pdfHtml5'
+  //   //     ]
+  //   // });
+  // })
+    </script>
+
+    <script>
+      $(document).ready(function () {
+//         $('#example').dataTable( {
+// serverSide: true,
+// searching: false,
+//         })
+        var selected_user_ids = [];
+
+        $("#select_all").click(function () {
+          $('input:checkbox').not(this).prop('checked', this.checked);
+
+          if ($("#select_all").is(":checked")) {
+            $(".sub_check").each(function () {
+              let user_id = $(this).attr("value");
+              if (selected_user_ids.includes(user_id) == false) {
+                selected_user_ids.push(user_id);
+              }
+            });
+          } else {
+            $(".sub_check").each(function () {
+              let user_id = $(this).attr("value");
+              // selected_user_ids.push(user_id);
+              selected_user_ids = jQuery.grep(selected_user_ids, function (value) {
+                return value != user_id;
+              });
+            });
+          }
+
+          // console.log(selected_user_ids)
+        });
+
+        // $("input[type='checkbox']").click(function() {
+        //     let length = $('input:checkbox:checked').length;
+        //     // console.log(length);
+        //     $("#selected_user_count").html(length);
+        // });
+
+        $(".dataTables_paginate  ").click(function () {
+          if ($("#select_all").is(":checked")) {
+            var length = $('.sub_check:input:checkbox:checked').length - 1;
+          } else {
+            var length = $('.sub_check:input:checkbox:checked').length;
+          }
+          var rowCount = $('#myTable tr').length - 1;
+          // alert(rowCount)
+          // alert(length)
+          if (length == rowCount) {
+            $("#select_all").prop('checked', true);
+          } else {
+            $("#select_all").prop('checked', false);
+          }
+        });
+
+        $("#myTable").on("click", ".sub_check", function () {
+          var rowCount = $('#myTable tr').length - 1;
+          if ($("#select_all").is(":checked")) {
+            var length = $('.sub_check:input:checkbox:checked').length - 1;
+          } else {
+            var length = $('.sub_check:input:checkbox:checked').length;
+          }
+
+          if (rowCount == length) {
+            $("#select_all").prop('checked', true);
+          } else {
+            $("#select_all").prop('checked', false);
+          }
+        })
+
+        $(".sub_check").click(function () {
+          let user_id = $(this).attr("value");
+
+          if ($(this).is(":checked")) {
+            selected_user_ids.push(user_id);
+          } else {
+            selected_user_ids = jQuery.grep(selected_user_ids, function (value) {
+              return value != user_id;
+            });
+          }
+
+          // console.log(selected_user_ids);
+        });
+
+        $("#send_advertisement").click(function () {
+          if (selected_user_ids.length > 0) {
+            swal({
+              title: "Are you sure?",
+              text: "You want to send advertisement to selected users!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                  window.location.replace("/admin/select_advertisement/" + selected_user_ids);
+                } else {
+                  swal("Cancelled", {
+                    icon: "error",
+                  }).then(function () {
+                    location.reload();
+                  });
+                }
+              });
+          } else {
+            swal("Please select users", {
+              icon: "warning",
+            }).then(function () {
+              location.reload();
+            });
+          }
+        });
+
+        $("#send_notification").click(function () {
+          if (selected_user_ids.length > 0) {
+            swal({
+              title: "Are you sure?",
+              text: "You want to send notification to selected users!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                  // window.location.replace("/admin/send_notification/from_users/0/"+selected_user_ids);
+                  window.location.replace("/admin/select_notification/" + selected_user_ids);
+                } else {
+                  swal("Cancelled", {
+                    icon: "error",
+                  }).then(function () {
+                    location.reload();
+                  });
+                }
+              });
+          } else {
+            swal("Please select users", {
+              icon: "warning",
+            }).then(function () {
+              location.reload();
+            });
+          }
+        });
+
+        $("#send_email").click(function () {
+          if (selected_user_ids.length > 0) {
+            swal({
+              title: "Are you sure?",
+              text: "You want to send email to selected users!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  selected_user_ids = btoa(JSON.stringify(Object.assign({}, selected_user_ids)));
+                  // window.location.replace("/admin/send_email/from_users/0/"+selected_user_ids);
+                  window.location.replace("/admin/select_email/" + selected_user_ids);
+                } else {
+                  swal("Cancelled", {
+                    icon: "error",
+                  }).then(function () {
+                    location.reload();
+                  });
+                }
+              });
+          } else {
+            swal("Please select users", {
+              icon: "warning",
+            }).then(function () {
+              location.reload();
+            });
+          }
+        });
+
+        $("#myTable").on("click", ".mobile_notification", function () {
+          let user_id = $(this).attr("user_id");
+          // alert(user_id);
+
+          if ($(this).prop("checked") == true) {
+            var checkbox = "on";
+          } else if ($(this).prop("checked") == false) {
+            var checkbox = "off";
+          } else {
+            swal({
+              title: "ERROR"
+            }).then(function () {
+              location.reload();
+            });
+          }
+
+          $.ajax({
+            type: "POST",
+            url: "/admin/update_mobile_notification_settings",
+            data: {
+              user_id: user_id,
+              checkbox: checkbox
+            },
+            success: function (response) {
+              console.log(response);
+
+              if (response.type == 1) {
+                if (response.onoff == 1) {
+                  $(this).prop("checked", true);
+                  // $(this).text("ON");
+                } else {
+                  $(this).prop("checked", false);
+                  // $(this).text("OFF");
+                }
+              } else if (response.type == 0) {
+                swal({
+                  title: "ERROR"
+                }).then(function () {
+                  location.reload();
+                });
+              } else {
+                swal({
+                  title: "CHECKBOX ERROR"
+                }).then(function () {
+                  location.reload();
+                });
+              }
+            }
+          })
+        })
+      });
+      function filterfunction() {
+        let age_value = document.getElementById("age").value
+        let gender_value = document.getElementById("sel1").value
+        userhtml = ''
+        // alert(gender_value)
+        $.ajax({
+          type: "post",
+          url: "/get_filter_age_gender",
+          data: { age_value, gender_value },
+          success: function (data) {
+            latest_user = data.response
+            // console.log(user_data,"user_data")
+            if (latest_user.length > 0) {
+              for (var i in latest_user) {
+                userhtml += `<tr>`
+                userhtml += `<td>${[i] + 1}</td>`
+                userhtml += `<td><img src=${latest_user[i].image} == '' || ${latest_user[i].image} == null ||${latest_user[i].image} == '/images/users/' ? '/white_user.jpg' : ${latest_user[i].image}" width="80" height="80" class="img-circle"></td>`
+                userhtml += `<td>${latest_user[i].name}</td>`
+                userhtml += `<td>${latest_user[i].email}</td>`
+                userhtml += `<td>${latest_user[i].address}</td>`
+                // userhtml += `<td>${latest_user[i].planName}</td>`
+                if(latest_user[i].status == 1){
+                userhtml += '<td><a href="javascript:void(0)"> <span class="label label-success change_status custom_label"   id="'+latest_user[i].id+'" table="users">Active</span></a></td>'
+                } else {
+                  userhtml += '<td><a href="javascript:void(0)"> <span class="label label-danger change_status custom_label"  id="'+latest_user[i].id+'" table="users">Inactive</span></a></td>'
+                }
+              //  userhtml += 
+
+                userhtml+= `<td class="text-center"><ul class="icons-list"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu9"></i></a><ul class="dropdown-menu dropdown-menu-right"><li><a href="/admin/edit_user?id=${latest_user[i].id}"><i class="fas fa-edit"></i>Edit</a></li><li><a href="/admin/view_user?id=${latest_user[i].id}"><i class="fas fa-eye"></i>View</a></li><li><a class="delete" table="users" rel="${latest_user[i].id}"><i class="fas fa-trash-alt"></i>Delete</a></li></ul></li></ul></td>`
+                userhtml += `</tr>`
+
+
+              }
+
+            }
+            $('#filtuser').html(userhtml)
+            $('.change_status').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('id'); 
+            // let id = $(this).attr('rel');
+            let table = _this.attr('table'); 
+            
+            $.ajax({
+                type: "POST",
+                url: "/admin/update_status",
+                data: {
+                    "id":_id,
+                    "table":table
+                },
+                success: function(data) {
+                    // alert(data);
+                    /**if(data == 0) {
+                        _this.removeClass('label label-success');
+                        _this.addClass('label label-danger');
+                        _this.text('Inactive');
+                    } else if (data == 1) {
+                        _this.removeClass('label label-danger');
+                        _this.addClass('label label-success');
+                        _this.text('Active');
+                    } else {
+
+                    }**/
+                    window.location.reload();
+
+                },error(error){
+                console.error(error);
+                }
+            });
+        });
+        $('.delete').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('rel'); 
+            var table = _this.attr('table'); 
+            //alert(_id);
+            //var username = _this.attr("username");
+
+            if(table == "magazines_brand") {
+                var text = "You want to delete this account";
+            } else if(table == "magazines"){
+                var text = "You want to delete this magazine";
+            } else if(table == "categories") {
+                var text = "You want to delete this category";
+            } else if(table == "ads") {
+                var text = "You want to delete this advertisement";
+            } else if(table == "notifications") {
+                var text = "You want to delete this notification";
+            } else if(table == "helps" || table == "emails") {
+                var text = "You want to delete this entry";
+            } else if(table == "posts") {
+                var text = "You want to delete this posts and its comments";
+            } else if(table == "admin") {
+                var text = "You want to delete this sub-admin";
+            } else if(table == "keywords") {
+                var text = "You want to delete this keyword";
+            } else if(table == "reservation_content") {
+                var text = "You want to delete this content";
+            } else {
+                var text = "You want to delete this "+table;
+            }
+            
+            swal({
+                title: "Are you sure?",
+                text: text,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((data) => {
+                if (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/delete_data",
+                        data: {
+                            "id":_id,
+                            "table":table,
+                        },
+    
+                        success: function(data) {
+                            if(data == 1) {
+                                _this.parents('tr').remove();
+                                swal("Your data has been deleted!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                swal("Error", "Please try again");
+                            }
+                            // setTimeout(function () { location.reload(1); }, 1000);
+
+                        },error(error){
+                        console.error(error);
+                        }
+                    });
+                }
+            });
+        });
+
+
+
+          }
+        });
+      }
+     
+
+
+    </script>
+
+    <style>
+      .badge {
+        padding: 2px 8px 2px 8px;
+        font-size: 14px;
+      }
+
+      img {
+        object-fit: cover;
+      }
+
+      .postCount,
+      .crowdCount,
+      .engageCount {
+        font-size: 14px;
+        padding: 0px 6px 0px 6px;
+      }
+
+      .fa-arrow-circle-right {
+        padding-left: 4px;
+      }
+
+      .dataTable thead .sorting_asc:after {
+        content: none;
+      }
+    </style>
+
+</body>
+
+</html>

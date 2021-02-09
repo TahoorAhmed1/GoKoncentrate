@@ -11,6 +11,8 @@ var magazine = require('../controllers/magazineController.js');
 var notification = require('../controllers/notificationController.js');
 var content = require('../controllers/contentController.js');
 var subAdmin = require('../controllers/subAdminController.js');
+var ads = require('../controllers/adsController.js');
+var billing = require('../controllers/billingController.js');
 // router.get('/', function(req, res){
 //     res.render('login')
 // });
@@ -145,8 +147,26 @@ module.exports =function(app){
     app.route('/admin/add_new_single_photos').post(magazine.add_new_single_photos);
     app.route('/admin/add_singlearticle_photos').get(magazine.add_singlearticle_photos);
     app.route('/admin/edit_article_picsingle').post(magazine.edit_article_picsingle);
+
+
+    /////////////// ads section
+    app.route('/admin/ads_section').get(ads.ads_section);
+    app.route('/admin/ads_add').get(ads.ads_add);
+    app.route('/admin/add_adss').post(ads.add_adss);
+    app.route('/admin/view_ads').get(ads.view_ads);
+    app.route('/admin/edit_ads').get(ads.edit_ads);
+    app.route('/admin/edit_adss').post(ads.edit_adss);
+
+
+    /// billing section  
+
+    app.route('/admin/billing_section').get(billing.index);
+    app.route('/admin/accept_reject_request').post(billing.accept_reject_request);
+
+
+    
 }
-///admin/add_new_single_video
+
 
 
 

@@ -179,6 +179,64 @@
             });
         });
 
+        $('.accepted_rejected').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('rel'); 
+            let type= _this.attr('type');
+          // alert(type);return
+            //var username = _this.attr("username");
+
+               if(type==1){
+                var text = "You want to  accept this subscription request";
+               }else{
+                var text = "You want to reject  this subscription request"
+               }
+               
+            
+            
+            swal({
+                title: "Are you sure?",
+                text: text,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((data) => {
+                if (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/accept_reject_request",
+                        data: {
+                            "id":_id,
+                            "type":type,
+                        },
+    
+                        success: function(data) {
+                            if(data == 1) {
+                                _this.parents('tr').remove();
+                                swal("Subscription request accepted!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                _this.parents('tr').remove();
+                                swal("Subscription request rejected!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            }
+                            // setTimeout(function () { location.reload(1); }, 1000);
+
+                        },error(error){
+                        console.error(error);
+                        }
+                    });
+                }
+            });
+        });
+
         $('.change_status').on('click', function () {
             let _this=$(this);
             let _id= _this.attr('id'); 
