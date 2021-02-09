@@ -1053,6 +1053,38 @@ module.exports = {
     }catch(error){
       throw error
     }
+  },
+  check_passwordvalidation:async function(req,res){
+    try{
+     //  console.log(req.body,"hello");return
+     if(req.body.password && req.body.password!='' ){
+      var adminpassword = await admins.findOne({
+        attributes: ['id', 'password'],
+        where: {
+
+          id: req.session.admin_id
+        },
+        raw: true
+      });
+      // if (admin) {
+      //   admin = admin.map(value => {
+      //     return value.toJSON();
+      //   });
+      // }
+
+      const admin_password = crypto.createHash('sha1').update(req.body.password).digest('hex');
+
+      if (adminpassword.password == admin_password) {
+         res.json(1)
+      }else{
+        res.json(0)
+      }
+    }else{
+      res.json(2)
+    }
+    }catch(error){
+      throw error
+    }
   }
   
 

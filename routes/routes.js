@@ -37,6 +37,7 @@ module.exports =function(app){
     app.route('/get_filtered_data_dashboard').post(admin.get_filtered_data_dashboard);
     app.route('/admin/get_count').get(admin.get_count);
     app.route('/get_user_subscripber').get(admin.get_user_subscripber);
+    app.route('/check_passwordvalidation').post(admin.check_passwordvalidation);
     // user controller  /  
 
     app.route('/admin/users').get(user.user_index);
@@ -162,7 +163,7 @@ module.exports =function(app){
 
     app.route('/admin/billing_section').get(billing.index);
     app.route('/admin/accept_reject_request').post(billing.accept_reject_request);
-
+   
 
     
 }
