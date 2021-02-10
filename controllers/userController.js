@@ -125,22 +125,23 @@ module.exports = {
         },
         raw: true
       })
-      // console.log(get_data,"get_data");return
-      if (get_data.image!=undefined) {
-        // console.log("innnnnnnn")
+      // console.log(get_data.image,"get_data");return
+      if (get_data.image!=undefined && get_data.image!='') {
+         //console.log("innnnnnnn image")
         url = 'public' + get_data.image
 
-      } else if (get_data.video!=undefined) {
+      } else if (get_data.video!=undefined && get_data.video!='') {
+        console.log("innnnnnnn video")
 
         url = 'public' + get_data.video
-      } else if (get_data.music!=undefined) {
-
+      } else if (get_data.music!=undefined && get_data.music!='') {
+        console.log("innnnnnnn music")
         url = 'public' + get_data.music
       } else {
-
+        console.log("innnnnnnn default")
         url = ''
       }
-      // console.log(url,"url");return
+     // console.log(url,"url");return
       if (await fs.existsSync(url)) {
         //file exists
         delete_data = await fs.unlinkSync(url)
