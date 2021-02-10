@@ -47,6 +47,12 @@ module.exports = {
         res.redirect(`/admin/ads_add`)
         return
       }
+
+      if (req.body.advertisertype.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in advertiser type')
+        res.redirect(`/admin/ads_add`)
+        return
+      }
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
@@ -122,6 +128,11 @@ module.exports = {
     try{
       if (req.body.name.indexOf(' ') == 0) {
         req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/edit_ads?id=${req.body.id}`)
+        return
+      }
+      if (req.body.advertisertype.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in advertiser type')
         res.redirect(`/admin/edit_ads?id=${req.body.id}`)
         return
       }
