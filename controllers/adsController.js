@@ -41,6 +41,12 @@ module.exports = {
     try {
       // console.log(req.body,"=============")
       // console.log(req.files,"=============");return
+
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/ads_add`)
+        return
+      }
       if (req.files && req.files.profile_pic) {
         let image = req.files.profile_pic
         var extension = path.extname(image.name);
@@ -114,6 +120,11 @@ module.exports = {
   },
   edit_adss:async function(req,res){
     try{
+      if (req.body.name.indexOf(' ') == 0) {
+        req.flash('msg', 'Please write something in name')
+        res.redirect(`/admin/edit_ads?id=${req.body.id}`)
+        return
+      }
        var get_last_data= await ads.findOne({
          where:{
            id:req.body.id
