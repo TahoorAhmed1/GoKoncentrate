@@ -24,6 +24,26 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false,
 			field: 'status'
 		},
+		planType: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+			field: 'plan_type'
+		},
+		paymentType: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+			field: 'payment_type'
+		},
+		nextPaymentDate: {
+			type: DataTypes.STRING(255),
+			allowNull: true,
+			field: 'next_payment_date'
+		},
+		cardNumber: {
+			type: DataTypes.STRING(255),
+			allowNull: true,
+			field: 'card_number'
+		},
 		createdAt: {
 			type: DataTypes.DATE,
 			allowNull: false,

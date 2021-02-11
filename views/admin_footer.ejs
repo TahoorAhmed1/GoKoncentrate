@@ -83,6 +83,8 @@
             }
             else if(table=="articlePhotos"){
                 var text = "You want to delete this article photo"
+            }else if(table=="help"){
+                var text = "You want to delete this support"
             }
             else 
             {
@@ -175,6 +177,56 @@
                         console.error(error);
                         }
                     });
+                }
+            });
+        });
+        $('.cancelled_subscription').on('click', function () {
+            let _this=$(this);
+            let _id= _this.attr('rel'); 
+            var table = _this.attr('table'); 
+           // alert(_id);
+            //var username = _this.attr("username");
+
+        
+                var text = "You want to cancelled this subscription";
+            
+            
+            swal({
+                title: "Are you sure?",
+                text: text,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((data) => {
+                if (data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/cancelled_subscription",
+                        data: {
+                            "id":_id,
+                            "table":table,
+                        },
+    
+                        success: function(data) {
+                            if(data == 1) {
+                                _this.parents('tr').remove();
+                                swal("Subscription has been cancelled", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } 
+                            // setTimeout(function () { location.reload(1); }, 1000);
+
+                        },error(error){
+                        console.error(error);
+                        }
+                    });
+                }else{
+                    swal("The Subscription is safe", {
+                                    //icon: "success",
+                                })
                 }
             });
         });

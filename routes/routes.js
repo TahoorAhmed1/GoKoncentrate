@@ -13,6 +13,7 @@ var content = require('../controllers/contentController.js');
 var subAdmin = require('../controllers/subAdminController.js');
 var ads = require('../controllers/adsController.js');
 var billing = require('../controllers/billingController.js');
+var support = require('../controllers/supportController.js');
 // router.get('/', function(req, res){
 //     res.render('login')
 // });
@@ -164,7 +165,15 @@ module.exports =function(app){
     app.route('/admin/billing_section').get(billing.index);
     app.route('/admin/accept_reject_request').post(billing.accept_reject_request);
    
+    app.route('/admin/view_billing').get(billing.view_billing);
+    app.route('/admin/cancelled_subscription').post(billing.cancelled_subscription);
+    
 
+    //// support controller
+
+    app.route('/admin/support_section').get(support.index);
+    app.route('/admin/sent_reply').get(support.sent_reply);
+    app.route('/admin/send_help').post(support.send_help)
     
 }
 

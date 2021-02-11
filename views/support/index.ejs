@@ -20,7 +20,7 @@
         <div class="page-header page-header-default">
           <div class="page-header-content">
             <div class="page-title">
-              <h4> <span class="text-semibold">Billing List</h4>
+              <h4> <span class="text-semibold">Support List</h4>
             </div>
 
             <!-- <div class="heading-elements">
@@ -33,7 +33,7 @@
           <div class="breadcrumb-line">
             <ul class="breadcrumb">
               <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
-              <li class="active">Billing List</li>
+              <li class="active">Support List</li>
             </ul>
 
             <ul class="breadcrumb-elements">
@@ -54,9 +54,9 @@
                   <th class="b">S.No.</th>
                   
                   <th class="b">User Name</th>
-                  <th class="b">Magazine Brand Name</th>
+                  <th class="b">User Email</th>
                 
-                  <th class="b">Plan Type</th>
+                  <th class="b">Description</th>
                   <th class="b">Status</th>
                   <th class="b">Actions</th>
                 </tr>
@@ -68,32 +68,20 @@
                   <td><%= i+1 %></td>
                  
                   <td><%= response[i].userName %></td>
-                  <td><%= response[i].magazineBrandName %></td>
-                  <%if(response[i].planType==1){%>
-                  <td>Monthly</td>
-                  <%}else{%>
-                    <td>Weekly</td>
-                    <%}%>
+                  <td><%= response[i].userEmail %></td>
+                  
+                  <td><%= response[i].description %></td>
+               
                   
                                         <td>
-                                            <% 
-                                                if(response[i].status == 0) { %>
-                    <!-- <a href="javascript:void(0)"> <span class="label label-success change_status custom_label"
-                        id="<%= response[i].id %>" table="ads">Active</span></a> -->
-                        <span class="glyphicon glyphicon-ok accepted_rejected" rel="<%=response[i].id%>" type="1" style="color:green;"></span> <span class="glyphicon glyphicon-remove accepted_rejected" rel="<%=response[i].id%>" type="2" style="color:red;"></span>
+                                            <%if(response[i].status == 0){%>
+                                                  <a href="javascript:void(0)"> <span class="label label-danger"
+                                                    id="response[i].id %>">Pending</span></a> 
+                                                    <%}else{%>
+                                                      <a href="javascript:void(0)"> <span class="label label-success"
+                                                        id="response[i].id %>">Reply Sent</span></a>
+                                                      <%}%>
 
-
-                    <%} else if(response[i].status == 1) { %>
-                    <a href="javascript:void(0)"> <span class="label label-success"
-                        id="<%= response[i].id %>" table="ads">Accepted</span></a> 
-                      
-                        <%} else if(response[i].status == 2){%>
-                          <a href="javascript:void(0)"> <span class="label label-danger"
-                            id="<%= response[i].id %>" table="ads">Rejected</span></a> 
-                          <%}else{%>
-                            <a href="javascript:void(0)"> <span class="label label-danger"
-                              id="<%= response[i].id %>" table="ads">Subscription cancelled</span></a> 
-                            <%}%>
                   </td>
                   <td class="text-center">
                     <ul class="icons-list">
@@ -103,16 +91,15 @@
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-right">
-                         
+                         <%if(response[i].status == 0){%>
                           <li>
-                            <a href="/admin/view_billing?id=<%=response[i].id%>"><i class="fas fa-eye"></i>View</a>
-                          </li>
-                          <%if(response[i].status == 1){%>
-                          <li>
-                            <a class="cancelled_subscription" table="billing" rel="<%= response[i].id %>"><i
-                                class="fas fa-trash-alt"></i>Cancel Subscription</a>
+                            <a href="/admin/sent_reply?id=<%=response[i].id%>"><i class="fas fa-edit"></i>Send Reply</a>
                           </li>
                           <%}%>
+                          <li>
+                            <a class="delete" table="help" rel="<%= response[i].id %>"><i
+                                class="fas fa-trash-alt"></i>Delete</a>
+                          </li>
                         </ul>
                       </li>
                     </ul>

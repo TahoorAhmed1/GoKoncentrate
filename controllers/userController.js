@@ -16,6 +16,7 @@ var uuid = require('uuid');
 const flash = require('connect-flash');
 const photoPageImages = db.photoPageImages
 const ads = db.ads
+const help = db.help
 var tables = {
   'admins': admins,
   'users': users,
@@ -25,7 +26,8 @@ var tables = {
   'musicPageAudio': musicPageAudio,
   'photoPageImages': photoPageImages,
   'articlePhotos': articlePhotos,
-  'ads': ads
+  'ads': ads,
+  'help': help
 };
 
 module.exports = {

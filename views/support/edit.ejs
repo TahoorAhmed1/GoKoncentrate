@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../admin_header.ejs %>
+
+<style>
+  .error {
+    color: red;
+    padding-bottom: 10px;
+    font-size: 14px;
+  }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<body>
+  <% if(msg != '') { %>
+  <div class="alert alert-danger msg" style="position: absolute; z-index: 9999; right: 10px; top: 10px;"><span
+      style="font-size: 16px;"><%= msg %></span></div> 
+      <%}%>
+
+  <% include ../admin_navbar.ejs %>
+
+  <div class="page-container">
+    <div class="page-content">
+
+      <% include ../sidebar.ejs %>
+
+      <div class="content-wrapper frm">
+        <div class="page-header page-header-default">
+          <div class="page-header-content">
+            <div class="page-title">
+              <a href="/admin/ads_section"><i class="fas fa-arrow-left"></i></a>
+              <h4> <span class="text-semibold"></span>Support</h4>
+            </div>
+
+          </div>
+          <!-- <div style="margin-left: 30px; margin-bottom: 10px;">
+                            
+                        </div> -->
+          <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+              <li><a href="/admin/dashboard"><i class="icon-home2 position-left"></i> Home</a></li>
+              <li class="active">Support</li>
+              <!-- <li class="active">Add</li> -->
+            </ul>
+
+            <ul class="breadcrumb-elements">
+
+            </ul>
+          </div>
+        </div>
+
+        <div class="content edt">
+          <form action='/admin/send_help' id="subform" enctype="multipart/form-data" method="POST" role="form">
+            <div class="panel panel-flat">
+              <div class="panel-body">
+              
+
+                    <div class="row">
+                      <div class="form-group">
+                        <label class="col-lg-3 control-label"> Description </label>
+                        <div class="col-lg-9 input-group">
+                          
+                          <!-- <input type="text" name="title" class="form-control" placeholder="Enter title"
+                            value="" required>  -->
+                            <div class="content-group">
+                                <textarea name="content" id="editor" rows="4" cols="4" required>
+                                       </textarea>
+                                </div>
+                        </div>
+                      </div>
+                      </div>
+                      
+                      
+
+                <input type="hidden" name="id" value="<%=response.id%>">
+                <input type="hidden" name="email" value="<%=response.userEmail%>">
+
+                <div class="text-right col-ld-12">
+                  <button type="submit" class="btn btn-primary">Send <i
+                      class="icon-arrow-right14 position-right"></i></button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+
+          <% include ../admin_footer.ejs %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .control-label {
+      font-weight: 600;
+    }
+
+    .text-right .btn.btn-primary {
+      margin-top: 70px;
+    }
+
+    .img-circle {
+      object-fit: cover;
+    }
+  </style>
+
+  <script>
+    $(document).ready(function () {
+
+$('#editor').summernote('code');
+
+});
+    
+       
+  </script>
+</body>
+
+</html>
