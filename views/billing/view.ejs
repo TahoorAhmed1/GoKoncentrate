@@ -63,6 +63,10 @@
                                             <%}%>
                                     </tr>
                                     <tr>
+                                        <td class="b">Price</td>
+                                        <td><%= response.price %></span></td>
+                                    </tr>
+                                    <tr>
                                         <td class="b">Status</td>
                                      
                                         <%if(response.status==0){%>
@@ -74,7 +78,7 @@
                                             <%}%>
                                        
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td class="b">Payment Type</td>
                                          
                                             <%if(response.paymentType==0){%>
@@ -83,15 +87,23 @@
                                             <td>Debit Card</td>
                                             <%}%>
                                            
-                                            </tr>
-                                            <tr>
+                                            </tr> -->
+                                            <!-- <tr>
                                                 <td class="b">Card Number</td>
                                              
                                                
                                                 <td><%=response.cardNumber%></td>
                                                 
                                                
-                                                </tr>
+                                                </tr> -->
+                                                <tr>
+                                                    <td class="b">Payment Date</td>
+                                                 
+                                                   
+                                                    <td><%=response.paymentStartDate%></td>
+                                                    
+                                                   
+                                                    </tr>
 
                                             <tr>
                                                 <td class="b">Next Payment Date</td>
