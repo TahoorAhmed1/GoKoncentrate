@@ -41,61 +41,65 @@
           <!-- <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li> -->
           <li class="<% if(title == 'dashboard') { %> active <% } %>"><a href="/admin/dashboard"><i
                 class="icon-home4"></i> <span class="b">Dashboard</span></a></li>
-                <% if(s_id.indexOf('1')!= -1){%>
+          <% if(s_id.indexOf('1')!= -1){%>
           <li class="<% if(title == 'users') { %> active <% } %>"><a href="/admin/users"><i class="fas fa-user"></i>
               <span class="b">Subscribers</span></a></li>
-              <%}%>
+          <%}%>
               <!-- <% if(s_id.indexOf('2')!= -1){%>
           <li class="<% if(title == 'users_plan') { %> active <% } %>"><a href="/admin/user_plans"><i
                 class="fa fa-credit-card"></i> <span class="b">User Plans</span></a></li>
-                <%}%> -->
+          <%}%> -->
                 <% if(s_id.indexOf('3')!= -1){%>
           <li class="<% if(title == 'magazines_brand') { %> active <% } %>"><a href="/admin/magazines_brand"><i
                 class="fa fa-address-book"></i> <span class="b">Magazine Brands</span></a></li>
-                <%}%>
+          <%}%>
                 <% if(s_id.indexOf('4')!= -1){%>
           <li class="<% if(title == 'magazines') { %> active <% } %>"><a href="/admin/magazines"><i
                 class="fa fa-address-card"></i> <span class="b">My Publications</span></a></li>
-                <%}%>
+          <%}%>
                 <% if(s_id.indexOf('9')!= -1){%>
-                  <li class="<% if(title == 'ads') { %> active <% } %>"><a href="/admin/ads_section"><i class="fas fa-audio-description"></i> <span class="b">Ads section</span></a></li>
-                  <%}%>
+          <li class="<% if(title == 'ads') { %> active <% } %>"><a href="/admin/ads_section"><i
+                class="fas fa-audio-description"></i> <span class="b">My Ads</span></a></li>
+          <%}%>
                   <% if(s_id.indexOf('10')!= -1){%>
-                  <li class="<% if(title == 'billing') { %> active <% } %>"><a href="/admin/billing_section"><i class="fas fa-file-invoice"></i> <span class="b">Billing section</span></a></li>
-                  <%}%>
-                  <!-- <li class="<% if(title == 'magazineissue') { %> active <% } %>"><a href="/admin/magazinesissues"><i
-                        class="fa fa-address-card"></i> <span class="b">Magazines Editions</span></a></li> -->
-                    
-                <% if(s_id.indexOf('5')!= -1){%>
-                <li class="<% if(title == 'notifications') { %> active <% } %>"><a href="/admin/notifications"><i
-                  class="fas fa-envelope"></i> <span class="b">Notification to User(s)</span></a></li>
-                  <%}%>
+          <li class="<% if(title == 'billing') { %> active <% } %>"><a href="/admin/billing_section"><i
+                class="fas fa-file-invoice"></i> <span class="b">Billing</span></a></li>
+          <%}%>
+                  <!-- <li class="<% if(title == 'magazineissue') { %> active <% } %>"><a
+            href="/admin/magazinesissues"><i class="fa fa-address-card"></i> <span class="b">Magazines
+              Editions</span></a></li> -->
+
+          <% if(s_id.indexOf('5')!= -1){%>
+          <li class="<% if(title == 'notifications') { %> active <% } %>"><a href="/admin/notifications"><i
+                class="fas fa-envelope"></i> <span class="b">Notification to User(s)</span></a></li>
+          <%}%>
                   <% if(s_id.indexOf('6')!= -1){%>
           <li class="<% if(title == 'magazine_analytics') { %> active <% } %>"><a href="/admin/magazine_analytics"><i
                 class="fas fa-envelope"></i> <span class="b">Magazine Analytics</span></a></li>
-                <%}%>
+          <%}%>
                 <% if(s_id.indexOf('8')!= -1){%>
-                <li class="<% if(title == 'sub_admin') { %> active <% } %>"><a href="/admin/sub_admin"><i
-                  class="fas fa-users"></i> <span class="b">Sub Admin</span></a></li>
-                  <%}%>
+          <li class="<% if(title == 'sub_admin') { %> active <% } %>"><a href="/admin/sub_admin"><i
+                class="fas fa-users"></i> <span class="b">Sub Admin</span></a></li>
+          <%}%>
                   <% if(s_id.indexOf('7')!= -1){%>
           <li class="<% if(title == 'pages') { %> active <% } %>">
             <a href="#"><i class="fas fa-file-alt"></i> <span class="b">Pages</span></a>
             <ul
-              class="<%= title == 'privacy_policy' || title == 'about_us' || title == 'terms_and_conditions' || title == 'faq' ? '' : 'hidden-ul' %>">
+              class="<%= title == 'privacy_policy' || title == 'about_us' || title == 'terms_and_conditions' || title == 'faq' || title == 'support' ? '' : 'hidden-ul' %>">
               <li class="<% if(title == 'privacy_policy') { %> active <% } %>"><a href="/admin/privacy_policy">Privacy
                   Policy</a></li>
               <li class="<% if(title == 'about_us') { %> active <% } %>"><a href="/admin/about_us">About Us</a></li>
               <li class="<% if(title == 'terms_and_conditions') { %> active <% } %>"><a
                   href="/admin/termsconditions">Terms and Conditions</a></li>
               <li class="<% if(title == 'faq') { %> active <% } %>"><a href="/admin/faq">FAQ</a></li>
+              <li class="<% if(title == 'support') { %> active <% } %>"><a href="/admin/support_section"> <span class="b">Support</span></a></li>
             </ul>
           </li>
           <%}%>
-          <% if(s_id.indexOf('11')!= -1){%>
+          <!-- <% if(s_id.indexOf('11')!= -1){%>
           <li class="<% if(title == 'support') { %> active <% } %>"><a href="/admin/support_section"><i
-            class="fas fa-envelope"></i> <span class="b">Support Section</span></a></li>
-            <%}%>
+                class="fas fa-envelope"></i> <span class="b">Support Section</span></a></li>
+          <%}%> -->
           <!-- /page kits -->
 
         </ul>
