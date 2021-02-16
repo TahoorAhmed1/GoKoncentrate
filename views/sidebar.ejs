@@ -41,14 +41,30 @@
           <!-- <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li> -->
           <li class="<% if(title == 'dashboard') { %> active <% } %>"><a href="/admin/dashboard"><i
                 class="icon-home4"></i> <span class="b">Dashboard</span></a></li>
-          <% if(s_id.indexOf('1')!= -1){%>
+          <!-- <% if(s_id.indexOf('1')!= -1){%>
           <li class="<% if(title == 'users') { %> active <% } %>"><a href="/admin/users"><i class="fas fa-user"></i>
               <span class="b">Subscribers</span></a></li>
-          <%}%>
+          <%}%> -->
               <!-- <% if(s_id.indexOf('2')!= -1){%>
           <li class="<% if(title == 'users_plan') { %> active <% } %>"><a href="/admin/user_plans"><i
                 class="fa fa-credit-card"></i> <span class="b">User Plans</span></a></li>
           <%}%> -->
+
+          
+            <li class="<% if(title == '') { %> active <% } %>">
+              <a href=""><i class="fas fa-user"></i> <span class="b">Subscribers</span></a>
+              <ul
+                class="<%= title == 'notifications' || title == 'users' ? '' : 'hidden-ul' %>">
+                <% if(s_id.indexOf('1')!= -1){%>
+                <li class="<% if(title == 'users') { %> active <% } %>"><a href="/admin/users">
+                  <span class="b">Subscribers</span></a></li>
+                  <%}%>
+                  <% if(s_id.indexOf('5')!= -1){%>
+                <li class="<% if(title == 'notifications') { %> active <% } %>"><a href="/admin/notifications">Send Notification</a></li>
+                <%}%>
+              </ul>
+            </li>
+           
                 <% if(s_id.indexOf('3')!= -1){%>
           <li class="<% if(title == 'magazines_brand') { %> active <% } %>"><a href="/admin/magazines_brand"><i
                 class="fa fa-address-book"></i> <span class="b">Magazine Brands</span></a></li>
@@ -69,10 +85,10 @@
             href="/admin/magazinesissues"><i class="fa fa-address-card"></i> <span class="b">Magazines
               Editions</span></a></li> -->
 
-          <% if(s_id.indexOf('5')!= -1){%>
+          <!-- <% if(s_id.indexOf('5')!= -1){%>
           <li class="<% if(title == 'notifications') { %> active <% } %>"><a href="/admin/notifications"><i
                 class="fas fa-envelope"></i> <span class="b">Notification to User(s)</span></a></li>
-          <%}%>
+          <%}%> -->
                   <% if(s_id.indexOf('6')!= -1){%>
           <li class="<% if(title == 'magazine_analytics') { %> active <% } %>"><a href="/admin/magazine_analytics"><i
                 class="fas fa-envelope"></i> <span class="b">Magazine Analytics</span></a></li>
