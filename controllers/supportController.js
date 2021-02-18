@@ -27,7 +27,7 @@ module.exports = {
         ],
         raw: true
       });
-      res.render('support/index', { msg: req.flash('msg'), session: req.session, response: get_all_helps, title: 'support' });
+      res.render('support/edit', { msg: req.flash('msg'), session: req.session, response: get_all_helps, title: 'support' });
       //console.log(get_all_helps,"get_all_helps");return
 
     } catch (error) {
