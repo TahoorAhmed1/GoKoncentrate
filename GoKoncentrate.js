@@ -8,7 +8,10 @@ const flash = require('connect-flash');
 const port = process.env.PORT || 3191;
 const app = express();
 var http = require('http').createServer(app);
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -31,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 var session = require('express-session');
 var cors = require('cors');    
 app.use(cors());
+const apiroutes = require('./routes/apiroutes.js');
+app.use('/api',apiroutes)
 // app.use(function(req, res, next) {
 //     res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 //     next();

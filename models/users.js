@@ -19,10 +19,45 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			field: 'email'
 		},
+		email_otp: {
+			type: DataTypes.STRING(10),
+			allowNull: true,
+			field: 'email_otp'
+		},
+		password: {
+			type: DataTypes.STRING(200),
+			allowNull: true,
+			field: 'password',
+			defaultValue:''
+		},
+		is_verified:{
+			type: DataTypes.INTEGER(1),
+			allowNull:true,
+			field:'is_verified',
+			defaultValue:0
+		},
 		image: {
 			type: DataTypes.STRING(255),
 			allowNull: true,
 			field: 'image'
+		},
+		fb_id:{
+			type: DataTypes.STRING(100),
+			allowNull: true,
+			field: 'fb_id',
+			defaultValue:''
+		},
+		google_id:{
+			type: DataTypes.STRING(100),
+			allowNull: true,
+			field: 'google_id',
+			defaultValue:''
+		},
+		apple_id:{
+			type: DataTypes.STRING(100),
+			allowNull: true,
+			field: 'apple_id',
+			defaultValue:''
 		},
 		address: {
 			type: DataTypes.STRING(255),

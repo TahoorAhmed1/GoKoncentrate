@@ -1,0 +1,83 @@
+{
+    "signup": {
+        "email": {
+            "notEmpty": {
+                "errorMessage": "Email is required."
+            },
+            "isEmail": {
+                "errorMessage": "Please enter valid email."
+            }
+        },
+        "password": {
+            "notEmpty": {
+                "errorMessage": "Password is required."
+            }
+        },
+        "name": {
+            "notEmpty": {
+                "errorMessage": "Name is required."
+            }
+        },
+
+        "device_token": {
+            "notEmpty": {
+                "errorMessage": "device_token is required."
+            }
+        },
+        "device_type": {
+            "notEmpty": {
+                "errorMessage": "device_type is required."
+            },
+            "isIn": {
+                "options": [[
+                    0,
+                    1
+                ]],
+                "errorMessage": "device_type can be only 0 or 1."
+            }
+        }
+    },
+    "login": {
+        "email": {
+            "notEmpty": {
+                "errorMessage": "Email is required."
+            },
+            "isEmail": {
+                "errorMessage": "Please enter valid email."
+            }
+        },
+        "password":{
+            "notEmpty":{
+                "errorMessage":"Password is required."
+            }
+        },
+
+        "device_token": {
+            "notEmpty": {
+                "errorMessage": "device_token is required."
+            }
+        },
+        "device_type": {
+            "notEmpty": {
+                "errorMessage": "device_type is required."
+            },
+            "isIn": {
+                "options": [[
+                    0,
+                    1
+                ]],
+                "errorMessage": "device_type can be only 0 or 1."
+            }
+        }
+    },
+    "forgotPassword":{
+        "email": {
+            "notEmpty": {
+                "errorMessage": "Email is required."
+            },
+            "isEmail": {
+                "errorMessage": "Please enter valid email."
+            }
+        }
+    }
+}

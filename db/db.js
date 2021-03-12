@@ -12,6 +12,13 @@ const db = new Sequelize(config.database, config.username, config.password, {
   pool: config.pool
 });
 
+// const db = new Sequelize('gokoncentrate','root','',{
+//   host: 'localhost',
+//   dialect:'mysql',
+//   port:3307
+// })
+
+
 db.sync();
 db.models = models;
 

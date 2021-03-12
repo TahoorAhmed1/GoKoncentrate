@@ -10,6 +10,7 @@
     "@ckeditor/ckeditor5-ckfinder": "^22.0.0",
     "atob": "^2.1.2",
     "base64-img": "^1.0.4",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "ckeditor4": "^4.15.0",
     "connect-flash": "^0.1.1",
@@ -24,6 +25,7 @@
     "express": "^4.16.4",
     "express-fileupload": "^1.1.7-alpha.3",
     "express-session": "^1.17.0",
+    "express-validator": "^6.10.0",
     "fcm-node": "^1.5.2",
     "ffprobe": "^1.1.2",
     "ffprobe-static": "^3.0.0",
@@ -41,6 +43,8 @@
     "path": "^0.12.7",
     "sequelize": "^5.21.6",
     "sequelize-cli": "^5.5.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2"
   }
 }

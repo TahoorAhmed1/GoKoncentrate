@@ -1,0 +1,389 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "Swagger Doc For GoKoncentrate app",
+        "version": "1.0.0",
+        "title": "Swagger GoKoncentrate app",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "apiteam@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "paths": {
+        "/upload":{
+            "post":{
+                "tags":[
+                    "Uploads"
+                ],
+                "security":[
+                    {
+                        "securitykey":[]
+                    }
+                ],
+                "summary":"Upload images",
+                "description":"type 0=>users",
+                "operationId":"imageUploads",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "number"
+                                    },
+                                    "images": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{}
+            }
+        },
+        "/signup": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "security":[
+                    {
+                        "securitykey":[]
+                    }
+                ],
+                "summary": "Add a new user",
+                "description": "Add a new user",
+                "operationId": "signup",
+                "requestBody":{
+                    "content":{
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Signup"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Signup"
+                            }
+                        }
+                    }
+                },
+                "responses": {}
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "security":[
+                    {
+                        "securitykey":[]
+                    }
+                ],
+                "summary": "user login",
+                "description": "user login",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {}
+            }
+        },
+        "/forgot/password": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "securitykey": []
+                    }
+                ],
+                "summary": "forgot_password",
+                "description": "forgot_password",
+                "operationId": "forgot_password",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/forgot_password"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/forgot_password"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {}
+            }
+        },
+        "/sociallogin": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "security": [
+                    {
+                        "securitykey":[]
+                    }
+                ],
+                "summary": "user social login",
+                "description": "user social login",
+                "operationId": "sociallogin",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SocialLogin"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SocialLogin"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {}
+            }
+        },
+        "/profile":{
+            "get":{
+                "tags":["User"],
+                "security": [
+                    {
+                        "Bearer": []
+                    },
+                    {
+                        "securitykey":[]
+                    }
+                ],
+                "summary": "getProfile",
+                "description": "getProfile",
+                "operationId": "getProfile",
+                "responses": {}
+            }
+        },
+        "/resend/otp":{
+            "post":{
+                "tags":["User"],
+                "security": [
+                    {
+                        "Bearer": []
+                    },
+                    {
+                        "securitykey":[]
+                    }
+                ],
+                "summary": "resendOtp",
+                "description": "resendOtp",
+                "operationId": "resendOtp",
+                "responses": {}
+            }
+        },
+        "/verify/otp":{
+            "post":{
+                "tags":["User"],
+                "security": [
+                    {
+                        "Bearer": []
+                    },
+                    {
+                        "securitykey":[]
+                    }
+                ],
+                "summary": "VerifyOtp",
+                "description": "VerifyOtp",
+                "operationId": "VerifyOtp",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerifyOtp"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerifyOtp"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {}
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    },
+    "servers": [
+        {
+            "url":"http://3.13.214.27:3191/api"
+        },
+        {
+            "url": "http://localhost:3191/api"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "Bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            },
+            "securitykey": {
+                "type": "apiKey",
+                "name": "securitykey",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "Signup": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "image":{
+                        "type":"array",
+                        "items":{
+                            "type":"string"
+                        }
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "device_token": {
+                        "type": "string"
+                    },
+                    "device_type": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Login": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "device_token": {
+                        "type": "string"
+                    },
+                    "device_type": {
+                        "type": "number"
+                    }
+                }
+            },
+            "forgot_password": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "VerifyOtp": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                    "otp": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SocialLogin":{
+                "type":"object",
+                "required":[],
+                "properties": {
+                    "image":{
+                        "type":"array",
+                        "items":{
+                            "type":"string"
+                        }
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "fb_id": {
+                        "type": "string"
+                    },
+                    "google_id": {
+                        "type": "string"
+                    },
+                    "apple_id": {
+                        "type": "string"
+                    },
+                    "device_token": {
+                        "type": "string"
+                    },
+                    "device_type": {
+                        "type": "number"
+                    }
+                }
+            },
+            "ChangePassword": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                    "old_password": {
+                        "type": "string"
+                    },
+                    "new_password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NotificationStatus": {
+                "type": "object",
+                "required": [],
+                "properties": {
+                    "type": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    }
+}
