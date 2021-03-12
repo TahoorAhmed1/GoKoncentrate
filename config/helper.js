@@ -280,7 +280,7 @@ module.exports = {
         var result = "";
         result = uuidv4();
         let name = result + '.' + file_extension;
-        file.mv('public/uploads/' + folder + '/' + name, function (err) {
+        file.mv('public/images/' + folder + '/' + name, function (err) {
             if (err) throw err;
         });
         return name;

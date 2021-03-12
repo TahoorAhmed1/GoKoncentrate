@@ -344,7 +344,7 @@ module.exports = {
             let path = "";
             if (type == 0) {
                 folder = "users";
-                path = "/uploads/users/"
+                path = "/images/users/"
             }
             let images = req.files.images
             let filenames = []
