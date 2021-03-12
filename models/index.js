@@ -15,11 +15,11 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-const sequelize = new Sequelize('gokoncentrate','root','',{
-  host: 'localhost',
-  dialect:'mysql',
-  port:3307
-})
+// const sequelize = new Sequelize('gokoncentrate','root','',{
+//   host: 'localhost',
+//   dialect:'mysql',
+//   port:3307
+// })
 
 fs
   .readdirSync(__dirname)
