@@ -12,8 +12,9 @@ var notification = require('../controllers/notificationController.js');
 var content = require('../controllers/contentController.js');
 var subAdmin = require('../controllers/subAdminController.js');
 var ads = require('../controllers/adsController.js');
+
 var billing = require('../controllers/billingController.js');
-var support = require('../controllers/supportController.js');
+var support = require('../controllers/supportController.js');   
 // router.get('/', function(req, res){
 //     res.render('login')
 // });
