@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "gokoncentrate",
-    "password": "wgN5UYp2QDAuzHVc",
+    "username": "dbuser",
+    "password": "cqlsys123",
     "database": "gokoncentrate",
     "host": "127.0.0.1",
     "dialect": "mysql",
