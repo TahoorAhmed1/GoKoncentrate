@@ -247,10 +247,10 @@
     },
     "servers": [
         {
-            "url":"http://3.13.214.27:3191/api"
+            "url":"http://192.168.1.223:3191/api"
         },
         {
-            "url": "http://localhost:3191/api"
+            "url":"http://3.13.214.27:3191/api"
         }
     ],
     "components": {
